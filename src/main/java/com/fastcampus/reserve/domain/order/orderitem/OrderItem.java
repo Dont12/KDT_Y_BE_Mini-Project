@@ -10,6 +10,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,8 +39,11 @@ public class OrderItem extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer price;
 
-    private VisitType visit;
     private Long cartId;
+    private LocalDate checkInDate;
+    private LocalTime checkInTime;
+    private LocalDate checkOutDate;
+    private LocalTime checkOutTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -50,15 +55,21 @@ public class OrderItem extends BaseTimeEntity {
             Long roomId,
             Integer guestCount,
             Integer price,
-            VisitType visitType,
-            Long cartId
+            Long cartId,
+            LocalDate checkInDate,
+            LocalTime checkInTime,
+            LocalDate checkOutDate,
+            LocalTime checkOutTime
     ) {
         this.productId = productId;
         this.roomId = roomId;
         this.guestCount = guestCount;
         this.price = price;
-        this.visit = visitType;
         this.cartId = cartId;
+        this.checkInDate = checkInDate;
+        this.checkInTime = checkInTime;
+        this.checkOutDate = checkOutDate;
+        this.checkOutTime = checkOutTime;
     }
 
     public void registerOrder(Order order) {
@@ -68,9 +79,5 @@ public class OrderItem extends BaseTimeEntity {
 
         this.order = order;
         order.addOrderItem(this);
-    }
-
-    public enum VisitType {
-        WALK, CAR
     }
 }
