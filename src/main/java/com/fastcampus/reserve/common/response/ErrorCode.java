@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    COMMON_SYSTEM_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "시스템 오류입니다."),
     COMMON_INVALID_PARAMETER(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
 
     INVALID_USER_ROLE(HttpStatus.INTERNAL_SERVER_ERROR, "잘못된 사용자 역할입니다."),
