@@ -5,9 +5,6 @@ plugins {
 
     // Spring REST Docs
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-
-    // QueryDSL
-    id "com.ewerk.gradle.plugins.querydsl" version '1.0.10'
 }
 
 group = 'kr.co.fastcampus'
@@ -85,7 +82,7 @@ asciidoctor {
 
 bootJar {
     dependsOn asciidoctor
-    from ("${asciidoctor.outputDir}/html5") {
+    from("${asciidoctor.outputDir}/html5") {
         into 'static/docs'
     }
 }
@@ -93,16 +90,14 @@ bootJar {
 // QueryDSL Build Option
 def querydslDir = layout.buildDirectory.dir("generated/querydsl")
 
-querydsl {
-    jpa = true
-    querydslSourcesDir = querydslDir.get().asFile
-}
 sourceSets {
-    main.java.srcDir querydslDir.get().asFile
+    main.java.srcDirs += [querydslDir]
 }
-configurations {
-    querydsl.extendsFrom compileClasspath
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file(querydslDir)
 }
-compileQuerydsl {
-    options.annotationProcessorPath = configurations.querydsl
+
+clean.doLast {
+    file(querydslDir).deleteDir()
 }
