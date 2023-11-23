@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -44,7 +45,7 @@ public class OrderItem extends BaseTimeEntity {
     private Order order;
 
     @Builder
-    public OrderItem(
+    private OrderItem(
             Long productId,
             Long roomId,
             Integer guestCount,
@@ -58,6 +59,15 @@ public class OrderItem extends BaseTimeEntity {
         this.price = price;
         this.visit = visitType;
         this.cartId = cartId;
+    }
+
+    public void registerOrder(Order order) {
+        if (!Objects.isNull(this.order)) {
+            this.order.getOrderItems().remove(this);
+        }
+
+        this.order = order;
+        order.addOrderItem(this);
     }
 
     public enum VisitType {
