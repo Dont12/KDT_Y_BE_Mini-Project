@@ -37,10 +37,10 @@ public class OrderDocumentationTest extends ApiDocumentation {
         byte[] param = objectMapper.writeValueAsBytes(registerOrder);
 
         this.mockMvc.perform(
-                post("/v1/orders")
-                        .accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(param)
+                        post("/v1/orders")
+                                .accept(MediaType.APPLICATION_JSON)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(param)
                 )
                 .andExpect(status().isOk())
                 .andDo(document(

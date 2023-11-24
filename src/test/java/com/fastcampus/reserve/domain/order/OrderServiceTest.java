@@ -28,7 +28,8 @@ class OrderServiceTest {
     private RedisService redisService;
 
     @Test
-    void registerOrder_성공() {
+    @DisplayName("숙소 예약 신청 성공")
+    void registerOrder() {
         // given
         RegisterOrderItemDto registerOrderItemDto = new RegisterOrderItemDto(
                 -1L,

@@ -17,7 +17,7 @@ public final class ValidateUtils {
     }
 
     public static void emptyCheck(List<?> param) {
-        if(param.isEmpty()) {
+        if (param.isEmpty()) {
             throw new CustomException(ErrorCode.COMMON_INVALID_PARAMETER);
         }
     }
