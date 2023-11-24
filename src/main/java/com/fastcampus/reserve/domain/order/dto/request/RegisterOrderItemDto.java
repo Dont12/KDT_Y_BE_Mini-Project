@@ -18,14 +18,16 @@ public record RegisterOrderItemDto(
 ) {
 
     public RegisterOrderItemDto {
-        nullCheck(productId);
-        nullCheck(roomId);
-        nullCheck(checkInDate);
-        nullCheck(checkInTime);
-        nullCheck(checkOutDate);
-        nullCheck(checkOutTime);
-        nullCheck(guestCount);
-        nullCheck(price);
+        nullCheck(
+                productId,
+                roomId,
+                checkInDate,
+                checkInTime,
+                checkOutDate,
+                checkOutTime,
+                guestCount,
+                price
+        );
     }
 
     public OrderItem toEntity() {
