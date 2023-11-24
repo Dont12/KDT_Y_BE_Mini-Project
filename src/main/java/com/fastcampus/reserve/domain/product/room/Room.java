@@ -2,9 +2,9 @@ package com.fastcampus.reserve.domain.product.room;
 
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import com.fastcampus.reserve.domain.product.Product;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +21,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,6 +43,9 @@ public class Room extends BaseTimeEntity {
 	private Integer price;
 
 	@Column(nullable = false)
+	private Integer stock;
+
+	@Column(nullable = false)
 	private LocalTime checkInTime;
 
 	@Column(nullable = false)
@@ -50,7 +54,8 @@ public class Room extends BaseTimeEntity {
 	private Integer baseGuestCount;
 	private Integer maxGuestCount;
 
-	@Embedded
+	@Type(JsonType.class)
+	@Column(columnDefinition = "json")
 	private RoomFacilities roomFacilities;
 
 	@OneToMany(
@@ -63,6 +68,7 @@ public class Room extends BaseTimeEntity {
 	private Room(
 			String name,
 			Integer price,
+			Integer stock,
 			LocalTime checkInTime,
 			LocalTime checkOutTime,
 			Integer baseGuestCount,
@@ -71,6 +77,7 @@ public class Room extends BaseTimeEntity {
 	) {
 		this.name = name;
 		this.price = price;
+		this.stock = stock;
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.baseGuestCount = baseGuestCount;
