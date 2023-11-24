@@ -68,3 +68,10 @@ The response body will include an error providing further information
 | The request could not be completed due to a conflict with the current state of the target resource.
 This code is used in situations where the user might be able to resolve the conflict and resubmit the request.
 |===
+
+[[overview_http_verbs]]
+== Order
+
+숙박 예약 기능
+
+include::order.adoc[]

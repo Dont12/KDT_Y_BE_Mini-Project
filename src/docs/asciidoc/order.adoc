@@ -1,0 +1,14 @@
+== 숙박 예약 신청
+
+include::{snippets}/order/registerOrder/success/request-fields.adoc[]
+
+==== HTTP request
+include::{snippets}/order/registerOrder/success/http-request.adoc[]
+
+==== HTTP response fields
+
+include::{snippets}/order/registerOrder/success/response-fields.adoc[]
+
+==== HTTP request
+
+include::{snippets}/order/registerOrder/success/http-response.adoc[]
