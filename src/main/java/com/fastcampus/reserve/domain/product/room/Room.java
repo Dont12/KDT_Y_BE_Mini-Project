@@ -36,65 +36,65 @@ public class Room extends BaseTimeEntity {
     @JoinColumn(name = "product_id")
     private Product product;
 
-	@Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String name;
 
-	@Column(nullable = false)
-	private Integer price;
+    @Column(nullable = false)
+    private Integer price;
 
-	@Column(nullable = false)
-	private Integer stock;
+    @Column(nullable = false)
+    private Integer stock;
 
-	@Column(nullable = false)
-	private LocalTime checkInTime;
+    @Column(nullable = false)
+    private LocalTime checkInTime;
 
-	@Column(nullable = false)
-	private LocalTime checkOutTime;
+    @Column(nullable = false)
+    private LocalTime checkOutTime;
 
-	private Integer baseGuestCount;
-	private Integer maxGuestCount;
+    private Integer baseGuestCount;
+    private Integer maxGuestCount;
 
-	@Type(JsonType.class)
-	@Column(columnDefinition = "json")
-	private RoomFacilities roomFacilities;
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private RoomFacilities roomFacilities;
 
-	@OneToMany(
-			mappedBy = "room",
-			cascade = CascadeType.PERSIST, orphanRemoval = true
-	)
-	private final List<RoomImage> images = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "room",
+            cascade = CascadeType.PERSIST, orphanRemoval = true
+    )
+    private final List<RoomImage> images = new ArrayList<>();
 
-	@Builder
-	private Room(
-			String name,
-			Integer price,
-			Integer stock,
-			LocalTime checkInTime,
-			LocalTime checkOutTime,
-			Integer baseGuestCount,
-			Integer maxGuestCount,
-			RoomFacilities roomFacilities
-	) {
-		this.name = name;
-		this.price = price;
-		this.stock = stock;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.baseGuestCount = baseGuestCount;
-		this.maxGuestCount = maxGuestCount;
-		this.roomFacilities = roomFacilities;
-	}
+    @Builder
+    private Room(
+            String name,
+            Integer price,
+            Integer stock,
+            LocalTime checkInTime,
+            LocalTime checkOutTime,
+            Integer baseGuestCount,
+            Integer maxGuestCount,
+            RoomFacilities roomFacilities
+    ) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.baseGuestCount = baseGuestCount;
+        this.maxGuestCount = maxGuestCount;
+        this.roomFacilities = roomFacilities;
+    }
 
-	public void addImage(RoomImage image) {
-		images.add(image);
-	}
+    public void addImage(RoomImage image) {
+        images.add(image);
+    }
 
-	public void registerProduct(Product product) {
-		if (!Objects.isNull(this.product)) {
-			this.product.getRooms().remove(this);
-		}
+    public void registerProduct(Product product) {
+        if (!Objects.isNull(this.product)) {
+            this.product.getRooms().remove(this);
+        }
 
-		this.product = product;
-		product.addRoom(this);
-	}
+        this.product = product;
+        product.addRoom(this);
+    }
 }
