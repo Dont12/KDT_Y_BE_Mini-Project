@@ -18,6 +18,36 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Product extends BaseTimeEntity {
 
+    @Id
+    private Long id;
+
+    @Column(nullable = false, length = 255)
+    private String name;
+
+    @Column(length = 20)
+    private String category;
+
+    @Column(length = 3000)
+    private String description;
+
+    @Column(length = 20)
+    private String zipCode;
+
+    @Column(length = 100)
+    private String address;
+
+    @Column(length = 30)
+    private String longitude;
+
+    @Column(length = 30)
+    private String latitude;
+
+    @Column(length = 30)
+    private String area;
+    
+    @Column(length = 30)
+    private String sigungu;
+
     @OneToMany(
         mappedBy = "product",
         cascade = CascadeType.PERSIST, orphanRemoval = true
@@ -28,28 +58,9 @@ public class Product extends BaseTimeEntity {
         cascade = CascadeType.PERSIST, orphanRemoval = true
     )
     private final List<Room> rooms = new ArrayList<>();
-    @Id
-    private Long id;
-    @Column(nullable = false, length = 255)
-    private String name;
-    @Column(length = 20)
-    private String category;
-    @Column(length = 3000)
-    private String description;
-    @Column(length = 20)
-    private String zipCode;
-    @Column(length = 100)
-    private String address;
-    @Column(length = 30)
-    private String longitude;
-    @Column(length = 30)
-    private String latitude;
-    @Column(length = 30)
-    private String area;
-    @Column(length = 30)
-    private String sigungu;
 
-    public Product(String name, String category, String description, String zipCode, String address,
+    @Builder
+    private Product(String name, String category, String description, String zipCode, String address,
                    String longitude, String latitude, String area, String sigungu) {
         this.name = name;
         this.category = category;
