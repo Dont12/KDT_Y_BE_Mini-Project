@@ -28,7 +28,6 @@ import lombok.NoArgsConstructor;
 public class Room extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -42,16 +41,22 @@ public class Room extends BaseTimeEntity {
 	private Integer price;
 
 	@Column(nullable = false)
-	private LocalTime checkInTime;
+	private Integer stock;
+
+	@Column(nullable = false, length = 30)
+	private String checkInTime;
+
+	@Column(nullable = false, length = 30)
+	private String checkOutTime;
 
 	@Column(nullable = false)
-	private LocalTime checkOutTime;
-
 	private Integer baseGuestCount;
+
+	@Column(nullable = false)
 	private Integer maxGuestCount;
 
-	@Embedded
-	private RoomFacilities roomFacilities;
+	@Column(length = 3000)
+	private String roomFacilities;
 
 	@OneToMany(
 			mappedBy = "room",
@@ -60,17 +65,13 @@ public class Room extends BaseTimeEntity {
 	private final List<RoomImage> images = new ArrayList<>();
 
 	@Builder
-	private Room(
-			String name,
-			Integer price,
-			LocalTime checkInTime,
-			LocalTime checkOutTime,
-			Integer baseGuestCount,
-			Integer maxGuestCount,
-			RoomFacilities roomFacilities
-	) {
+	private Room(Product product, String name, Integer price, Integer stock, String checkInTime,
+				String checkOutTime, Integer baseGuestCount, Integer maxGuestCount,
+				String roomFacilities) {
+		this.product = product;
 		this.name = name;
 		this.price = price;
+		this.stock = stock;
 		this.checkInTime = checkInTime;
 		this.checkOutTime = checkOutTime;
 		this.baseGuestCount = baseGuestCount;
