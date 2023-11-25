@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -32,7 +33,8 @@ public class UserService implements UserDetailsService {
         );
     }
 
-    private Collection<? extends GrantedAuthority> convertToAuthorities(List<Authority> authorities) {
+    private Collection<? extends GrantedAuthority>
+                convertToAuthorities(List<Authority> authorities) {
         return authorities.stream()
                 .map(authority -> new SimpleGrantedAuthority(authority.getRole().name()))
                 .collect(Collectors.toList());

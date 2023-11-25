@@ -21,18 +21,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "email_unique",
-                        columnNames = "email"
-                )
-        }
-)
+@Table(name = "users", uniqueConstraints =
+        {@UniqueConstraint(name = "email_unique", columnNames = "email")})
 public class User extends BaseTimeEntity {
 
     @Id
@@ -51,57 +45,36 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 50)
     private String phone;
 
-    @OneToMany(
-            mappedBy = "user",
-            cascade = CascadeType.PERSIST, orphanRemoval = true
-    )
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Cart> carts = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id")
-    )
+    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id"))
     private final List<Authority> authorities = new ArrayList<>();
 
     @Builder
-    private User(
-            String email,
-            String password,
-            String nickname,
-            String phone
-    ) {
+    private User(String email, String password, String nickname, String phone) {
         this(email, password, phone, nickname, RoleType.USER);
     }
 
     @Builder
-    private User(
-            String email,
-            String password,
-            String nickname,
-            String phone,
-            RoleType roleType
-    ) {
+    private User(String email, String password, String nickname, String phone, RoleType roleType) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.phone = phone;
-        this.authorities.add(
-                createAuthority(roleType)
-        );
+        this.authorities.add(createAuthority(roleType));
     }
 
     public void addCart(Cart cart) {
         carts.add(cart);
     }
 
-    public enum RoleType{
+    public enum RoleType {
         USER, ADMIN;
     }
 
     private Authority createAuthority(RoleType roleType) {
-        return Authority.builder()
-                .role(roleType)
-                .build();
+        return Authority.builder().role(roleType).build();
     }
 }
