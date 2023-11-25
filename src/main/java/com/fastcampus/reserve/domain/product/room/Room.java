@@ -7,8 +7,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -29,7 +27,6 @@ import org.hibernate.annotations.Type;
 public class Room extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -45,36 +42,32 @@ public class Room extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer stock;
 
-    @Column(nullable = false)
-    private LocalTime checkInTime;
+    @Column(nullable = false, length = 30)
+    private String checkInTime;
+
+    @Column(nullable = false, length = 30)
+    private String checkOutTime;
 
     @Column(nullable = false)
-    private LocalTime checkOutTime;
-
     private Integer baseGuestCount;
+
+    @Column(nullable = false)
     private Integer maxGuestCount;
 
-    @Type(JsonType.class)
-    @Column(columnDefinition = "json")
-    private RoomFacilities roomFacilities;
+    @Column(length = 3000)
+    private String roomFacilities;
 
     @OneToMany(
-            mappedBy = "room",
-            cascade = CascadeType.PERSIST, orphanRemoval = true
+        mappedBy = "room",
+        cascade = CascadeType.PERSIST, orphanRemoval = true
     )
     private final List<RoomImage> images = new ArrayList<>();
 
     @Builder
-    private Room(
-            String name,
-            Integer price,
-            Integer stock,
-            LocalTime checkInTime,
-            LocalTime checkOutTime,
-            Integer baseGuestCount,
-            Integer maxGuestCount,
-            RoomFacilities roomFacilities
-    ) {
+    private Room(Product product, String name, Integer price, Integer stock, String checkInTime,
+                 String checkOutTime, Integer baseGuestCount, Integer maxGuestCount,
+                 String roomFacilities) {
+        this.product = product;
         this.name = name;
         this.price = price;
         this.stock = stock;
@@ -93,7 +86,6 @@ public class Room extends BaseTimeEntity {
         if (!Objects.isNull(this.product)) {
             this.product.getRooms().remove(this);
         }
-
         this.product = product;
         product.addRoom(this);
     }
