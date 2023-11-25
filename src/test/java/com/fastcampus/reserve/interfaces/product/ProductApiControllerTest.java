@@ -10,14 +10,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,7 +33,11 @@ class ProductApiControllerTest {
 
     @Test
     void testGetProducts() throws Exception {
-        when(productFacade.getProducts()).thenReturn(List.of(new ProductResponse(1L, "name", 0, "imageUrl")));
-        mockMvc.perform(get("/products")).andExpect(status().isBadRequest()).andDo(print());
+        when(productFacade.getProducts())
+                .thenReturn(List.of(new ProductResponse(1L, "name", 0, "imageUrl")));
+
+        mockMvc.perform(get("/products"))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 }
