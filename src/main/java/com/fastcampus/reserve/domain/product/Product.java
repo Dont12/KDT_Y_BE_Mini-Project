@@ -49,13 +49,15 @@ public class Product extends BaseTimeEntity {
 
     @OneToMany(
             mappedBy = "product",
-            cascade = CascadeType.PERSIST, orphanRemoval = true
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
     )
     private final List<ProductImage> images = new ArrayList<>();
 
     @OneToMany(
             mappedBy = "product",
-            cascade = CascadeType.PERSIST, orphanRemoval = true
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
     )
     private final List<Room> rooms = new ArrayList<>();
 
@@ -86,7 +88,10 @@ public class Product extends BaseTimeEntity {
     }
 
     public int getMinPrice() {
-        return rooms.stream().mapToInt(Room::getPrice).min().orElseThrow(IllegalArgumentException::new);
+        return rooms.stream()
+                .mapToInt(Room::getPrice)
+                .min()
+                .orElseThrow(IllegalArgumentException::new);
     }
 
     public enum CategoryType {
