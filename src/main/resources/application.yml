@@ -18,6 +18,10 @@ spring:
         show_sql: true
         format_sql: true
 
+redis:
+  host: localhost
+  port: 6379
+
 security:
   jwt:
     secret: Security-Pilot-Project_Secret-Key
