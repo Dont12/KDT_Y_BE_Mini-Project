@@ -2,13 +2,11 @@ package com.fastcampus.reserve.domain.product.room;
 
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import com.fastcampus.reserve.domain.product.Product;
+import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -21,6 +19,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -28,66 +27,66 @@ import lombok.NoArgsConstructor;
 public class Room extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-	@Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255)
     private String name;
 
-	@Column(nullable = false)
-	private Integer price;
+    @Column(nullable = false)
+    private Integer price;
 
-	@Column(nullable = false)
-	private LocalTime checkInTime;
+    @Column(nullable = false)
+    private Integer stock;
 
-	@Column(nullable = false)
-	private LocalTime checkOutTime;
+    @Column(nullable = false, length = 30)
+    private String checkInTime;
 
-	private Integer baseGuestCount;
-	private Integer maxGuestCount;
+    @Column(nullable = false, length = 30)
+    private String checkOutTime;
 
-	@Embedded
-	private RoomFacilities roomFacilities;
+    @Column(nullable = false)
+    private Integer baseGuestCount;
 
-	@OneToMany(
-			mappedBy = "room",
-			cascade = CascadeType.PERSIST, orphanRemoval = true
-	)
-	private final List<RoomImage> images = new ArrayList<>();
+    @Column(nullable = false)
+    private Integer maxGuestCount;
 
-	@Builder
-	private Room(
-			String name,
-			Integer price,
-			LocalTime checkInTime,
-			LocalTime checkOutTime,
-			Integer baseGuestCount,
-			Integer maxGuestCount,
-			RoomFacilities roomFacilities
-	) {
-		this.name = name;
-		this.price = price;
-		this.checkInTime = checkInTime;
-		this.checkOutTime = checkOutTime;
-		this.baseGuestCount = baseGuestCount;
-		this.maxGuestCount = maxGuestCount;
-		this.roomFacilities = roomFacilities;
-	}
+    @Column(length = 3000)
+    private String roomFacilities;
 
-	public void addImage(RoomImage image) {
-		images.add(image);
-	}
+    @OneToMany(
+        mappedBy = "room",
+        cascade = CascadeType.PERSIST, orphanRemoval = true
+    )
+    private final List<RoomImage> images = new ArrayList<>();
 
-	public void registerProduct(Product product) {
-		if (!Objects.isNull(this.product)) {
-			this.product.getRooms().remove(this);
-		}
+    @Builder
+    private Room(Product product, String name, Integer price, Integer stock, String checkInTime,
+                 String checkOutTime, Integer baseGuestCount, Integer maxGuestCount,
+                 String roomFacilities) {
+        this.product = product;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.checkInTime = checkInTime;
+        this.checkOutTime = checkOutTime;
+        this.baseGuestCount = baseGuestCount;
+        this.maxGuestCount = maxGuestCount;
+        this.roomFacilities = roomFacilities;
+    }
 
-		this.product = product;
-		product.addRoom(this);
-	}
+    public void addImage(RoomImage image) {
+        images.add(image);
+    }
+
+    public void registerProduct(Product product) {
+        if (!Objects.isNull(this.product)) {
+            this.product.getRooms().remove(this);
+        }
+        this.product = product;
+        product.addRoom(this);
+    }
 }

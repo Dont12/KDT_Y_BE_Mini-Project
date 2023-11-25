@@ -1,12 +1,10 @@
 package com.fastcampus.reserve.domain.product.room;
 
-import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RoomFacilities {

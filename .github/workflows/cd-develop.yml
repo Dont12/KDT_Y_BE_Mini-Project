@@ -1,59 +1,29 @@
 name: Java CI with Gradle
 
 on:
+  workflow_dispatch:
   push:
     branches: [ develop ]
 
-permissions:
-  contents: read
-
 jobs:
-  build-develop:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: application.yml
-        run: |
-          mkdir -p src/main/resources
-          touch ./src/main/resources/application.yml
-          echo "${{ secrets.DEVELOP_APPLICATION_YML }}" > ./src/main/resources/application.yml
-          cat ./src/main/resources/application.yml
-      - name: Run chmod to make gradlew executable
-        run: chmod +x ./gradlew
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-          arguments: build
-      - name: Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-file
-          path: build/libs/*.jar
-
   deploy:
-    needs: build-develop
     runs-on: ubuntu-latest
+
     steps:
-      - name: Download artifact
-        uses: actions/download-artifact@v2
+      - name: Deploy
+        uses: appleboy/ssh-action@master
         with:
-          name: build-file
-      - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.4
-        with:
-          ssh-private-key: ${{ secrets.DEVELOP_SSH_PRIVATE_KEY }}
-      - name: Add remote server to known hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.DEVELOP_SERVER_IP }} >> ~/.ssh/known_hosts
-      - name: SCP transfer
-        run: scp *.jar ${{ secrets.DEVELOP_SERVER_USERNAME }}@${{ secrets.DEVELOP_SERVER_IP }}:~/cicd
-      - name: Execute remote commands
-        run: |
-          ssh -v ${{ secrets.DEVELOP_SERVER_USERNAME }}@${{ secrets.DEVELOP_SERVER_IP }} "sudo fuser -k 80/tcp || true"
-          ssh -v ${{ secrets.DEVELOP_SERVER_USERNAME }}@${{ secrets.DEVELOP_SERVER_IP }} "sudo nohup /usr/bin/java -jar ~/cicd/*.jar  > ~/cicd/nohup.log 2>&1 &"
+          host: ${{ secrets.DEVELOP_SERVER_IP }}
+          port: 22
+          username: ${{ secrets.DEVELOP_SERVER_USERNAME }}
+          key: ${{ secrets.DEVELOP_SSH_PRIVATE_KEY }}
+          envs: GITHUB_SHA
+          script: |
+            sudo ps -ef | grep java | grep -v grep | awk '{print $2}' | sudo xargs kill -9
+            sudo rm -rf KDT_Y_BE_Mini-Project/
+            git clone https://github.com/Dont12/KDT_Y_BE_Mini-Project.git
+            cd KDT_Y_BE_Mini-Project/
+            echo "${{ secrets.DEVELOP_APPLICATION_YML }}" > ./src/main/resources/application.yml
+            sudo cp ../keystore.p12 ./src/main/resources
+            sudo ./gradlew build
+            sudo nohup ./gradlew bootRun > nohup.out 2> nohup.err < /dev/null &
