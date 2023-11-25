@@ -44,7 +44,7 @@ public class Product extends BaseTimeEntity {
 
     @Column(length = 30)
     private String area;
-    
+
     @Column(length = 30)
     private String sigungu;
 

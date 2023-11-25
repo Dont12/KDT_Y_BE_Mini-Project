@@ -7,6 +7,7 @@ import java.util.Arrays;
 public enum Payment {
 
     CARD,
+    CASH
     ;
     
     public static Payment of(String payMethod) {

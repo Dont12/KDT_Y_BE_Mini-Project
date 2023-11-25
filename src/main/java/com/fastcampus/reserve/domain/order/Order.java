@@ -5,8 +5,6 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,9 +32,6 @@ public class Order extends BaseTimeEntity {
     @Column(nullable = false)
     private Long userId;
 
-    @Enumerated(EnumType.STRING)
-    private StatusType status;
-
     @Column(length = 100)
     private String userName;
 
@@ -52,33 +47,16 @@ public class Order extends BaseTimeEntity {
     @Builder
     private Order(
             Long userId,
-            StatusType statusType,
             String userName,
             String userPhone
     ) {
         this.userId = userId;
-        this.status = statusType;
         this.userName = userName;
         this.userPhone = userPhone;
     }
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
-    }
-
-    public Order init(Long userId) {
-        return Order.builder()
-                .userId(userId)
-                .statusType(StatusType.INIT)
-                .build();
-    }
-
-    public void payment(
-            String userName,
-            String userPhone
-    ) {
-        this.userName = userName;
-        this.userPhone = userPhone;
     }
 
     @Getter
