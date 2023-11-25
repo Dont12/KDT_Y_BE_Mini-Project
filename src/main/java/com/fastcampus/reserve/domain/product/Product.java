@@ -85,6 +85,10 @@ public class Product extends BaseTimeEntity {
         rooms.add(room);
     }
 
+    public int getMinPrice() {
+        return rooms.stream().mapToInt(Room::getPrice).min().orElseThrow(IllegalArgumentException::new);
+    }
+
     public enum CategoryType {
         HOTEL, MOTEL, PENSION
     }
