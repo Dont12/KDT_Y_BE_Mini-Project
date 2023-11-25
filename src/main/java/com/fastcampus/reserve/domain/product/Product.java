@@ -23,16 +23,15 @@ import lombok.NoArgsConstructor;
 public class Product extends BaseTimeEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 255)
     private String name;
 
-    @Enumerated(EnumType.STRING)
-    private CategoryType category;
+    @Column(length = 20)
+    private String category;
 
-    @Column(length = 1000)
+    @Column(length = 3000)
     private String description;
 
     @Column(length = 20)
@@ -47,6 +46,12 @@ public class Product extends BaseTimeEntity {
     @Column(length = 30)
     private String latitude;
 
+    @Column(length = 30)
+    private String area;
+
+    @Column(length = 30)
+    private String sigungu;
+
     @OneToMany(
             mappedBy = "product",
             cascade = CascadeType.PERSIST, orphanRemoval = true
@@ -59,15 +64,8 @@ public class Product extends BaseTimeEntity {
     )
     private final List<Room> rooms = new ArrayList<>();
 
-    public Product(
-            String name,
-            CategoryType category,
-            String description,
-            String zipCode,
-            String address,
-            String longitude,
-            String latitude
-    ) {
+    public Product(String name, String category, String description, String zipCode, String address,
+                   String longitude, String latitude, String area, String sigungu) {
         this.name = name;
         this.category = category;
         this.description = description;
@@ -75,6 +73,8 @@ public class Product extends BaseTimeEntity {
         this.address = address;
         this.longitude = longitude;
         this.latitude = latitude;
+        this.area = area;
+        this.sigungu = sigungu;
     }
 
     public void addImage(ProductImage image) {
@@ -83,9 +83,5 @@ public class Product extends BaseTimeEntity {
 
     public void addRoom(Room room) {
         rooms.add(room);
-    }
-
-    public enum CategoryType {
-        HOTEL, MOTEL, PENSION
     }
 }
