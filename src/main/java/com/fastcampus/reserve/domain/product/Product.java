@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -60,8 +61,9 @@ public class Product extends BaseTimeEntity {
     private final List<Room> rooms = new ArrayList<>();
 
     @Builder
-    private Product(String name, String category, String description, String zipCode, String address,
-                   String longitude, String latitude, String area, String sigungu) {
+    private Product(String name, String category, String description, String zipCode,
+                    String address, String longitude, String latitude, String area,
+                    String sigungu) {
         this.name = name;
         this.category = category;
         this.description = description;
