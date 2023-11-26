@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtProvider jwtProvider;
 
     private static final String[] WHITELIST_URLS = {
-        "/v1/orders", "/v1/users", "/v1/auth/login"
+        "/v1/orders", "/v1/users", "/v1/auth/login", "/v1/auth/logout"
     };
 
     @Bean

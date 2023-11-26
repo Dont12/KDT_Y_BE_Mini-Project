@@ -56,4 +56,20 @@ public class AuthDocumentationTest extends ApiDocumentation {
                 )
             ));
     }
+
+    @Test
+    void logout() throws Exception {
+        this.mockMvc.perform(
+                post("/v1/auth/logout")
+            )
+            .andExpect(status().isOk())
+            .andDo(document(
+                "logout/success",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                responseFields(
+                    fieldWithPath("status").ignored()
+                )
+            ));
+    }
 }

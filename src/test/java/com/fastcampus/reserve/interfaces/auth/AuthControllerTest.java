@@ -1,13 +1,12 @@
 package com.fastcampus.reserve.interfaces.auth;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.domain.user.UserService;
 import com.fastcampus.reserve.domain.user.dto.request.SignupDto;
-import com.fastcampus.reserve.infrestructure.user.UserRepository;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
-import com.fastcampus.reserve.interfaces.user.dto.request.SignupRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
@@ -23,7 +22,6 @@ class AuthControllerTest extends ApiTest {
 
     @Test
     void login() {
-        // given
         String email = "a@a.com";
         String password = "password";
         userService.signup(new SignupDto(email, password, "nick", "010-0000-0000"));
@@ -37,18 +35,53 @@ class AuthControllerTest extends ApiTest {
 
         // when
         ExtractableResponse<Response> result = RestAssured
-                .given().log().all()
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(request)
-                .when()
-                .post(url)
-                .then()
-                    .log().all()
-                    .cookie("accessToken")
-                    .cookie("refreshToken")
-                .extract();
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(request)
+            .when()
+            .post(url)
+            .then()
+            .log().all()
+            .cookie("accessToken")
+            .cookie("refreshToken")
+            .extract();
 
         // then
         assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    void logout() {
+        // given
+        String email = "a@a.com";
+        String password = "password";
+        userService.signup(new SignupDto(email, password, "nick", "010-0000-0000"));
+        LoginRequest request = new LoginRequest(
+            email,
+            password
+        );
+        RestAssured
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(request)
+            .when()
+            .post("/v1/auth/login");
+
+        String url = "/v1/auth/logout";
+
+        // when
+        ExtractableResponse<Response> result = RestAssured
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .post(url)
+            .then()
+            .log().all()
+            .extract();
+
+        // then
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
+        assertTrue(result.cookie("accessToken").isEmpty());
+        assertTrue(result.cookie("refreshToken").isEmpty());
     }
 }

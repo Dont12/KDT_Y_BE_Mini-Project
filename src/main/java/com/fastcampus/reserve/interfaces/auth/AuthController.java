@@ -54,4 +54,21 @@ public class AuthController {
             name, value, maxAge
         );
     }
+
+    @PostMapping("/logout")
+    public CommonResponse<Void> logout(
+        HttpServletResponse response
+    ) {
+        response.addHeader("Set-Cookie", makeCookieExpired("accessToken"));
+        response.addHeader("Set-Cookie", makeCookieExpired("refreshToken"));
+
+        return CommonResponse.ok();
+    }
+
+    private String makeCookieExpired(String name) {
+        return String.format(
+            "%s=; Path=/; Max-Age=0; SameSite=None; Secure",
+            name
+        );
+    }
 }
