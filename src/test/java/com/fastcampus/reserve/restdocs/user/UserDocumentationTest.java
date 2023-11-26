@@ -32,24 +32,24 @@ public class UserDocumentationTest extends ApiDocumentation {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(param)
         )
-        .andExpect(status().isOk())
-        .andDo(document(
-            "users/success",
-            getDocumentRequest(),
-            getDocumentResponse(),
-            requestFields(
-                fieldWithPath("email").type(STRING)
-                    .description("이메일"),
-                fieldWithPath("password").type(STRING)
-                    .description("비밀번호 (6자 이상)"),
-                fieldWithPath("nickname").type(STRING)
-                    .description("닉네임"),
-                fieldWithPath("phone").type(STRING)
-                    .description("핸드폰 번호 (010-0000-0000 형식)")
-            ),
-            responseFields(
-                fieldWithPath("status").ignored()
-            )
-        ));
+            .andExpect(status().isOk())
+            .andDo(document(
+                "users/success",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                requestFields(
+                    fieldWithPath("email").type(STRING)
+                        .description("이메일"),
+                    fieldWithPath("password").type(STRING)
+                        .description("비밀번호 (6자 이상)"),
+                    fieldWithPath("nickname").type(STRING)
+                        .description("닉네임"),
+                    fieldWithPath("phone").type(STRING)
+                        .description("핸드폰 번호 (010-0000-0000 형식)")
+                ),
+                responseFields(
+                    fieldWithPath("status").ignored()
+                )
+            ));
     }
 }
