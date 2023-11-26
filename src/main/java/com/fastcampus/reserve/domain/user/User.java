@@ -25,13 +25,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(
-        name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(
-                        name = "email_unique",
-                        columnNames = "email"
-                )
-        }
+    name = "users",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "email_unique", columnNames = "email")
+    }
 )
 public class User extends BaseTimeEntity {
 
@@ -95,7 +92,7 @@ public class User extends BaseTimeEntity {
         carts.add(cart);
     }
 
-    public enum RoleType{
+    public enum RoleType {
         USER, ADMIN;
     }
 

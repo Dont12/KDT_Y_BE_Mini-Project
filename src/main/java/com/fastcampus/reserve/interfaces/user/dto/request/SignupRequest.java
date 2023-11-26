@@ -18,7 +18,7 @@ public record SignupRequest(
     String nickname,
 
     @NotEmpty(message = "phone은 필수값입니다.")
-    @Pattern(regexp="^\\d{3}-\\d{4}-\\d{4}$", message = "000-0000-0000 형식으로 입력하셔야 합니다.")
+    @Pattern(regexp = "^\\d{3}-\\d{4}-\\d{4}$", message = "000-0000-0000 형식으로 입력하셔야 합니다.")
     String phone
 ) {
 

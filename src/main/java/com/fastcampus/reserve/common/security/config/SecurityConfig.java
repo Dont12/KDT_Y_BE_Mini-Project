@@ -25,7 +25,7 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
 
-    private final String[] WHITELIST_URLS = {
+    private static final String[] WHITELIST_URLS = {
         "/v1/orders", "/v1/users"
     };
 

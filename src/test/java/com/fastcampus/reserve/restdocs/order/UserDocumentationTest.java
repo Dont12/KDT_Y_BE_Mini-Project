@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.restdocs.user;
+package com.fastcampus.reserve.restdocs.order;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
