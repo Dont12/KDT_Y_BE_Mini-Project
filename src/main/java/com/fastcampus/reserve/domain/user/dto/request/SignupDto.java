@@ -9,10 +9,10 @@ public record SignupDto(
     String phone
 ) {
 
-    public User toEntity() {
+    public User toEntity(String encodedPassword) {
         return User.builder()
             .email(email)
-            .password(password)
+            .password(encodedPassword)
             .phone(phone)
             .nickname(nickname)
             .build();
