@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.infrestructure.user;
 
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.user.User;
 import com.fastcampus.reserve.domain.user.UserReader;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,8 @@ public class UserReaderImpl implements UserReader {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        return userRepository.findByEmail(email)
+            .orElseThrow(() -> new CustomException(ErrorCode.NO_SUCH_USER));
     }
 
     @Override
