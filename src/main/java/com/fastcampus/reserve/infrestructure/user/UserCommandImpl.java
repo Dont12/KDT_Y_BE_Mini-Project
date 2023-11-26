@@ -1,7 +1,7 @@
 package com.fastcampus.reserve.infrestructure.user;
 
 import com.fastcampus.reserve.domain.user.User;
-import com.fastcampus.reserve.domain.user.UserReader;
+import com.fastcampus.reserve.domain.user.UserCommand;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -9,17 +9,12 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class UserReaderImpl implements UserReader {
+public class UserCommandImpl implements UserCommand {
 
     private final UserRepository userRepository;
 
     @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
+    public void store(User user) {
+        userRepository.save(user);
     }
 }

@@ -3,6 +3,7 @@ package com.fastcampus.reserve.common.security.config;
 import com.fastcampus.reserve.common.security.config.handler.TokenAccessDeniedHandler;
 import com.fastcampus.reserve.common.security.config.handler.TokenAuthenticationEntryPoint;
 import com.fastcampus.reserve.common.security.jwt.JwtProvider;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +25,10 @@ public class SecurityConfig {
 
     private final JwtProvider jwtProvider;
 
+    private final String[] WHITELIST_URLS = {
+        "/v1/orders", "/v1/users"
+    };
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
@@ -40,7 +45,11 @@ public class SecurityConfig {
 
         http
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(new AntPathRequestMatcher("/v1/orders")).permitAll()
+                .requestMatchers(
+                    Arrays.stream(WHITELIST_URLS)
+                        .map(AntPathRequestMatcher::new)
+                        .toArray(AntPathRequestMatcher[]::new)
+                ).permitAll()
                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                 .anyRequest().authenticated())
         ;
