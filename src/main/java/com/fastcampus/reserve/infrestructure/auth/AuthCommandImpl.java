@@ -1,7 +1,7 @@
 package com.fastcampus.reserve.infrestructure.auth;
 
-import com.fastcampus.reserve.domain.auth.Token;
 import com.fastcampus.reserve.domain.auth.AuthCommand;
+import com.fastcampus.reserve.domain.auth.Token;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
