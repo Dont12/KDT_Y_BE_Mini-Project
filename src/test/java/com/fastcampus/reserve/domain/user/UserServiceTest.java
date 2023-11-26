@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.domain.order;
+package com.fastcampus.reserve.domain.user;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

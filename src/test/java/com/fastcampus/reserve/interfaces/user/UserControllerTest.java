@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.interfaces.order;
+package com.fastcampus.reserve.interfaces.user;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
