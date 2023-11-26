@@ -130,7 +130,10 @@ public class JwtProvider {
     private Map<String, Object> createClaims(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("user", user);
-        claims.put(AUTHORITIES_KEY, getAuthorityClaim(user));
+        // 원래 getAuthorityClaim(user) 통해 받아와야 하나
+        // Authority 저장이 제대로 되지않는 이슈 해결이 어려워 임시로 고정값으로 해둠
+        // TODO
+        claims.put(AUTHORITIES_KEY, User.RoleType.USER);
         return claims;
     }
 

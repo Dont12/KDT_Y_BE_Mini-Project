@@ -6,8 +6,10 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,12 +20,25 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class SecurityFilter implements Filter {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
 
+    public static final String AUTHORIZATION_COOKIE_NAME = "accessToken";
     private final JwtProvider jwtProvider;
 
     private static String getAuthorization(HttpServletRequest request) {
-        return request.getHeader(AUTHORIZATION_HEADER);
+        return "Bearer " + getCookie(request, AUTHORIZATION_COOKIE_NAME).orElse("");
+    }
+
+    public static Optional<String> getCookie(HttpServletRequest request, String name) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            return Optional.empty();
+        }
+        for (Cookie cookie : cookies) {
+            if (cookie.getName().equals(name)) {
+                return Optional.of(cookie.getValue());
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
