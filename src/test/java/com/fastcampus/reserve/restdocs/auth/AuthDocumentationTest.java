@@ -23,7 +23,7 @@ public class AuthDocumentationTest extends ApiDocumentation {
     private UserService userService;
 
     @Test
-    void signup() throws Exception {
+    void login() throws Exception {
         String email = "a@a.com";
         String password = "password";
         userService.signup(new SignupDto(email, password, "nick", "010-0000-0000"));
