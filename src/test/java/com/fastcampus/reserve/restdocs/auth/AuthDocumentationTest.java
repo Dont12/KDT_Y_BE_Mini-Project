@@ -52,9 +52,7 @@ public class AuthDocumentationTest extends ApiDocumentation {
                         .description("비밀번호")
                 ),
                 responseFields(
-                    fieldWithPath("status").ignored(),
-                    fieldWithPath("data.accessToken").ignored(),
-                    fieldWithPath("data.refreshToken").ignored()
+                    fieldWithPath("status").ignored()
                 )
             ));
     }
