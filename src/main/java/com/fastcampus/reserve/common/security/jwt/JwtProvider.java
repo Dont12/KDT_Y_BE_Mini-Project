@@ -4,7 +4,7 @@ import static com.fastcampus.reserve.common.response.ErrorCode.NOT_AUTHORITY_TOK
 
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
-import com.fastcampus.reserve.common.security.Token;
+import com.fastcampus.reserve.domain.auth.Token;
 import com.fastcampus.reserve.domain.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
