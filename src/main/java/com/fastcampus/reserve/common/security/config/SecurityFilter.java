@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.common.security.config;
 
 import com.fastcampus.reserve.common.security.jwt.JwtProvider;
+import com.fastcampus.reserve.common.utils.CookieUtils;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -18,12 +19,15 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class SecurityFilter implements Filter {
 
-    private static final String AUTHORIZATION_HEADER = "Authorization";
-
+    public static final String AUTHORIZATION_COOKIE_NAME = "accessToken";
+    public static final String GRANT_TYPE = "Bearer";
     private final JwtProvider jwtProvider;
 
     private static String getAuthorization(HttpServletRequest request) {
-        return request.getHeader(AUTHORIZATION_HEADER);
+        String accessToken = CookieUtils.getCookieValue(
+            request.getCookies(), AUTHORIZATION_COOKIE_NAME
+        ).orElse("");
+        return GRANT_TYPE + " " + accessToken;
     }
 
     @Override

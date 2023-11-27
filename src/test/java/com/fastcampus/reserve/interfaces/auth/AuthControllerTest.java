@@ -42,7 +42,10 @@ class AuthControllerTest extends ApiTest {
                 .body(request)
                 .when()
                 .post(url)
-                .then().log().all()
+                .then()
+                    .log().all()
+                    .cookie("accessToken")
+                    .cookie("refreshToken")
                 .extract();
 
         // then
