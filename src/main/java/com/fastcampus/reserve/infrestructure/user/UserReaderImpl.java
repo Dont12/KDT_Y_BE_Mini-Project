@@ -12,6 +12,11 @@ import org.springframework.stereotype.Component;
 public class UserReaderImpl implements UserReader {
 
     @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
     public User findByEmail(String email) {
         return null;
     }

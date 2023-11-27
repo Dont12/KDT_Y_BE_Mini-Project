@@ -17,11 +17,12 @@ public class OrderService {
     private static final long INIT_ORDER_EXPIRED_TIME = 3600L;
 
     private final RedisService redisService;
+    private final RegisterOrderFactory registerOrderFactory;
 
     public String registerOrder(RegisterOrderDto dto) {
-        var registerOrder = dto.toEntity();
-        var key = UUID.randomUUID().toString();
-        redisService.set(key, registerOrder, INIT_ORDER_EXPIRED_TIME);
-        return key;
+        var registerOrder = registerOrderFactory.create(dto);
+        var orderToken = UUID.randomUUID().toString();
+        redisService.set(orderToken, registerOrder, INIT_ORDER_EXPIRED_TIME);
+        return orderToken;
     }
 }
