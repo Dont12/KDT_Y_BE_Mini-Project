@@ -1,7 +1,7 @@
 name: reviewdog
 on:
   pull_request:
-    branches: [ main, develop ]
+    branches: [ main, develop, feature/* ] # 임시. Merge할때는 롤백할 것
 jobs:
   checkstyle_job:
     runs-on: ubuntu-latest

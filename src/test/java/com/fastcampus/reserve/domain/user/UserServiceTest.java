@@ -47,7 +47,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("중복 이메일이라면 예외 발생")
-    void registerOrder() {
+    void signup_fail() {
         // given
         SignupDto dto = new SignupDto(
             "a@a.com",

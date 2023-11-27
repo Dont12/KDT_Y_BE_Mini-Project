@@ -26,4 +26,8 @@ public class UserService {
         var user = dto.toEntity(encodedPassword);
         userCommand.store(user);
     }
+
+    public User getUser(String email) {
+        return userReader.findByEmail(email);
+    }
 }
