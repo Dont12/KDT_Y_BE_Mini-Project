@@ -17,7 +17,8 @@ public class UserReaderImpl implements UserReader {
 
     @Override
     public User findById(Long id) {
-        return null;
+        return userRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NO_SUCH_USER));
     }
 
     @Override
