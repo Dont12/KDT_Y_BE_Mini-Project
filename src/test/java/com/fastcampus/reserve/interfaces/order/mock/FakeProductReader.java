@@ -5,10 +5,22 @@ import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import java.time.LocalDate;
+import java.util.List;
 
 @Primary
 @Component
 public class FakeProductReader implements ProductReader {
+
+    @Override
+    public Product getProduct(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllProduct(LocalDate checkIn, LocalDate checkOut, String category, String areaCode, int page, int pageSize) {
+        return null;
+    }
 
     @Override
     public Product findByIdWithImage(Long id) {
