@@ -5,6 +5,7 @@ import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @Primary
 @Component
@@ -29,6 +30,8 @@ public class FakeProductReader implements ProductReader {
                 .build();
 
         product.addImage(productImage);
+
+        ReflectionTestUtils.setField(product, "id", -1L);
 
         return product;
     }
