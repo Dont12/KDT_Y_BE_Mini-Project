@@ -14,7 +14,7 @@ import org.springframework.data.redis.core.RedisHash;
 public class Token {
 
     @Id
-    private String email;
+    private Long id;
 
     private String refreshToken;
 
@@ -26,12 +26,12 @@ public class Token {
 
     @Builder
     private Token(
-        String email,
+        Long id,
         String grantType,
         String accessToken,
         String refreshToken
     ) {
-        this.email = email;
+        this.id = id;
         this.grantType = grantType;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
