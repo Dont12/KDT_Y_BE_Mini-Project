@@ -17,7 +17,7 @@ public class FakeProductReader implements ProductReader {
     @Override
     public Product findByIdWithImage(Long id) {
         ProductImage productImage = ProductImage.builder()
-                .url("http://www.image.co.kr")
+                .url("https://www.image.co.kr")
                 .build();
 
         Product product = Product.builder()

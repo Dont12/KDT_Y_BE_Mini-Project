@@ -17,7 +17,7 @@ public class FakeRoomReader implements RoomReader {
     @Override
     public Room findByIdWithImage(Long id) {
         RoomImage roomImage = RoomImage.builder()
-                .url("http://www.image.co.kr")
+                .url("https://www.image.co.kr")
                 .build();
 
         Room room = Room.builder()
