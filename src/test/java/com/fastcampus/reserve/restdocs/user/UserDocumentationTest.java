@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.snippet.Attributes;
 
 public class UserDocumentationTest extends ApiDocumentation {
 
@@ -39,13 +40,16 @@ public class UserDocumentationTest extends ApiDocumentation {
                 getDocumentResponse(),
                 requestFields(
                     fieldWithPath("email").type(STRING)
-                        .description("이메일"),
+                        .description("이메일")
+                        .attributes(getEmailFormat())
+                    ,
                     fieldWithPath("password").type(STRING)
                         .description("비밀번호 (6자 이상)"),
                     fieldWithPath("nickname").type(STRING)
                         .description("닉네임"),
                     fieldWithPath("phone").type(STRING)
                         .description("핸드폰 번호 (010-0000-0000 형식)")
+                        .attributes(getPhoneFormat())
                 ),
                 responseFields(
                     fieldWithPath("status").ignored()

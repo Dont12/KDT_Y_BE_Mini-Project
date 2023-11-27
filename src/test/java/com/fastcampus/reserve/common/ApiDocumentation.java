@@ -49,6 +49,14 @@ public abstract class ApiDocumentation {
     }
 
     protected Attribute getDateFormat() {
-        return key("format").value("yyy-MM-dd");
+        return key("format").value("yyyy-MM-dd");
+    }
+
+    protected Attribute getPhoneFormat() {
+        return key("format").value("000-0000-0000");
+    }
+
+    protected Attribute getEmailFormat() {
+        return key("format").value("user@domain.com");
     }
 }
