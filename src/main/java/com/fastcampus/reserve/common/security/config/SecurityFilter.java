@@ -24,8 +24,10 @@ public class SecurityFilter implements Filter {
     private final JwtProvider jwtProvider;
 
     private static String getAuthorization(HttpServletRequest request) {
-        return GRANT_TYPE + " "
-            + CookieUtils.getCookieValue(request.getCookies(), AUTHORIZATION_COOKIE_NAME).orElse("");
+        String accessToken = CookieUtils.getCookieValue(
+            request.getCookies(), AUTHORIZATION_COOKIE_NAME
+        ).orElse("");
+        return GRANT_TYPE + " " + accessToken;
     }
 
     @Override
