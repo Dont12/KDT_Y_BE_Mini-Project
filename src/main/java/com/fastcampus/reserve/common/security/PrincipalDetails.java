@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public record PrincipalDetails(
-        String email,
+        Long id,
         Collection<? extends GrantedAuthority> authorities
 ) implements UserDetails {
 
@@ -21,7 +21,7 @@ public record PrincipalDetails(
 
     @Override
     public String getUsername() {
-        return email;
+        return null;
     }
 
     @Override

@@ -27,7 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         var user = userReader.findByEmail(username);
 
         return new PrincipalDetails(
-                user.getEmail(),
+                user.getId(),
                 convertToAuthorities(user.getAuthorities())
         );
     }
