@@ -2,7 +2,6 @@ package com.fastcampus.reserve.domain.product.room;
 
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import com.fastcampus.reserve.domain.product.Product;
-import io.hypersistence.utils.hibernate.type.json.JsonType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,15 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Type;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,10 +40,10 @@ public class Room extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer stock;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String checkInTime;
 
-    @Column(nullable = false, length = 30)
+    @Column(nullable = false, length = 100)
     private String checkOutTime;
 
     @Column(nullable = false)
@@ -88,5 +86,11 @@ public class Room extends BaseTimeEntity {
         }
         this.product = product;
         product.addRoom(this);
+    }
+
+    public Optional<String> getFirstImage() {
+        return images.stream()
+                .map(RoomImage::getUrl)
+                .findFirst();
     }
 }
