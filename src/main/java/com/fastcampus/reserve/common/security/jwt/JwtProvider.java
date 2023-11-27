@@ -4,7 +4,7 @@ import static com.fastcampus.reserve.common.response.ErrorCode.NOT_AUTHORITY_TOK
 
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
-import com.fastcampus.reserve.common.security.Token;
+import com.fastcampus.reserve.domain.auth.Token;
 import com.fastcampus.reserve.domain.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -61,6 +61,7 @@ public class JwtProvider {
     public Token generateToken(User user) {
         return Token.builder()
                 .grantType(grantType)
+                .id(user.getId())
                 .refreshToken(createToken(user, accessTokenExpiredTime))
                 .accessToken(createToken(user, refreshTokenExpiredTime))
                 .build();
@@ -81,7 +82,8 @@ public class JwtProvider {
         }
 
         Collection<? extends GrantedAuthority> grantedAuthorities = getGrantedAuthorities(claims);
-        PrincipalDetails principal = new PrincipalDetails(claims.getSubject(), grantedAuthorities);
+        Long userId = Long.valueOf((Integer) claims.get("userId"));
+        PrincipalDetails principal = new PrincipalDetails(userId, grantedAuthorities);
         return new UsernamePasswordAuthenticationToken(principal, token, grantedAuthorities);
     }
 
@@ -129,8 +131,11 @@ public class JwtProvider {
 
     private Map<String, Object> createClaims(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user", user);
-        claims.put(AUTHORITIES_KEY, getAuthorityClaim(user));
+        claims.put("userId", user.getId());
+        // 원래 getAuthorityClaim(user) 통해 받아와야 하나
+        // Authority 저장이 제대로 되지않는 이슈 해결이 어려워 임시로 고정값으로 해둠
+        // TODO
+        claims.put(AUTHORITIES_KEY, User.RoleType.USER);
         return claims;
     }
 
