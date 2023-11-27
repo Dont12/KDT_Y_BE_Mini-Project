@@ -7,9 +7,6 @@ import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.response.ErrorCode;
-import com.fastcampus.reserve.domain.user.UserCommand;
-import com.fastcampus.reserve.domain.user.UserReader;
-import com.fastcampus.reserve.domain.user.UserService;
 import com.fastcampus.reserve.domain.user.dto.request.SignupDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,7 +36,7 @@ class UserServiceTest {
             "nickname",
             "010-0000-0000"
         );
-        when(userReader.existsByEmail(any()))
+        when(userReader.existsByEmail(any(String.class)))
             .thenReturn(false);
 
         // when, then
