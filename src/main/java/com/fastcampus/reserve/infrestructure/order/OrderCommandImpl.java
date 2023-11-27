@@ -41,7 +41,6 @@ public class OrderCommandImpl implements OrderCommand {
             orderItem.registerOrder(order);
         });
 
-        orderRepository.save(order);
-        return order.getId();
+        return orderRepository.save(order).getId();
     }
 }
