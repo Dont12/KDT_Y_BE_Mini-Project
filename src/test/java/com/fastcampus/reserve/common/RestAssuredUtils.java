@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 public final class RestAssuredUtils {
 
     public static final String TOKEN_COOKIE_NAME = "accessToken";
-    private final static String EMAIL = "user@gmail.com";
-    private final static String PASSWORD = "password";
+    public final static String EMAIL = "user@gmail.com";
+    public final static String PASSWORD = "password";
 
     private RestAssuredUtils() {
     }
@@ -29,7 +29,7 @@ public final class RestAssuredUtils {
                 .extract();
     }
 
-    static void signup() {
+    public static void signup() {
         SignupRequest request = new SignupRequest(
                 EMAIL,
                 PASSWORD,
@@ -46,7 +46,7 @@ public final class RestAssuredUtils {
                 .extract();
     }
 
-    static String login() {
+    private static String login() {
         LoginRequest request = new LoginRequest(EMAIL, PASSWORD);
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()
