@@ -30,4 +30,8 @@ public class UserService {
     public User getUser(String email) {
         return userReader.findByEmail(email);
     }
+
+    public User getUser(Long id) {
+        return userReader.findById(id);
+    }
 }
