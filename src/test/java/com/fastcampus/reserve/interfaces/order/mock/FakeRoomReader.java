@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.mock;
+package com.fastcampus.reserve.interfaces.order.mock;
 
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
