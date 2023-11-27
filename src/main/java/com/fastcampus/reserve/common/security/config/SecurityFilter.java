@@ -1,15 +1,14 @@
 package com.fastcampus.reserve.common.security.config;
 
 import com.fastcampus.reserve.common.security.jwt.JwtProvider;
+import com.fastcampus.reserve.common.utils.CookieUtils;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -20,25 +19,13 @@ import org.springframework.util.StringUtils;
 @RequiredArgsConstructor
 public class SecurityFilter implements Filter {
 
-
     public static final String AUTHORIZATION_COOKIE_NAME = "accessToken";
+    public static final String GRANT_TYPE = "Bearer";
     private final JwtProvider jwtProvider;
 
     private static String getAuthorization(HttpServletRequest request) {
-        return "Bearer " + getCookie(request, AUTHORIZATION_COOKIE_NAME).orElse("");
-    }
-
-    public static Optional<String> getCookie(HttpServletRequest request, String name) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies == null) {
-            return Optional.empty();
-        }
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals(name)) {
-                return Optional.of(cookie.getValue());
-            }
-        }
-        return Optional.empty();
+        return GRANT_TYPE + " "
+            + CookieUtils.getCookieValue(request.getCookies(), AUTHORIZATION_COOKIE_NAME).orElse("");
     }
 
     @Override
