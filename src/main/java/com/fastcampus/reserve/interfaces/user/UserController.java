@@ -2,10 +2,14 @@ package com.fastcampus.reserve.interfaces.user;
 
 import com.fastcampus.reserve.application.user.UserFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
+import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.interfaces.user.dto.request.SignupRequest;
+import com.fastcampus.reserve.interfaces.user.response.UserInfoResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,5 +30,15 @@ public class UserController {
     ) {
         userFacade.signup(mapper.of(request));
         return CommonResponse.ok();
+    }
+
+    @GetMapping
+    public CommonResponse<UserInfoResponse> myInfo(
+        @AuthenticationPrincipal PrincipalDetails principal
+    ) {
+        Long userId = principal.id();
+        var userInfo = userFacade.getUserInfo(userId);
+
+        return CommonResponse.ok(mapper.of(userInfo));
     }
 }
