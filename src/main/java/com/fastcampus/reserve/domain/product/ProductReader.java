@@ -13,4 +13,6 @@ public interface ProductReader {
                                 String areaCode,
                                 int page,
                                 int pageSize);
+
+    Product findByIdWithImage(Long id);
 }

@@ -18,7 +18,7 @@ public class ProductReaderImpl implements ProductReader {
 
     @Override
     public Product getProduct(Long id) {
-        return null;
+        return productRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 
     @Override
@@ -29,6 +29,11 @@ public class ProductReaderImpl implements ProductReader {
                                        int page,
                                        int pageSize) {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Product findByIdWithImage(Long id) {
+        return null;
     }
 
 
