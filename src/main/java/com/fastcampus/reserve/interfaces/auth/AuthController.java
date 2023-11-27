@@ -2,6 +2,7 @@ package com.fastcampus.reserve.interfaces.auth;
 
 import com.fastcampus.reserve.application.auth.AuthFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
+import com.fastcampus.reserve.domain.auth.dto.response.LoginTokenDto;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -31,21 +32,29 @@ public class AuthController {
     ) {
         var loginToken = authFacade.login(mapper.of(request));
 
-        String accessCookie = makeCookie(
-            "accessToken",
-            loginToken.accessToken(),
-            ONE_HOUR_MAX_AGE
-        );
-        String refreshCookie = makeCookie(
+        String accessCookie = getAccessCookie(loginToken);
+        response.addHeader("Set-Cookie", accessCookie);
+
+        String refreshCookie = getRefreshToken(loginToken);
+        response.addHeader("Set-Cookie", refreshCookie);
+
+        return CommonResponse.ok();
+    }
+
+    private String getRefreshToken(LoginTokenDto loginToken) {
+        return makeCookie(
             "refreshToken",
             loginToken.refreshToken(),
             TWO_WEEKS_MAX_AGE
         );
+    }
 
-        response.addHeader("Set-Cookie", accessCookie);
-        response.addHeader("Set-Cookie", refreshCookie);
-
-        return CommonResponse.ok();
+    private String getAccessCookie(LoginTokenDto loginToken) {
+        return makeCookie(
+            "accessToken",
+            loginToken.accessToken(),
+            ONE_HOUR_MAX_AGE
+        );
     }
 
     private String makeCookie(String name, String value, int maxAge) {
