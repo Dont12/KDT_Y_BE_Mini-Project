@@ -31,7 +31,16 @@ public class OrderItem extends BaseTimeEntity {
     private Long productId;
 
     @Column(nullable = false)
+    private String productName;
+
+    @Column(nullable = false)
     private Long roomId;
+
+    @Column(nullable = false)
+    private String roomName;
+
+    @Column(nullable = false)
+    private String imageUrl;
 
     @Column(nullable = false)
     private Integer guestCount;
@@ -52,7 +61,10 @@ public class OrderItem extends BaseTimeEntity {
     @Builder
     private OrderItem(
             Long productId,
+            String productName,
             Long roomId,
+            String roomName,
+            String imageUrl,
             Integer guestCount,
             Integer price,
             Long cartId,
@@ -62,7 +74,10 @@ public class OrderItem extends BaseTimeEntity {
             LocalTime checkOutTime
     ) {
         this.productId = productId;
+        this.productName = productName;
         this.roomId = roomId;
+        this.roomName = roomName;
+        this.imageUrl = imageUrl;
         this.guestCount = guestCount;
         this.price = price;
         this.cartId = cartId;

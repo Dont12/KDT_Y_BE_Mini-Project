@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.restdocs.order;
 
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
@@ -11,13 +13,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.common.ApiDocumentation;
+import com.fastcampus.reserve.domain.user.User;
+import com.fastcampus.reserve.domain.user.UserReader;
+import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
 public class OrderDocumentationTest extends ApiDocumentation {
+
+    @MockBean
+    private UserReader userReader;
 
     @Test
     void registerOrder() throws Exception {
@@ -36,10 +45,14 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
         byte[] param = objectMapper.writeValueAsBytes(registerOrder);
 
+        mockSecuritySetting();
+        when(userReader.findById(anyLong())).thenReturn(User.builder().build());
+
         this.mockMvc.perform(
                         post("/v1/orders")
                                 .accept(MediaType.APPLICATION_JSON)
                                 .contentType(MediaType.APPLICATION_JSON)
+                                .cookie(new Cookie("accessToken", "accessToken"))
                                 .content(param)
                 )
                 .andExpect(status().isOk())

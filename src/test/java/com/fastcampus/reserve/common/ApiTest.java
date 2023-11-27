@@ -1,7 +1,8 @@
 package com.fastcampus.reserve.common;
 
+import static com.fastcampus.reserve.common.RestAssuredUtils.signup;
+
 import io.restassured.RestAssured;
-import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,5 +18,6 @@ public abstract class ApiTest {
     @BeforeEach
     void init() {
         RestAssured.port = port;
+        signup();
     }
 }
