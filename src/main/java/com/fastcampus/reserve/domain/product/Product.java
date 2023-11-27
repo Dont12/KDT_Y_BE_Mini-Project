@@ -5,6 +5,8 @@ import com.fastcampus.reserve.domain.product.room.Room;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class Product extends BaseTimeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 255)
@@ -64,9 +67,10 @@ public class Product extends BaseTimeEntity {
     private final List<Room> rooms = new ArrayList<>();
 
     @Builder
-    private Product(String name, String category, String description, String zipCode,
+    private Product(Long id, String name, String category, String description, String zipCode,
                     String address, String longitude, String latitude, String area,
                     String sigungu) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.description = description;
