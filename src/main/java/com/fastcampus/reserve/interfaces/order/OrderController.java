@@ -2,8 +2,10 @@ package com.fastcampus.reserve.interfaces.order;
 
 import com.fastcampus.reserve.application.order.OrderFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
+import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.order.dto.response.PaymentResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +33,13 @@ public class OrderController {
         Long userId = principal.id();
         var orderToken = orderFacade.registerOrder(mapper.of(request, userId));
         return CommonResponse.ok(mapper.of(orderToken));
+    }
+
+    @PostMapping("/payment")
+    public CommonResponse<PaymentResponse> payment(
+            @RequestBody @Valid PaymentRequest request
+    ) {
+        var orderId = orderFacade.payment(mapper.of(request));
+        return CommonResponse.ok(mapper.of(orderId));
     }
 }

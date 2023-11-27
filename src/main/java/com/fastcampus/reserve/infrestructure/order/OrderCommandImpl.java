@@ -23,7 +23,7 @@ public class OrderCommandImpl implements OrderCommand {
 
     @Override
     public Long payment(RegisterOrder registerOrder, PaymentDto dto) {
-        if (registerOrder.getTotalPrice() != dto.price()) {
+        if (registerOrder.calcTotalPrice() != dto.price()) {
             throw new CustomException(NOT_MATCH_TOTAL_PRICE);
         }
 
