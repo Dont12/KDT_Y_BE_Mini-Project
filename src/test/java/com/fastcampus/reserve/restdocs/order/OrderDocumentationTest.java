@@ -36,19 +36,7 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
     @Test
     void registerOrder() throws Exception {
-        Map<String, Object> registerOrderItems = new HashMap<>();
-        registerOrderItems.put("productId", -1L);
-        registerOrderItems.put("roomId", -1L);
-        registerOrderItems.put("checkInDate", "2023-11-23");
-        registerOrderItems.put("checkInTime", "15:00");
-        registerOrderItems.put("checkOutDate", "2023-11-25");
-        registerOrderItems.put("checkOutTime", "12:00");
-        registerOrderItems.put("guestCount", 4);
-        registerOrderItems.put("price", 99000);
-
-        Map<String, Object> registerOrder = new HashMap<>();
-        registerOrder.put("registerOrderItems", List.of(registerOrderItems));
-
+        Map<String, Object> registerOrder = createRegisterOrder();
         byte[] param = objectMapper.writeValueAsBytes(registerOrder);
 
         mockSecuritySetting();
@@ -100,13 +88,7 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
     @Test
     void payment() throws Exception {
-        Map<String, Object> payment = new HashMap<>();
-        payment.put("orderToken", "58f795f6-2795-4d19-9dba-c1032209c05b");
-        payment.put("userName", "userName");
-        payment.put("userPhone", "userPhone");
-        payment.put("price", 99000);
-        payment.put("payment", "CARD");
-
+        Map<String, Object> payment = createPayment();
         byte[] param = objectMapper.writeValueAsBytes(payment);
 
         Order order = Order.builder().build();
@@ -146,5 +128,35 @@ public class OrderDocumentationTest extends ApiDocumentation {
                                         .description("예약 번호")
                         )
                 ));
+    }
+
+    private Map<String, Object> createRegisterOrder() {
+        Map<String, Object> registerOrderItems = createRegisterOrderItems();
+        Map<String, Object> registerOrder = new HashMap<>();
+        registerOrder.put("registerOrderItems", List.of(registerOrderItems));
+        return registerOrder;
+    }
+
+    private Map<String, Object> createRegisterOrderItems() {
+        Map<String, Object> registerOrderItems = new HashMap<>();
+        registerOrderItems.put("productId", -1L);
+        registerOrderItems.put("roomId", -1L);
+        registerOrderItems.put("checkInDate", "2023-11-23");
+        registerOrderItems.put("checkInTime", "15:00");
+        registerOrderItems.put("checkOutDate", "2023-11-25");
+        registerOrderItems.put("checkOutTime", "12:00");
+        registerOrderItems.put("guestCount", 4);
+        registerOrderItems.put("price", 99000);
+        return registerOrderItems;
+    }
+
+    private Map<String, Object> createPayment() {
+        Map<String, Object> payment = new HashMap<>();
+        payment.put("orderToken", "58f795f6-2795-4d19-9dba-c1032209c05b");
+        payment.put("userName", "userName");
+        payment.put("userPhone", "userPhone");
+        payment.put("price", 99000);
+        payment.put("payment", "CARD");
+        return payment;
     }
 }
