@@ -16,6 +16,11 @@ public class UserReaderImpl implements UserReader {
     private final UserRepository userRepository;
 
     @Override
+    public User findById(Long id) {
+        return null;
+    }
+
+    @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
             .orElseThrow(() -> new CustomException(ErrorCode.NO_SUCH_USER));
