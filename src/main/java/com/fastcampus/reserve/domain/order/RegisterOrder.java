@@ -15,4 +15,10 @@ public record RegisterOrder(
     public RegisterOrder {
         emptyCheck(orderItems);
     }
+
+    public int getTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItem::getPrice)
+                .sum();
+    }
 }
