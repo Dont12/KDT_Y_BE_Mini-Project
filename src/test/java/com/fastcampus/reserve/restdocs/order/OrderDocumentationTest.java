@@ -36,11 +36,11 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
     @Test
     void registerOrder() throws Exception {
-        Map<String, Object> registerOrder = createRegisterOrder();
-        byte[] param = objectMapper.writeValueAsBytes(registerOrder);
-
         mockSecuritySetting();
         when(userReader.findById(anyLong())).thenReturn(User.builder().build());
+
+        Map<String, Object> registerOrder = createRegisterOrder();
+        byte[] param = objectMapper.writeValueAsBytes(registerOrder);
 
         this.mockMvc.perform(
                         post("/v1/orders")
@@ -88,14 +88,14 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
     @Test
     void payment() throws Exception {
-        Map<String, Object> payment = createPayment();
-        byte[] param = objectMapper.writeValueAsBytes(payment);
-
         Order order = Order.builder().build();
         ReflectionTestUtils.setField(order, "id", -1L);
 
         mockSecuritySetting();
         when(orderRepository.save(any(Order.class))).thenReturn(order);
+
+        Map<String, Object> payment = createPayment();
+        byte[] param = objectMapper.writeValueAsBytes(payment);
 
         this.mockMvc.perform(
                         post("/v1/orders/payment")
