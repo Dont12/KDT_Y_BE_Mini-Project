@@ -6,10 +6,6 @@ import com.fastcampus.reserve.domain.product.room.RoomReader;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
-/**
- * todo
- * 실제 구현체가 작성되면 삭제 예정
- */
 @Primary
 @Component
 public class FakeRoomReader implements RoomReader {

@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 public final class RestAssuredUtils {
 
     public static final String TOKEN_COOKIE_NAME = "accessToken";
-    public final static String EMAIL = "user@gmail.com";
-    public final static String PASSWORD = "password";
+    public static final String EMAIL = "user@gmail.com";
+    public static final String PASSWORD = "password";
 
     private RestAssuredUtils() {
     }
