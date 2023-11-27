@@ -1,40 +1,29 @@
 package com.fastcampus.reserve.domain.user;
 
-import com.fastcampus.reserve.common.security.PrincipalDetails;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
+import com.fastcampus.reserve.domain.user.dto.request.SignupDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Slf4j
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class UserService implements UserDetailsService {
+public class UserService {
 
+    private final UserCommand userCommand;
     private final UserReader userReader;
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userReader.findByEmail(username);
+    public void signup(SignupDto dto) {
+        if (userReader.existsByEmail(dto.email())) {
+            throw new CustomException(ErrorCode.DUPLICATED_EMAIL);
+        }
 
-        return new PrincipalDetails(
-                user.getEmail(),
-                convertToAuthorities(user.getAuthorities())
-        );
-    }
-
-    private Collection<? extends GrantedAuthority> convertToAuthorities(List<Authority> authorities) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getRole().name()))
-                .collect(Collectors.toList());
+        var encodedPassword = passwordEncoder.encode(dto.password());
+        var user = dto.toEntity(encodedPassword);
+        userCommand.store(user);
     }
 }
