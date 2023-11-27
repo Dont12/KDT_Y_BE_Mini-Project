@@ -40,7 +40,7 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 .build();
     }
 
-    private static OrderItem createOrderItem(
+    private OrderItem createOrderItem(
             RegisterOrderItemDto registerOrderItem,
             Product product,
             Room room
@@ -50,6 +50,7 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 .productName(product.getName())
                 .roomId(room.getId())
                 .roomName(room.getName())
+                .imageUrl(room.getFirstImage().orElse(null))
                 .guestCount(registerOrderItem.guestCount())
                 .price(registerOrderItem.price())
                 .checkInTime(registerOrderItem.checkInTime())

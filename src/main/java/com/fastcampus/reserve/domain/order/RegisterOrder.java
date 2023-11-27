@@ -16,7 +16,7 @@ public record RegisterOrder(
         emptyCheck(orderItems);
     }
 
-    public int getTotalPrice() {
+    public int calcTotalPrice() {
         return orderItems.stream()
                 .mapToInt(OrderItem::getPrice)
                 .sum();
