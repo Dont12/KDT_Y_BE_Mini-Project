@@ -2,6 +2,7 @@ package com.fastcampus.reserve.restdocs.order;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -14,14 +15,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.common.ApiDocumentation;
+import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
+import com.fastcampus.reserve.domain.order.RegisterOrder;
+import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.user.User;
 import com.fastcampus.reserve.domain.user.UserReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -33,6 +40,8 @@ public class OrderDocumentationTest extends ApiDocumentation {
     private UserReader userReader;
     @MockBean
     private OrderRepository orderRepository;
+    @MockBean
+    private RedisService redisService;
 
     @Test
     void registerOrder() throws Exception {
@@ -91,8 +100,25 @@ public class OrderDocumentationTest extends ApiDocumentation {
         Order order = Order.builder().build();
         ReflectionTestUtils.setField(order, "id", -1L);
 
+        OrderItem orderItem = OrderItem.builder()
+                .productId(-1L)
+                .roomId(-1L)
+                .checkInDate(LocalDate.now())
+                .checkInTime(LocalTime.of(15, 0))
+                .checkOutDate(LocalDate.now().plusDays(2))
+                .checkOutTime(LocalTime.of(12, 0))
+                .guestCount(4)
+                .price(99000)
+                .build();
+
+        RegisterOrder registerOrder = RegisterOrder.builder()
+                .userId(-1L)
+                .orderItems(List.of(orderItem))
+                .build();
+
         mockSecuritySetting();
         when(orderRepository.save(any(Order.class))).thenReturn(order);
+        when(redisService.get(anyString(), any())).thenReturn(Optional.of(registerOrder));
 
         Map<String, Object> payment = createPayment();
         byte[] param = objectMapper.writeValueAsBytes(payment);
