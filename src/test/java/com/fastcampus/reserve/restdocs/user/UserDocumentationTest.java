@@ -41,8 +41,7 @@ public class UserDocumentationTest extends ApiDocumentation {
                 requestFields(
                     fieldWithPath("email").type(STRING)
                         .description("이메일")
-                        .attributes(getEmailFormat())
-                    ,
+                        .attributes(getEmailFormat()),
                     fieldWithPath("password").type(STRING)
                         .description("비밀번호 (6자 이상)"),
                     fieldWithPath("nickname").type(STRING)
