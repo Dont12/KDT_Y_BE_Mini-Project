@@ -26,10 +26,10 @@ public class ProductApiController {
             @RequestParam LocalDate checkOut,
             @RequestParam(required = false) String category,
             @RequestParam(required = false) String areaCode,
-            @RequestParam(required = false) String sigunguCode,
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int pageSize
     ) {
-        return CommonResponse.ok(productFacade.getProducts());
+        return CommonResponse.ok(
+                productFacade.getProducts(checkIn, checkOut, category, areaCode, page, pageSize));
     }
 }
