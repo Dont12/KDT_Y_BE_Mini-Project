@@ -6,8 +6,10 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import com.fastcampus.reserve.domain.user.User;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
+import org.springframework.test.util.ReflectionTestUtils;
 
 public final class CreateUtils {
 
@@ -24,13 +26,20 @@ public final class CreateUtils {
     }
 
     public static Order createOrder() {
-        return Order.builder()
+        Order order = Order.builder()
                 .payment(Payment.CARD)
                 .reserveName("reserveName")
                 .reservePhone("010-0000-0000")
                 .userName("userName")
                 .userPhone("010-0000-0000")
                 .build();
+        order.addOrderItem(createOrderItem());
+        ReflectionTestUtils.setField(
+                order,
+                "createdDate",
+                LocalDateTime.of(2023, 11, 25, 15, 30)
+        );
+        return order;
     }
 
     public static RegisterOrder createRegisterOrder() {
@@ -38,15 +47,15 @@ public final class CreateUtils {
                 .userId(-1L)
                 .name("reserveName")
                 .phone("010-0000-0000")
-                .orderItems(createOrderItems())
+                .orderItems(List.of(createOrderItem()))
                 .build();
     }
 
-    public static List<OrderItem> createOrderItems() {
-        return List.of(OrderItem.builder()
+    public static OrderItem createOrderItem() {
+        return OrderItem.builder()
                 .productId(-1L)
                 .roomId(-1L)
-                .price(139000)
+                .price(99000)
                 .guestCount(2)
                 .baseGuestCount(2)
                 .maxGuestCount(4)
@@ -54,6 +63,6 @@ public final class CreateUtils {
                 .checkInTime(LocalTime.of(15, 0))
                 .checkOutDate(LocalDate.now().plusDays(1))
                 .checkOutTime(LocalTime.of(12, 0))
-                .build());
+                .build();
     }
 }

@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.domain.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createOrder;
 import static com.fastcampus.reserve.common.CreateUtils.createRegisterOrder;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,6 +12,7 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
@@ -38,6 +40,8 @@ class OrderServiceTest {
 
     @Mock
     private OrderCommand orderCommand;
+    @Mock
+    private OrderReader orderReader;
 
     @Test
     @DisplayName("숙소 예약 신청 성공")
@@ -105,6 +109,22 @@ class OrderServiceTest {
 
         // when
         RegisterOrderInfoDto result = orderService.findRegisterOrder(orderToken);
+
+        // then
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    @DisplayName("주문 내역 상세 조회")
+    void findOrder() {
+        // given
+        Long orderId = -1L;
+
+        when(orderReader.findByIdWithOrderItem(orderId))
+                .thenReturn(createOrder());
+
+        // when
+        OrderInfoDto result = orderService.findOrder(orderId);
 
         // then
         assertThat(result).isNotNull();
