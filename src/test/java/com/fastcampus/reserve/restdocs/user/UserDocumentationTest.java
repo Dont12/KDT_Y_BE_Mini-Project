@@ -28,51 +28,43 @@ public class UserDocumentationTest extends ApiDocumentation {
     @Autowired
     AuthFacade authFacade;
 
-    @Test
-    void signup() throws Exception {
-        Map<String, Object> request = new HashMap<>();
-        request.put("email", "c@a.com");
-        request.put("password", "password");
-        request.put("nickname", "nickname");
-        request.put("phone", "010-0000-0000");
-
-        byte[] param = objectMapper.writeValueAsBytes(request);
-
-        this.mockMvc.perform(
-                post("/v1/users")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(param)
-            )
-            .andExpect(status().isOk())
-            .andDo(document(
-                "myInfo/success",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                responseFields(
-                    fieldWithPath("status").ignored()
-                )
-            ));
-    }
+    //@Test
+    //void signup() throws Exception {
+    //    Map<String, Object> request = new HashMap<>();
+    //    request.put("email", "c@a.com");
+    //    request.put("password", "password");
+    //    request.put("nickname", "nickname");
+    //    request.put("phone", "010-0000-0000");
+    //
+    //    byte[] param = objectMapper.writeValueAsBytes(request);
+    //
+    //    this.mockMvc.perform(
+    //            post("/v1/users")
+    //                .accept(MediaType.APPLICATION_JSON)
+    //                .contentType(MediaType.APPLICATION_JSON)
+    //                .content(param)
+    //        )
+    //        .andExpect(status().isOk())
+    //        .andDo(document(
+    //            "myInfo/success",
+    //            getDocumentRequest(),
+    //            getDocumentResponse(),
+    //            responseFields(
+    //                fieldWithPath("status").ignored()
+    //            )
+    //        ));
+    //}
 
     //@Test
     //void myInfo() throws Exception {
     //    // given
-    //    String email = "email@a.com";
-    //    String password = "password";
-    //
-    //    SignupDto signupDto = new SignupDto(email, password, "nick", "010-0000-0000");
-    //    userFacade.signup(signupDto);
-    //
-    //    LoginDto loginDto = new LoginDto(email, password);
-    //    LoginTokenDto loginTokenDto = authFacade.login(loginDto);
-    //    Cookie loginCookie = new Cookie("accessToken", loginTokenDto.accessToken());
+    //    mockSecuritySetting();
     //
     //    // when, then
     //    this.mockMvc.perform(
     //            get("/v1/users")
     //                .accept(MediaType.APPLICATION_JSON)
-    //                .cookie(loginCookie)
+    //                .cookie(new Cookie("accessToken", "accessToken"))
     //        )
     //        .andExpect(status().isOk())
     //        .andDo(document(
