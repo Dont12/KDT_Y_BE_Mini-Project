@@ -18,7 +18,7 @@ public final class CreateUtils {
         return User.builder()
                 .email("user@gmail.com")
                 .password("password")
-                .nickname("name")
+                .nickname("reserveName")
                 .phone("010-0000-0000")
                 .build();
     }
@@ -26,6 +26,8 @@ public final class CreateUtils {
     public static Order createOrder() {
         return Order.builder()
                 .payment(Payment.CARD)
+                .reserveName("reserveName")
+                .reservePhone("010-0000-0000")
                 .userName("userName")
                 .userPhone("010-0000-0000")
                 .build();
@@ -34,7 +36,7 @@ public final class CreateUtils {
     public static RegisterOrder createRegisterOrder() {
         return RegisterOrder.builder()
                 .userId(-1L)
-                .name("name")
+                .name("reserveName")
                 .phone("010-0000-0000")
                 .orderItems(createOrderItems())
                 .build();

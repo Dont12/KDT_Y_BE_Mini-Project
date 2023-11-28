@@ -36,6 +36,12 @@ public class Order extends BaseTimeEntity {
     private Long userId;
 
     @Column(length = 100)
+    private String reserveName;
+
+    @Column(length = 50)
+    private String reservePhone;
+
+    @Column(length = 100)
     private String userName;
 
     @Column(length = 50)
@@ -53,11 +59,15 @@ public class Order extends BaseTimeEntity {
     @Builder
     private Order(
             Long userId,
+            String reserveName,
+            String reservePhone,
             String userName,
             String userPhone,
             Payment payment
     ) {
         this.userId = userId;
+        this.reserveName = reserveName;
+        this.reservePhone = reservePhone;
         this.userName = userName;
         this.userPhone = userPhone;
         this.payment = payment;
