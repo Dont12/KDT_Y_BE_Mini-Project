@@ -125,4 +125,39 @@ class ProductReaderImplTest {
         verify(productRepository, never()).findAll();
         verify(productRepository, never()).findAllByArea(anyString(), eq(1), eq(10));
     }
+
+
+    @Test
+    @DisplayName("AreaCode와 Category가 모두 있으면 해당 AreaCode와 Category에 맞는 상품만 나온다")
+    public void whenAreaCodeAndCategoryProvided_shouldUseBothFilters() {
+        // Given
+        String areaCode = "충청남도";
+        String category = "호텔";
+        int page = 1;
+        int pageSize = 10;
+        ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                category,
+                areaCode,
+                page,
+                pageSize);
+        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
+                .name("테스트 호텔")
+                .category(category)
+                .area(areaCode)
+                .build());
+
+        given(productRepository.findAllByAreaAndCategory(areaCode, category, page, pageSize))
+                .willReturn(expectedProducts);
+
+        // When
+        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+
+        // Then
+        assertThat(actualProducts).isEqualTo(expectedProducts);
+        verify(productRepository).findAllByAreaAndCategory(areaCode, category, page, pageSize);
+        verify(productRepository, never()).findAllByArea(anyString(), eq(page), eq(pageSize));
+        verify(productRepository, never()).findAllByCategory(anyString(), eq(page), eq(pageSize));
+        verify(productRepository, never()).findAll();
+    }
 }
