@@ -1,9 +1,12 @@
 package com.fastcampus.reserve.interfaces.order;
 
+import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.order.dto.response.PaymentResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderResponse;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
@@ -20,5 +23,9 @@ public interface OrderDtoMapper {
 
     RegisterOrderDto of(RegisterOrderRequest request, Long userId);
 
+    PaymentDto of(PaymentRequest request);
+
     RegisterOrderResponse of(String orderToken);
+
+    PaymentResponse of(Long orderId);
 }

@@ -12,3 +12,18 @@ include::{snippets}/order/registerOrder/success/response-fields.adoc[]
 ==== HTTP request
 
 include::{snippets}/order/registerOrder/success/http-response.adoc[]
+
+== 숙박 예약 결제
+
+include::{snippets}/order/payment/success/request-fields.adoc[]
+
+==== HTTP request
+include::{snippets}/order/payment/success/http-request.adoc[]
+
+==== HTTP response fields
+
+include::{snippets}/order/payment/success/response-fields.adoc[]
+
+==== HTTP request
+
+include::{snippets}/order/payment/success/http-response.adoc[]

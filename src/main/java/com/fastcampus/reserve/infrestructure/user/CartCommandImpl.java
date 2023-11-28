@@ -17,4 +17,9 @@ public class CartCommandImpl implements CartCommand {
     public void store(Cart cart) {
         cartRepository.save(cart);
     }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
 }
