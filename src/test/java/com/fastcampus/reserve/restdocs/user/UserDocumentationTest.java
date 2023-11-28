@@ -55,39 +55,39 @@ public class UserDocumentationTest extends ApiDocumentation {
             ));
     }
 
-//    @Test
-//    void myInfo() throws Exception {
-//        // given
-//        String email = "email@a.com";
-//        String password = "password";
+//@Test
+//void myInfo() throws Exception {
+//    // given
+//    String email = "email@a.com";
+//    String password = "password";
 //
-//        SignupDto signupDto = new SignupDto(email, password, "nick", "010-0000-0000");
-//        userFacade.signup(signupDto);
+//    SignupDto signupDto = new SignupDto(email, password, "nick", "010-0000-0000");
+//    userFacade.signup(signupDto);
 //
-//        LoginDto loginDto = new LoginDto(email, password);
-//        LoginTokenDto loginTokenDto = authFacade.login(loginDto);
-//        Cookie loginCookie = new Cookie("accessToken", loginTokenDto.accessToken());
+//    LoginDto loginDto = new LoginDto(email, password);
+//    LoginTokenDto loginTokenDto = authFacade.login(loginDto);
+//    Cookie loginCookie = new Cookie("accessToken", loginTokenDto.accessToken());
 //
-//        // when, then
-//        this.mockMvc.perform(
-//                get("/v1/users")
-//                    .accept(MediaType.APPLICATION_JSON)
-//                    .cookie(loginCookie)
+//    // when, then
+//    this.mockMvc.perform(
+//            get("/v1/users")
+//                .accept(MediaType.APPLICATION_JSON)
+//                .cookie(loginCookie)
+//        )
+//        .andExpect(status().isOk())
+//        .andDo(document(
+//            "myInfo/success",
+//            getDocumentRequest(),
+//            getDocumentResponse(),
+//            responseFields(
+//                fieldWithPath("status").ignored(),
+//                fieldWithPath("data.email").type(STRING)
+//                    .description("이메일"),
+//                fieldWithPath("data.nickname").type(STRING)
+//                    .description("닉네임"),
+//                fieldWithPath("data.phone").type(STRING)
+//                    .description("핸드폰 번호")
 //            )
-//            .andExpect(status().isOk())
-//            .andDo(document(
-//                "myInfo/success",
-//                getDocumentRequest(),
-//                getDocumentResponse(),
-//                responseFields(
-//                    fieldWithPath("status").ignored(),
-//                    fieldWithPath("data.email").type(STRING)
-//                        .description("이메일"),
-//                    fieldWithPath("data.nickname").type(STRING)
-//                        .description("닉네임"),
-//                    fieldWithPath("data.phone").type(STRING)
-//                        .description("핸드폰 번호")
-//                )
-//            ));
-//    }
+//        ));
+//}
 }
