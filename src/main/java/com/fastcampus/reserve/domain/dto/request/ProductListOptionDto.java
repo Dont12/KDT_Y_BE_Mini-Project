@@ -6,7 +6,7 @@ public record ProductListOptionDto(
     LocalDate checkIn,
     LocalDate checkOut,
     String category,
-    String areaCode,
+    String area,
     int page,
     int pageSize
 ) {
