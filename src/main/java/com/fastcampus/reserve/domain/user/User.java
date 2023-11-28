@@ -31,7 +31,6 @@ import lombok.ToString;
         @UniqueConstraint(name = "email_unique", columnNames = "email")
     }
 )
-@ToString
 public class User extends BaseTimeEntity {
 
     @Id
