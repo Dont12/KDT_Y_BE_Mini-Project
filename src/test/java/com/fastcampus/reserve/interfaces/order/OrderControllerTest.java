@@ -27,16 +27,10 @@ class OrderControllerTest extends ApiTest {
         String url = "/v1/orders";
 
         // when
-        ExtractableResponse<Response> response = RestAssuredUtils.postWithLogin(url, request);
+        ExtractableResponse<Response> result = RestAssuredUtils.postWithLogin(url, request);
 
         // then
-        assertThat(response.statusCode())
-                .withFailMessage(
-                        "[%s] %s",
-                        response.statusCode(),
-                        response.jsonPath()
-                )
-                .isEqualTo(HttpStatus.OK.value());
+        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
     }
 
     @Test
