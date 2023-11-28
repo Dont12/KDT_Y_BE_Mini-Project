@@ -5,6 +5,8 @@ import com.fastcampus.reserve.domain.product.room.Room;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
@@ -20,6 +22,7 @@ import lombok.NoArgsConstructor;
 public class Product extends BaseTimeEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 255)
@@ -50,20 +53,24 @@ public class Product extends BaseTimeEntity {
     private String sigungu;
 
     @OneToMany(
-        mappedBy = "product",
-        cascade = CascadeType.PERSIST, orphanRemoval = true
+
+            mappedBy = "product",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
     )
     private final List<ProductImage> images = new ArrayList<>();
     @OneToMany(
-        mappedBy = "product",
-        cascade = CascadeType.PERSIST, orphanRemoval = true
+            mappedBy = "product",
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
     )
     private final List<Room> rooms = new ArrayList<>();
 
     @Builder
-    private Product(String name, String category, String description, String zipCode,
+    private Product(Long id, String name, String category, String description, String zipCode,
                     String address, String longitude, String latitude, String area,
                     String sigungu) {
+        this.id = id;
         this.name = name;
         this.category = category;
         this.description = description;
@@ -81,5 +88,20 @@ public class Product extends BaseTimeEntity {
 
     public void addRoom(Room room) {
         rooms.add(room);
+    }
+
+    public int getMinPrice() {
+        return rooms.stream()
+                .mapToInt(Room::getPrice)
+                .min()
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public String getImageUrl() {
+        return this.images.get(0).getUrl();
+    }
+
+    public enum CategoryType {
+        HOTEL, MOTEL, PENSION
     }
 }
