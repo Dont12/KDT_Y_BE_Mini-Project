@@ -83,7 +83,8 @@ class ProductReaderImplTest {
                 .sigungu("전주시")
                 .build());
 
-        given(productRepository.findAllByArea(areaCode, page, pageSize)).willReturn(expectedProducts);
+        given(productRepository.findAllByArea(areaCode, page, pageSize))
+                .willReturn(expectedProducts);
 
         // When
         List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
@@ -112,7 +113,8 @@ class ProductReaderImplTest {
                 .category("호텔")
                 .build());
 
-        given(productRepository.findAllByCategory(category, page, pageSize)).willReturn(expectedProducts);
+        given(productRepository.findAllByCategory(category, page, pageSize))
+                .willReturn(expectedProducts);
 
         // When
         List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
