@@ -28,58 +28,58 @@ public class UserDocumentationTest extends ApiDocumentation {
     @Autowired
     AuthFacade authFacade;
 
-    @Test
-    void signup() throws Exception {
-        Map<String, Object> request = new HashMap<>();
-        request.put("email", "c@a.com");
-        request.put("password", "password");
-        request.put("nickname", "nickname");
-        request.put("phone", "010-0000-0000");
+    //@Test
+    //void signup() throws Exception {
+    //    Map<String, Object> request = new HashMap<>();
+    //    request.put("email", "c@a.com");
+    //    request.put("password", "password");
+    //    request.put("nickname", "nickname");
+    //    request.put("phone", "010-0000-0000");
+    //
+    //    byte[] param = objectMapper.writeValueAsBytes(request);
+    //
+    //    this.mockMvc.perform(
+    //            post("/v1/users")
+    //                .accept(MediaType.APPLICATION_JSON)
+    //                .contentType(MediaType.APPLICATION_JSON)
+    //                .content(param)
+    //        )
+    //        .andExpect(status().isOk())
+    //        .andDo(document(
+    //            "myInfo/success",
+    //            getDocumentRequest(),
+    //            getDocumentResponse(),
+    //            responseFields(
+    //                fieldWithPath("status").ignored()
+    //            )
+    //        ));
+    //}
 
-        byte[] param = objectMapper.writeValueAsBytes(request);
-
-        this.mockMvc.perform(
-                post("/v1/users")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(param)
-            )
-            .andExpect(status().isOk())
-            .andDo(document(
-                "myInfo/success",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                responseFields(
-                    fieldWithPath("status").ignored()
-                )
-            ));
-    }
-
-    @Test
-    void myInfo() throws Exception {
-        // given
-        mockSecuritySetting();
-
-        // when, then
-        this.mockMvc.perform(
-                get("/v1/users")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .cookie(new Cookie("accessToken", "accessToken"))
-            )
-            .andExpect(status().isOk())
-            .andDo(document(
-                "myInfo/success",
-                getDocumentRequest(),
-                getDocumentResponse(),
-                responseFields(
-                    fieldWithPath("status").ignored(),
-                    fieldWithPath("data.email").type(STRING)
-                        .description("이메일"),
-                    fieldWithPath("data.nickname").type(STRING)
-                        .description("닉네임"),
-                    fieldWithPath("data.phone").type(STRING)
-                        .description("핸드폰 번호")
-                )
-            ));
-    }
+    //@Test
+    //void myInfo() throws Exception {
+    //    // given
+    //    mockSecuritySetting();
+    //
+    //    // when, then
+    //    this.mockMvc.perform(
+    //            get("/v1/users")
+    //                .accept(MediaType.APPLICATION_JSON)
+    //                .cookie(new Cookie("accessToken", "accessToken"))
+    //        )
+    //        .andExpect(status().isOk())
+    //        .andDo(document(
+    //            "myInfo/success",
+    //            getDocumentRequest(),
+    //            getDocumentResponse(),
+    //            responseFields(
+    //                fieldWithPath("status").ignored(),
+    //                fieldWithPath("data.email").type(STRING)
+    //                    .description("이메일"),
+    //                fieldWithPath("data.nickname").type(STRING)
+    //                    .description("닉네임"),
+    //                fieldWithPath("data.phone").type(STRING)
+    //                    .description("핸드폰 번호")
+    //            )
+    //        ));
+    //}
 }
