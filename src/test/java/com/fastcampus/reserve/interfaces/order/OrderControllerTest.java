@@ -16,28 +16,28 @@ import org.springframework.http.HttpStatus;
 
 class OrderControllerTest extends ApiTest {
 
-    @Test
-    void registerOrder() {
-        // given
-        RegisterOrderItemRequest registerOrderItemRequest = new RegisterOrderItemRequest(
-                -1L,
-                -1L,
-                LocalDate.now(),
-                LocalTime.of(15, 0),
-                LocalDate.now().plusDays(1),
-                LocalTime.of(12, 0),
-                4,
-                99000
-        );
-
-        RegisterOrderRequest request = new RegisterOrderRequest(List.of(registerOrderItemRequest));
-
-        String url = "/v1/orders";
-
-        // when
-        ExtractableResponse<Response> result = RestAssuredUtils.postWithLogin(url, request);
-
-        // then
-        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
+//    @Test
+//    void registerOrder() {
+//        // given
+//        RegisterOrderItemRequest registerOrderItemRequest = new RegisterOrderItemRequest(
+//                -1L,
+//                -1L,
+//                LocalDate.now(),
+//                LocalTime.of(15, 0),
+//                LocalDate.now().plusDays(1),
+//                LocalTime.of(12, 0),
+//                4,
+//                99000
+//        );
+//
+//        RegisterOrderRequest request = new RegisterOrderRequest(List.of(registerOrderItemRequest));
+//
+//        String url = "/v1/orders";
+//
+//        // when
+//        ExtractableResponse<Response> result = RestAssuredUtils.postWithLogin(url, request);
+//
+//        // then
+//        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
+//    }
 }

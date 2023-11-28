@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.interfaces.order.mock;
+package com.fastcampus.reserve.infrestructure;
 
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
