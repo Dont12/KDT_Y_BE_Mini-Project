@@ -3,6 +3,7 @@ package com.fastcampus.reserve.domain.user;
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.user.dto.request.SignupDto;
+import com.fastcampus.reserve.domain.user.dto.response.UserInfoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,10 @@ public class UserService {
 
     public User getUser(Long id) {
         return userReader.findById(id);
+    }
+
+    public UserInfoDto getUserInfo(Long userId) {
+        var user = userReader.findById(userId);
+        return UserInfoDto.from(user);
     }
 }
