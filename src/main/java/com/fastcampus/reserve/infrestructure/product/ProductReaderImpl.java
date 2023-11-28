@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 public class ProductReaderImpl implements ProductReader {
 
     private final ProductRepository productRepository;
+    
 
     @Override
     public Product getProduct(Long id) {
