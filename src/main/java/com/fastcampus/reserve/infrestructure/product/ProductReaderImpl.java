@@ -22,8 +22,11 @@ public class ProductReaderImpl implements ProductReader {
 
     @Override
     public List<Product> getAllProduct(ProductListOptionDto dto) {
-        if (!dto.areaCode().isEmpty()) {
-            return productRepository.findAllByArea(dto.areaCode());
+        if (dto.areaCode() != null && !dto.areaCode().isEmpty()) {
+            return productRepository.findAllByArea(dto.areaCode(), dto.page(), dto.pageSize());
+        }
+        if (dto.category() != null && !dto.category().isEmpty()) {
+            return productRepository.findAllByCategory(dto.category(), dto.page(), dto.pageSize());
         }
         return productRepository.findAll();
     }
