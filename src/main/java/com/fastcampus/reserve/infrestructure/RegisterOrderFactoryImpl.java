@@ -7,7 +7,6 @@ import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.RegisterOrderFactory;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
-import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;

@@ -11,6 +11,7 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -88,6 +89,22 @@ class OrderServiceTest {
 
         // when
         Long result = orderService.payment(request);
+
+        // then
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    @DisplayName("예약 신청 조회")
+    void findRegisterOrder() {
+        // given
+        String orderToken = "orderToken";
+
+        when(redisService.get(orderToken, RegisterOrder.class))
+                .thenReturn(Optional.of(createRegisterOrder()));
+
+        // when
+        RegisterOrderInfoDto result = orderService.findRegisterOrder(orderToken);
 
         // then
         assertThat(result).isNotNull();
