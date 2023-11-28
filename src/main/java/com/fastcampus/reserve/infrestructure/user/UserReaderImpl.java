@@ -31,10 +31,4 @@ public class UserReaderImpl implements UserReader {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
-
-    @Override
-    public User findById(Long id) {
-        return userRepository.findById(id)
-            .orElseThrow(() -> new CustomException(ErrorCode.NO_SUCH_USER));
-    }
 }

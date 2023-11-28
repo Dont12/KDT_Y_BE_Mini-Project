@@ -7,6 +7,4 @@ public interface UserReader {
     User findByEmail(String email);
 
     boolean existsByEmail(String email);
-
-    User findById(Long userId);
 }
