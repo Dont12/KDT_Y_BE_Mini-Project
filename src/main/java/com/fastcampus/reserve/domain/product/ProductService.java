@@ -37,6 +37,7 @@ public class ProductService {
 
     public RoomDetailDto getRoomDetail(Long id) {
         Room room = roomReader.findByIdWithImage(id);
+        System.out.println("@@@" + room.getProduct());
         return RoomDetailDto.from(room);
     }
 }

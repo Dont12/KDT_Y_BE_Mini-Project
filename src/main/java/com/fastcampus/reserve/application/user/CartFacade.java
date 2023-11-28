@@ -42,6 +42,7 @@ public class CartFacade {
     }
 
     private CartDetailItemDto toDetail(CartItemDto cartItemDto) {
+        System.out.println("@@@" + cartItemDto.id());
         RoomDetailDto roomDetailDto =
             productService.getRoomDetail(cartItemDto.roomId());
         return CartDetailItemDto.from(cartItemDto, roomDetailDto);

@@ -29,7 +29,7 @@ public class Room extends BaseTimeEntity {
     @Id
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
     private Product product;
 
@@ -64,9 +64,10 @@ public class Room extends BaseTimeEntity {
     private final List<RoomImage> images = new ArrayList<>();
 
     @Builder
-    private Room(Product product, String name, Integer price, Integer stock, String checkInTime,
-                 String checkOutTime, Integer baseGuestCount, Integer maxGuestCount,
-                 String roomFacilities) {
+    private Room(Long id, Product product, String name, Integer price, Integer stock,
+                 String checkInTime, String checkOutTime, Integer baseGuestCount,
+                 Integer maxGuestCount, String roomFacilities) {
+        this.id = id;
         this.product = product;
         this.name = name;
         this.price = price;
