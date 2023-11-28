@@ -89,18 +89,18 @@ public class CartDocumentationTest extends ApiDocumentation {
     @Test
     void deleteItems() throws Exception {
         // given
-        String email = "a@a.com";
+        String email = "b@a.com";
         String password = "password";
         signup(email, password);
 
         Cookie cookie = login(email, password);
 
+        cartRepository.deleteAll();
         addCartItem(cookie);
         addCartItem(cookie);
 
         List<Long> cartIds = cartRepository.findAll().stream()
             .map(Cart::getId).toList();
-        System.out.println("@@@" + cartIds);
 
         CartItemDeleteRequest request = new CartItemDeleteRequest(
             cartIds
