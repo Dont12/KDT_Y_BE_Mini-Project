@@ -14,7 +14,6 @@ import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -47,9 +46,9 @@ class OrderServiceTest {
                 -1L,
                 -1L,
                 LocalDate.now(),
-                LocalTime.of(15, 0),
+                "15:00",
                 LocalDate.now().plusDays(1),
-                LocalTime.of(12, 0),
+                "12:00",
                 2,
                 120000
         );

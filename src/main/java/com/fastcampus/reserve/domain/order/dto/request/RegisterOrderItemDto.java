@@ -4,15 +4,14 @@ import static com.fastcampus.reserve.common.utils.ValidateUtils.nullCheck;
 
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public record RegisterOrderItemDto(
         Long productId,
         Long roomId,
         LocalDate checkInDate,
-        LocalTime checkInTime,
+        String checkInTime,
         LocalDate checkOutDate,
-        LocalTime checkOutTime,
+        String checkOutTime,
         Integer guestCount,
         Integer price
 ) {

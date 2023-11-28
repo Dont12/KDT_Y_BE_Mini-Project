@@ -25,11 +25,9 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
-import com.fastcampus.reserve.domain.user.UserReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -133,9 +131,9 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
                 .productId(-1L)
                 .roomId(-1L)
                 .checkInDate(LocalDate.now())
-                .checkInTime(LocalTime.of(15, 0))
+                .checkInTime("15:00")
                 .checkOutDate(LocalDate.now().plusDays(2))
-                .checkOutTime(LocalTime.of(12, 0))
+                .checkOutTime("12:00")
                 .guestCount(4)
                 .price(99000)
                 .build();

@@ -6,7 +6,6 @@ import com.fastcampus.reserve.common.exception.CustomException;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public record RegisterOrderItemRequest(
         @NotNull(message = "숙소 ID 는 필수 값 입니다.")
@@ -19,13 +18,13 @@ public record RegisterOrderItemRequest(
         LocalDate checkInDate,
 
         @NotNull(message = "체크인 시간은 필수 값 입니다.")
-        LocalTime checkInTime,
+        String checkInTime,
 
         @NotNull(message = "체크아웃 날짜는 필수 값 입니다.")
         LocalDate checkOutDate,
 
         @NotNull(message = "체크아웃 시간은 필수 값 입니다.")
-        LocalTime checkOutTime,
+        String checkOutTime,
 
         @NotNull(message = "숙박 인원은 필수 값 입니다.")
         @Min(value = 0, message = "숙박 인원은 0명 이상 값 입니다.")

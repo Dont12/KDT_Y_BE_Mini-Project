@@ -6,7 +6,6 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import com.fastcampus.reserve.domain.user.User;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 public final class CreateUtils {
@@ -49,9 +48,9 @@ public final class CreateUtils {
                 .baseGuestCount(2)
                 .maxGuestCount(4)
                 .checkInDate(LocalDate.now())
-                .checkInTime(LocalTime.of(15, 0))
+                .checkInTime("15:00")
                 .checkOutDate(LocalDate.now().plusDays(1))
-                .checkOutTime(LocalTime.of(12, 0))
+                .checkOutTime("12:00")
                 .build());
     }
 }
