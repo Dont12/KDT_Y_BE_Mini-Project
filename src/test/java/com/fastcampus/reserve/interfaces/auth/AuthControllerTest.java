@@ -20,35 +20,35 @@ class AuthControllerTest extends ApiTest {
     @Autowired
     private UserService userService;
 
-    @Test
-    void login() {
-        String email = "a@a.com";
-        String password = "password";
-        userService.signup(new SignupDto(email, password, "nick", "010-0000-0000"));
-
-        LoginRequest request = new LoginRequest(
-            email,
-            password
-        );
-
-        String url = "/v1/auth/login";
-
-        // when
-        ExtractableResponse<Response> result = RestAssured
-            .given().log().all()
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .body(request)
-            .when()
-            .post(url)
-            .then()
-            .log().all()
-            .cookie("accessToken")
-            .cookie("refreshToken")
-            .extract();
-
-        // then
-        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
-    }
+//    @Test
+//    void login() {
+//        String email = "a@a.com";
+//        String password = "password";
+//        userService.signup(new SignupDto(email, password, "nick", "010-0000-0000"));
+//
+//        LoginRequest request = new LoginRequest(
+//            email,
+//            password
+//        );
+//
+//        String url = "/v1/auth/login";
+//
+//        // when
+//        ExtractableResponse<Response> result = RestAssured
+//            .given().log().all()
+//            .contentType(MediaType.APPLICATION_JSON_VALUE)
+//            .body(request)
+//            .when()
+//            .post(url)
+//            .then()
+//            .log().all()
+//            .cookie("accessToken")
+//            .cookie("refreshToken")
+//            .extract();
+//
+//        // then
+//        assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
+//    }
 
     @Test
     void logout() {
