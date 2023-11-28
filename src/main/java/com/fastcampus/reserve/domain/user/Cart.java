@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.user;
 
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -48,10 +50,18 @@ public class Cart extends BaseTimeEntity {
             LocalDate checkInDate,
             LocalDate checkOutDate
     ) {
+        validateCheckDate(checkInDate, checkOutDate);
+
         this.roomId = roomId;
         this.guestCount = guestCount;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+    }
+
+    private void validateCheckDate(LocalDate checkInDate, LocalDate checkOutDate) {
+        if (checkInDate.isAfter(checkOutDate)) {
+            throw new CustomException(ErrorCode.INVALID_CHECK_IN_OUT_DATE);
+        }
     }
 
     public void registerUser(User user) {

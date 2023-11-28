@@ -32,6 +32,10 @@ public class UserService {
         return userReader.findByEmail(email);
     }
 
+    public User getUser(Long id) {
+        return userReader.findById(id);
+    }
+
     public UserInfoDto getUserInfo(Long userId) {
         var user = userReader.findById(userId);
         return UserInfoDto.from(user);
