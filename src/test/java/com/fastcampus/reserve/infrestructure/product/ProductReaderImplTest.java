@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.infrestructure.product;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.never;
@@ -11,8 +12,8 @@ import com.fastcampus.reserve.domain.product.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import java.time.LocalDate;
+import org.mockito.InjectMocks;
 import java.util.Collections;
 import java.util.List;
 import org.mockito.Mock;
@@ -52,7 +53,7 @@ class ProductReaderImplTest {
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
         verify(productRepository).findAll();
-        verify(productRepository, never()).findAllByArea(anyString());
+        verify(productRepository, never()).findAllByArea(anyString(), eq(1), eq(10));
     }
 
 
@@ -61,12 +62,14 @@ class ProductReaderImplTest {
     public void whenAreaCodeProvided_shouldUseAreaCodeFilter() {
         // Given
         String areaCode = "충청남도";
+        int page = 1;
+        int pageSize = 10;
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
                                                             LocalDate.now().plusDays(2),
                                                     null,
                                                             areaCode,
-                                                       1,
-                                                    10);
+                                                            page,
+                                                            pageSize);
         List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
                 .name("전주 한옥숙박체험관[한국관광 품질인증/Korea Quality]")
                 .category("한옥")
@@ -83,14 +86,44 @@ class ProductReaderImplTest {
                 .sigungu("전주시")
                 .build());
 
-        given(productRepository.findAllByArea(areaCode)).willReturn(expectedProducts);
+        given(productRepository.findAllByArea(areaCode, page, pageSize)).willReturn(expectedProducts);
 
         // When
         List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAllByArea(areaCode);
+        verify(productRepository).findAllByArea(areaCode, page, pageSize);
         verify(productRepository, never()).findAll();
+    }
+
+    @Test
+    @DisplayName("카테고리가 있으면 해당 카테고리에 맞는 상품만 나온다")
+    public void whenCategoryProvided_shouldUseCategoryFilter() {
+        // Given
+        String category = "호텔";
+        int page = 1;
+        int pageSize = 10;
+        ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
+                LocalDate.now().plusDays(2),
+                category,
+                null,
+                page,
+                pageSize);
+        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
+                .name("테스트 호텔")
+                .category("호텔")
+                .build());
+
+        given(productRepository.findAllByCategory(category, page, pageSize)).willReturn(expectedProducts);
+
+        // When
+        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+
+        // Then
+        assertThat(actualProducts).isEqualTo(expectedProducts);
+        verify(productRepository).findAllByCategory(category, page, pageSize);
+        verify(productRepository, never()).findAll();
+        verify(productRepository, never()).findAllByArea(anyString(), eq(1), eq(10));
     }
 }
