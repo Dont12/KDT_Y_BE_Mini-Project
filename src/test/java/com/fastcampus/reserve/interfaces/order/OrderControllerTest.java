@@ -20,9 +20,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
+@DisplayName("주문 통합 테스트")
 class OrderControllerTest extends ApiTest {
 
     @Test
+    @DisplayName("예약 신청")
     void registerOrder() {
         // given
         RegisterOrderRequest request = createRequestOrderRequest();
@@ -60,6 +62,7 @@ class OrderControllerTest extends ApiTest {
     }
 
     @Test
+    @DisplayName("예약 신청 조회")
     void getRegisterOrder() {
         // given
         String orderToken = getOrderToken();
