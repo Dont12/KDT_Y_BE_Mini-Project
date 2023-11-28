@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.common.ApiDocumentation;
+import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
@@ -34,10 +35,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 
-public class OrderDocumentationTest extends ApiDocumentation {
+public class OrderDocumentationTest extends SecurityApiDocumentation {
 
-    @MockBean
-    private UserReader userReader;
     @MockBean
     private OrderRepository orderRepository;
     @MockBean
