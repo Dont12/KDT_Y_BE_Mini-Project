@@ -19,6 +19,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 
 class ProductReaderImplTest {
@@ -26,6 +28,10 @@ class ProductReaderImplTest {
     ProductRepository productRepository;
     @InjectMocks
     ProductReaderImpl productReaderImpl;
+
+    int page = 1;
+    int pageSize = 10;
+    Pageable pageable = PageRequest.of(page, pageSize);
 
     @BeforeEach
     void setUp() {
@@ -54,7 +60,7 @@ class ProductReaderImplTest {
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
         verify(productRepository).findAll();
-        verify(productRepository, never()).findAllByArea(anyString(), eq(1), eq(10));
+        verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
     }
 
 
@@ -63,8 +69,7 @@ class ProductReaderImplTest {
     public void whenAreaCodeProvided_shouldUseAreaCodeFilter() {
         // Given
         String areaCode = "충청남도";
-        int page = 1;
-        int pageSize = 10;
+
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
                                                             LocalDate.now().plusDays(2),
                                                     null,
@@ -83,7 +88,7 @@ class ProductReaderImplTest {
                 .sigungu("전주시")
                 .build());
 
-        given(productRepository.findAllByArea(areaCode, page, pageSize))
+        given(productRepository.findAllByArea(areaCode, pageable))
                 .willReturn(expectedProducts);
 
         // When
@@ -91,7 +96,7 @@ class ProductReaderImplTest {
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAllByArea(areaCode, page, pageSize);
+        verify(productRepository).findAllByArea(areaCode, pageable);
         verify(productRepository, never()).findAll();
     }
 
@@ -100,6 +105,7 @@ class ProductReaderImplTest {
     public void whenCategoryProvided_shouldUseCategoryFilter() {
         // Given
         String category = "호텔";
+
         int page = 1;
         int pageSize = 10;
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
@@ -113,7 +119,7 @@ class ProductReaderImplTest {
                 .category("호텔")
                 .build());
 
-        given(productRepository.findAllByCategory(category, page, pageSize))
+        given(productRepository.findAllByCategory(category, pageable))
                 .willReturn(expectedProducts);
 
         // When
@@ -121,9 +127,9 @@ class ProductReaderImplTest {
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAllByCategory(category, page, pageSize);
+        verify(productRepository).findAllByCategory(category, pageable);
         verify(productRepository, never()).findAll();
-        verify(productRepository, never()).findAllByArea(anyString(), eq(1), eq(10));
+        verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
     }
 
 
@@ -147,7 +153,7 @@ class ProductReaderImplTest {
                 .area(areaCode)
                 .build());
 
-        given(productRepository.findAllByAreaAndCategory(areaCode, category, page, pageSize))
+        given(productRepository.findAllByAreaAndCategory(areaCode, category, pageable))
                 .willReturn(expectedProducts);
 
         // When
@@ -155,9 +161,9 @@ class ProductReaderImplTest {
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAllByAreaAndCategory(areaCode, category, page, pageSize);
-        verify(productRepository, never()).findAllByArea(anyString(), eq(page), eq(pageSize));
-        verify(productRepository, never()).findAllByCategory(anyString(), eq(page), eq(pageSize));
+        verify(productRepository).findAllByAreaAndCategory(areaCode, category, pageable);
+        verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
+        verify(productRepository, never()).findAllByCategory(anyString(), eq(pageable));
         verify(productRepository, never()).findAll();
     }
 }

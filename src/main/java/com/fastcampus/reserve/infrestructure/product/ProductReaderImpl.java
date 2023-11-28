@@ -6,6 +6,8 @@ import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 
@@ -22,13 +24,15 @@ public class ProductReaderImpl implements ProductReader {
 
     @Override
     public List<Product> getAllProduct(ProductListOptionDto dto) {
+        Pageable pageable = PageRequest.of(dto.page(), dto.pageSize());
+
         if (haveAreaAndCategory(dto)) {
             return productRepository.findAllByAreaAndCategory(
-                    dto.area(), dto.category(), dto.page(), dto.pageSize());
+                    dto.area(), dto.category(), pageable);
         } else if (hasArea(dto)) {
-            return productRepository.findAllByArea(dto.area(), dto.page(), dto.pageSize());
+            return productRepository.findAllByArea(dto.area(), pageable);
         } else if (hasCategory(dto)) {
-            return productRepository.findAllByCategory(dto.category(), dto.page(), dto.pageSize());
+            return productRepository.findAllByCategory(dto.category(), pageable);
         }
         return productRepository.findAll();
     }
