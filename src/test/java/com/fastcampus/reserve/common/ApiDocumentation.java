@@ -41,12 +41,6 @@ public abstract class ApiDocumentation {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @MockBean
-    private JwtProvider jwtProvider;
-
-    @MockBean
-    private UserReader userReader;
-
     @Autowired
     protected MockMvc mockMvc;
 
@@ -60,21 +54,6 @@ public abstract class ApiDocumentation {
 
     protected OperationResponsePreprocessor getDocumentResponse() {
         return preprocessResponse(prettyPrint());
-    }
-
-    protected void mockSecuritySetting() {
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
-        PrincipalDetails principal = new PrincipalDetails(1L, authorities);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                principal,
-                "",
-                authorities
-        );
-
-        when(userReader.findById(anyLong())).thenReturn(createUser());
-        when(jwtProvider.validate(anyString())).thenReturn(true);
-        when(jwtProvider.resolveToken(anyString())).thenReturn("token");
-        when(jwtProvider.getAuthentication(anyString())).thenReturn(authentication);
     }
 
     protected Attribute getTimeFormat() {

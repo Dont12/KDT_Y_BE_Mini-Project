@@ -9,13 +9,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.common.ApiDocumentation;
+import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 
-public class UserDocumentationTest extends ApiDocumentation {
+public class UserDocumentationTest extends SecurityApiDocumentation {
 
     @Test
     void signup() throws Exception {
