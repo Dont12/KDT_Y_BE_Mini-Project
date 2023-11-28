@@ -20,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -75,15 +74,5 @@ public class Order extends BaseTimeEntity {
 
     public void addOrderItem(OrderItem orderItem) {
         orderItems.add(orderItem);
-    }
-
-    @Getter
-    @RequiredArgsConstructor
-    public enum StatusType {
-        INIT("예약 신청"),
-        COMPLETE("결제 완료"),
-        ;
-
-        private final String description;
     }
 }
