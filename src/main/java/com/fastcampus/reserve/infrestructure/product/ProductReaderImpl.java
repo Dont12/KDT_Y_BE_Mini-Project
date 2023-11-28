@@ -1,15 +1,30 @@
 package com.fastcampus.reserve.infrestructure.product;
 
+
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
+import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Slf4j
-@Component
+
+@Repository
 @RequiredArgsConstructor
 public class ProductReaderImpl implements ProductReader {
+
+    private final ProductRepository productRepository;
+
+    @Override
+    public Product getProduct(Long id) {
+        return productRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
+    public List<Product> getAllProduct(ProductListOptionDto dto) {
+        return productRepository.findAll();
+    }
 
     @Override
     public Product findByIdWithImage(Long id) {

@@ -1,8 +1,11 @@
 package com.fastcampus.reserve.restdocs.order.mock;
 
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.ProductReader;
+import java.time.LocalDate;
+import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -10,6 +13,16 @@ import org.springframework.test.util.ReflectionTestUtils;
 @Primary
 @Component
 public class FakeProductReader implements ProductReader {
+
+    @Override
+    public Product getProduct(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Product> getAllProduct(ProductListOptionDto dto) {
+        return null;
+    }
 
     @Override
     public Product findByIdWithImage(Long id) {
