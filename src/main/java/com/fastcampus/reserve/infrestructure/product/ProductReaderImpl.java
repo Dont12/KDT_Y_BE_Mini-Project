@@ -9,10 +9,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 
-
 @Repository
 @RequiredArgsConstructor
 public class ProductReaderImpl implements ProductReader {
+
+
+
 
     private final ProductRepository productRepository;
     
