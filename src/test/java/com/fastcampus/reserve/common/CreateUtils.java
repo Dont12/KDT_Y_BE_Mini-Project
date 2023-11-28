@@ -6,10 +6,8 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import com.fastcampus.reserve.domain.user.User;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import org.springframework.test.util.ReflectionTestUtils;
 
 public final class CreateUtils {
 
@@ -26,20 +24,14 @@ public final class CreateUtils {
     }
 
     public static Order createOrder() {
-        Order order = Order.builder()
-                .payment(Payment.CARD)
+        return Order.builder()
+                .userId(-1L)
                 .reserveName("reserveName")
                 .reservePhone("010-0000-0000")
                 .userName("userName")
                 .userPhone("010-0000-0000")
+                .payment(Payment.CARD)
                 .build();
-        order.addOrderItem(createOrderItem());
-        ReflectionTestUtils.setField(
-                order,
-                "createdDate",
-                LocalDateTime.of(2023, 11, 25, 15, 30)
-        );
-        return order;
     }
 
     public static RegisterOrder createRegisterOrder() {
@@ -54,9 +46,12 @@ public final class CreateUtils {
     public static OrderItem createOrderItem() {
         return OrderItem.builder()
                 .productId(-1L)
+                .productName("숙박 업소 이름")
                 .roomId(-1L)
-                .price(99000)
+                .roomName("방 이름")
+                .imageUrl("이미지 URL")
                 .guestCount(2)
+                .price(99000)
                 .baseGuestCount(2)
                 .maxGuestCount(4)
                 .checkInDate(LocalDate.now())
