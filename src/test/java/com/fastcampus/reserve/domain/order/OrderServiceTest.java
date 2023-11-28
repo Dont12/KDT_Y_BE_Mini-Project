@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createRegisterOrder;
+import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
@@ -9,7 +11,6 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
-import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -52,7 +53,7 @@ class OrderServiceTest {
                 120000
         );
         RegisterOrderDto request = new RegisterOrderDto(-1L, List.of(registerOrderItemDto));
-        RegisterOrder registerOrder = request.toEntity();
+        RegisterOrder registerOrder = request.toEntity(createUser());
 
         when(registerOrderFactory.create(request))
                 .thenReturn(registerOrder);
@@ -90,25 +91,5 @@ class OrderServiceTest {
 
         // then
         assertThat(result).isNotNull();
-    }
-
-    private static RegisterOrder createRegisterOrder() {
-        return RegisterOrder.builder()
-                .userId(-1L)
-                .orderItems(createOrderItems())
-                .build();
-    }
-
-    private static List<OrderItem> createOrderItems() {
-        return List.of(OrderItem.builder()
-                .productId(-1L)
-                .roomId(-1L)
-                .guestCount(2)
-                .price(139000)
-                .checkInDate(LocalDate.now())
-                .checkInTime(LocalTime.of(15, 0))
-                .checkOutDate(LocalDate.now().plusDays(1))
-                .checkOutTime(LocalTime.of(12, 0))
-                .build());
     }
 }

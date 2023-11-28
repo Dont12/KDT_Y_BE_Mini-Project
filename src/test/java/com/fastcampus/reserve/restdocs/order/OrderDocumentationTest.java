@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.restdocs.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -19,7 +20,6 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
-import com.fastcampus.reserve.domain.user.User;
 import com.fastcampus.reserve.domain.user.UserReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
@@ -46,7 +46,7 @@ public class OrderDocumentationTest extends ApiDocumentation {
     @Test
     void registerOrder() throws Exception {
         mockSecuritySetting();
-        when(userReader.findById(anyLong())).thenReturn(User.builder().build());
+        when(userReader.findById(anyLong())).thenReturn(createUser());
 
         Map<String, Object> registerOrder = createRegisterOrder();
         byte[] param = objectMapper.writeValueAsBytes(registerOrder);
@@ -113,6 +113,8 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
         RegisterOrder registerOrder = RegisterOrder.builder()
                 .userId(-1L)
+                .name("userName")
+                .phone("010-0000-0000")
                 .orderItems(List.of(orderItem))
                 .build();
 
