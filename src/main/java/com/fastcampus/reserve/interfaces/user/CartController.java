@@ -3,8 +3,10 @@ package com.fastcampus.reserve.interfaces.user;
 import com.fastcampus.reserve.application.user.CartFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
+import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderResponse;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemDeleteRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartOrderRequest;
 import com.fastcampus.reserve.interfaces.user.dto.response.CartListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -66,5 +68,17 @@ public class CartController {
         cartFacade.deleteItems(userId, dto);
 
         return CommonResponse.ok();
+    }
+
+    @PostMapping("/order")
+    public CommonResponse<RegisterOrderResponse> order(
+        @AuthenticationPrincipal PrincipalDetails principal,
+        @RequestBody CartOrderRequest request
+    ) {
+        Long userId = principal.id();
+        var dto = mapper.of(request);
+
+        var response = cartFacade.order(userId, dto);
+        return CommonResponse.ok(mapper.of(response));
     }
 }

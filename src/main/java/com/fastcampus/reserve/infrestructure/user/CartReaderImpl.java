@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.infrestructure.user;
 
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.user.Cart;
 import com.fastcampus.reserve.domain.user.CartReader;
 import com.fastcampus.reserve.domain.user.User;
@@ -20,5 +22,11 @@ public class CartReaderImpl implements CartReader {
     @Override
     public Page<Cart> getCartItems(User user, Pageable pageable) {
         return cartRepository.findByUser(user, pageable);
+    }
+
+    @Override
+    public Cart getCartItem(Long id) {
+        return cartRepository.findById(id)
+            .orElseThrow(() -> new CustomException(ErrorCode.INVALID_CART_ITEM));
     }
 }
