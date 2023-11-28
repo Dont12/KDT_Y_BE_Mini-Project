@@ -7,6 +7,7 @@ import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.RegisterOrderFactory;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
@@ -60,6 +61,8 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 )
                 .guestCount(registerOrderItem.guestCount())
                 .price(registerOrderItem.price())
+                .baseGuestCount(room.getBaseGuestCount())
+                .maxGuestCount(room.getMaxGuestCount())
                 .checkInTime(registerOrderItem.checkInTime())
                 .checkInDate(registerOrderItem.checkInDate())
                 .checkOutTime(registerOrderItem.checkOutTime())
