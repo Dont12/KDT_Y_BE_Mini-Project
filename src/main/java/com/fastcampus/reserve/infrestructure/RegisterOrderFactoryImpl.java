@@ -1,5 +1,8 @@
 package com.fastcampus.reserve.infrestructure;
 
+import static com.fastcampus.reserve.common.response.ErrorCode.NOT_EXIST_IMAGE;
+
+import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.RegisterOrderFactory;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
@@ -52,7 +55,7 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 .productName(product.getName())
                 .roomId(room.getId())
                 .roomName(room.getName())
-                .imageUrl(room.getFirstImage().orElse(null))
+                .imageUrl(room.getFirstImage().orElseThrow(() -> new CustomException(NOT_EXIST_IMAGE)))
                 .guestCount(registerOrderItem.guestCount())
                 .price(registerOrderItem.price())
                 .checkInTime(registerOrderItem.checkInTime())
