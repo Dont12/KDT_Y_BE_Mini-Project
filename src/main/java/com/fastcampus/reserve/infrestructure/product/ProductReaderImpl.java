@@ -22,10 +22,12 @@ public class ProductReaderImpl implements ProductReader {
 
     @Override
     public List<Product> getAllProduct(ProductListOptionDto dto) {
-        if (dto.areaCode() != null && !dto.areaCode().isEmpty()) {
-            return productRepository.findAllByArea(dto.areaCode(), dto.page(), dto.pageSize());
-        }
-        if (dto.category() != null && !dto.category().isEmpty()) {
+        if (haveAreaAndCategory(dto)) {
+            return productRepository.findAllByAreaAndCategory(
+                    dto.area(), dto.category(), dto.page(), dto.pageSize());
+        } else if (hasArea(dto)) {
+            return productRepository.findAllByArea(dto.area(), dto.page(), dto.pageSize());
+        } else if (hasCategory(dto)) {
             return productRepository.findAllByCategory(dto.category(), dto.page(), dto.pageSize());
         }
         return productRepository.findAll();
@@ -34,5 +36,18 @@ public class ProductReaderImpl implements ProductReader {
     @Override
     public Product findByIdWithImage(Long id) {
         return null;
+    }
+
+    private boolean hasCategory(ProductListOptionDto dto) {
+        return dto.category() != null && !dto.category().isEmpty();
+    }
+
+    private boolean hasArea(ProductListOptionDto dto) {
+        return dto.area() != null && !dto.area().isEmpty();
+    }
+
+    private boolean haveAreaAndCategory(ProductListOptionDto dto) {
+        return dto.area() != null && !dto.area().isEmpty()
+                && dto.category() != null && !dto.category().isEmpty();
     }
 }
