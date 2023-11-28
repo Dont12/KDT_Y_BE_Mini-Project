@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.restdocs.user;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.NUMBER;
@@ -8,27 +9,28 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.common.ApiDocumentation;
-import com.fastcampus.reserve.common.RestAssuredUtils;
-import com.fastcampus.reserve.common.SecurityApiDocumentation;
+import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.room.Room;
+import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.user.Cart;
+import com.fastcampus.reserve.infrestructure.product.room.RoomRepository;
 import com.fastcampus.reserve.infrestructure.user.CartRepository;
-import com.fastcampus.reserve.infrestructure.user.UserRepository;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemDeleteRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.SignupRequest;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import io.restassured.response.ExtractableResponse;
-import io.restassured.response.Response;
 import jakarta.servlet.http.Cookie;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -36,6 +38,8 @@ public class CartDocumentationTest extends ApiDocumentation {
 
     @Autowired
     private CartRepository cartRepository;
+    @MockBean
+    private RoomRepository roomRepository;
 
     @Test
     void addItem() throws Exception {
@@ -118,6 +122,88 @@ public class CartDocumentationTest extends ApiDocumentation {
                     fieldWithPath("status").ignored()
                 )
             ));
+    }
+
+    @Test
+    void getList() throws Exception {
+        // given
+        String email = "b@a.com";
+        String password = "password";
+        signup(email, password);
+
+        Cookie cookie = login(email, password);
+
+        cartRepository.deleteAll();
+        addCartItem(cookie);
+        addCartItem(cookie);
+
+        Product product = Product.builder().id(10L).description("description")
+            .address("address").area("area").category("category")
+            .latitude("0.0").longitude("0.0").sigungu("sigungu")
+            .zipCode("00000").name("name").build();
+        Room room = Room.builder().id(1L).product(product).stock(3)
+            .price(10000).checkInTime("11:11").checkOutTime("12:12")
+            .maxGuestCount(4).baseGuestCount(2).roomFacilities("abcabc")
+            .name("name").build();
+        room.addImage(RoomImage.builder().url("url").build());
+        when(roomRepository.findByIdWithImage(1L)).thenReturn(Optional.of(room));
+
+        this.mockMvc.perform(
+                get("/v1/carts")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .cookie(cookie)
+            )
+            .andExpect(status().isOk())
+            .andDo(document(
+                "carts/getList/success",
+                getDocumentRequest(),
+                getDocumentResponse(),
+                responseFields(
+                    fieldWithPath("status").ignored(),
+                    fieldWithPath("data.page.size").type(NUMBER)
+                        .description("items의 개수"),
+                    fieldWithPath("data.page.maxPage").type(NUMBER)
+                        .description("마지막 페이지 번호"),
+                    fieldWithPath("data.page.totalCount").type(NUMBER)
+                        .description("모든 페이지 통틀어 item의 총 개수"),
+                    fieldWithPath("data.totalPrice").type(NUMBER)
+                        .description("총 가격"),
+                    fieldWithPath("data.items[].id").type(NUMBER)
+                        .description("장바구니 id"),
+                    fieldWithPath("data.items[].product.productId").type(NUMBER)
+                        .description("숙박지 id"),
+                    fieldWithPath("data.items[].product.productName").type(STRING)
+                        .description("숙박지 이름"),
+                    fieldWithPath("data.items[].product.roomId").type(NUMBER)
+                        .description("방 id"),
+                    fieldWithPath("data.items[].product.imageUrl").type(STRING)
+                        .description("상품 이미지 URL"),
+                    fieldWithPath("data.items[].product.address").type(STRING)
+                        .description("숙박지 주소"),
+                    fieldWithPath("data.items[].product.baseGuestCount").type(NUMBER)
+                        .description("기준 투숙객 수"),
+                    fieldWithPath("data.items[].product.maxGuestCount").type(NUMBER)
+                        .description("최대 투숙객 수"),
+                    fieldWithPath("data.items[].product.price").type(NUMBER)
+                        .description("방 가격"),
+                    fieldWithPath("data.items[].product.checkInTime").type(STRING)
+                        .description("체크인 시간"),
+                    fieldWithPath("data.items[].product.checkOutTime").type(STRING)
+                        .description("체크아웃 시간"),
+                    fieldWithPath("data.items[].product.stock").type(NUMBER)
+                        .description("재고 수량"),
+                    fieldWithPath("data.items[].checkInDate").type(STRING)
+                        .description("체크인 날짜"),
+                    fieldWithPath("data.items[].checkOutDate").type(STRING)
+                        .description("체크아웃 날짜"),
+                    fieldWithPath("data.items[].numberOfNights").type(NUMBER)
+                        .description("숙박 일수"),
+                    fieldWithPath("data.items[].guestCount").type(NUMBER)
+                        .description("게스트 수")
+                )
+                )
+            );
     }
 
     private CartItemAddRequest createCartItemAddRequest() {
