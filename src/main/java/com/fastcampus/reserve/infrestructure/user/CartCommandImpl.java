@@ -2,6 +2,7 @@ package com.fastcampus.reserve.infrestructure.user;
 
 import com.fastcampus.reserve.domain.user.Cart;
 import com.fastcampus.reserve.domain.user.CartCommand;
+import com.fastcampus.reserve.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,11 @@ public class CartCommandImpl implements CartCommand {
 
     @Override
     public void deleteById(Long id) {
+        cartRepository.deleteById(id);
+    }
 
+    @Override
+    public boolean isValid(User user, Long cartId) {
+        return cartRepository.existsByUserAndId(user, cartId);
     }
 }

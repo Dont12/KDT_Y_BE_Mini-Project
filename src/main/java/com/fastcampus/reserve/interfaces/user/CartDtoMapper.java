@@ -1,10 +1,12 @@
 package com.fastcampus.reserve.interfaces.user;
 
 import com.fastcampus.reserve.domain.user.dto.request.CartItemAddDto;
+import com.fastcampus.reserve.domain.user.dto.request.CartItemDeleteDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartDetailItemDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartListDto;
 import com.fastcampus.reserve.domain.user.dto.response.PageDto;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartItemDeleteRequest;
 import com.fastcampus.reserve.interfaces.user.dto.response.CartDetailItemResponse;
 import com.fastcampus.reserve.interfaces.user.dto.response.CartListResponse;
 import com.fastcampus.reserve.interfaces.user.dto.response.PageResponse;
@@ -37,4 +39,6 @@ public interface CartDtoMapper {
     CartDetailItemResponse of(CartDetailItemDto cartDetailItemDto);
 
     PageResponse of(PageDto dto);
+
+    CartItemDeleteDto of(CartItemDeleteRequest request);
 }

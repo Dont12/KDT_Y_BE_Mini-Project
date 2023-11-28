@@ -4,6 +4,7 @@ import com.fastcampus.reserve.domain.product.ProductService;
 import com.fastcampus.reserve.domain.user.CartService;
 import com.fastcampus.reserve.domain.user.UserService;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemAddDto;
+import com.fastcampus.reserve.domain.user.dto.request.CartItemDeleteDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartDetailItemDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartItemDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartListDto;
@@ -44,5 +45,10 @@ public class CartFacade {
         RoomDetailDto roomDetailDto =
             productService.getRoomDetail(cartItemDto.roomId());
         return CartDetailItemDto.from(cartItemDto, roomDetailDto);
+    }
+
+    public void deleteItems(Long userId, CartItemDeleteDto dto) {
+        var user = userService.getUser(userId);
+        cartService.deleteItems(user, dto);
     }
 }
