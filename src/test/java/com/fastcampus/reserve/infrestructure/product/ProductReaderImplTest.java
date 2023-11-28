@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.infrestructure.product;
 
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.anyString;
@@ -12,13 +13,12 @@ import com.fastcampus.reserve.domain.product.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.time.LocalDate;
 import org.mockito.InjectMocks;
-import java.util.Collections;
-import java.util.List;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.List;
 
 class ProductReaderImplTest {
     @Mock
