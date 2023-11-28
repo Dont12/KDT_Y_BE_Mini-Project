@@ -1,11 +1,13 @@
 package com.fastcampus.reserve.interfaces.product;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.application.ProductFacade;
+import com.fastcampus.reserve.domain.dto.response.ProductDto;
 import com.fastcampus.reserve.interfaces.product.dto.response.ProductResponse;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,8 +41,10 @@ class ProductApiControllerTest {
     @Test
     @WithMockUser
     void testGetProducts() throws Exception {
-        when(productFacade.getProducts(null, null, null, null, 0, 0))
-                .thenReturn(List.of(new ProductResponse(1L, "name", 0, "imageUrl")));
+        when(productFacade.getProducts(any()))
+                .thenReturn(
+                    List.of(new ProductDto(1L, "name", 0, "imageUrl"))
+                );
 
         mockMvc.perform(get("/products"))
                 .andExpect(status().isBadRequest())
