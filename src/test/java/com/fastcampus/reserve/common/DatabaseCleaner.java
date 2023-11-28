@@ -3,8 +3,10 @@ package com.fastcampus.reserve.common;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +21,12 @@ public class DatabaseCleaner {
     @SuppressWarnings("unchecked")
     @PostConstruct
     private void findDatabaseTableNames() {
-        List<Object[]> tableInfos = entityManager.createNativeQuery("SHOW TABLES").getResultList();
+        Query showTables = entityManager.createNativeQuery("SHOW TABLES");
+        if (Objects.isNull(showTables)) {
+            return;
+        }
+
+        List<Object[]> tableInfos = showTables.getResultList();
         for (Object[] tableInfo : tableInfos) {
             String tableName = (String) tableInfo[0];
             tableNames.add(tableName);
