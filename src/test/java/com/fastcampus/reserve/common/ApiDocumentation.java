@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.common;
 
+import static com.fastcampus.reserve.common.CreateUtils.createUser;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
@@ -10,6 +12,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.common.security.jwt.JwtProvider;
+import com.fastcampus.reserve.domain.user.UserReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +44,9 @@ public abstract class ApiDocumentation {
     @MockBean
     private JwtProvider jwtProvider;
 
+    @MockBean
+    private UserReader userReader;
+
     @Autowired
     protected MockMvc mockMvc;
 
@@ -65,6 +71,7 @@ public abstract class ApiDocumentation {
                 authorities
         );
 
+        when(userReader.findById(anyLong())).thenReturn(createUser());
         when(jwtProvider.validate(anyString())).thenReturn(true);
         when(jwtProvider.resolveToken(anyString())).thenReturn("token");
         when(jwtProvider.getAuthentication(anyString())).thenReturn(authentication);
