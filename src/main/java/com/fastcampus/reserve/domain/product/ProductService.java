@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.product;
 
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.dto.response.ProductDto;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +17,9 @@ public class ProductService {
 
     private final ProductReader productReader;
 
-    public List<Product> getAllProducts(LocalDate checkIn,
-                                        LocalDate checkOut,
-                                        String category,
-                                        String areaCode,
-                                        int page,
-                                        int pageSize) {
-        return productReader.getAllProduct(checkIn, checkOut, category, areaCode, page, pageSize);
+    public List<ProductDto> getAllProducts(ProductListOptionDto dto) {
+        return productReader.getAllProduct(dto).stream()
+            .map(ProductDto::from)
+            .toList();
     }
 }

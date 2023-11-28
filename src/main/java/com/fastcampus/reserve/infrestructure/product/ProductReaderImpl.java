@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.infrestructure.product;
 
 
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import java.time.LocalDate;
@@ -13,11 +14,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class ProductReaderImpl implements ProductReader {
 
-
-
-
     private final ProductRepository productRepository;
-
 
     @Override
     public Product getProduct(Long id) {
@@ -25,12 +22,7 @@ public class ProductReaderImpl implements ProductReader {
     }
 
     @Override
-    public List<Product> getAllProduct(LocalDate checkIn,
-                                       LocalDate checkOut,
-                                       String category,
-                                       String areaCode,
-                                       int page,
-                                       int pageSize) {
+    public List<Product> getAllProduct(ProductListOptionDto dto) {
         return productRepository.findAll();
     }
 

@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.restdocs.order.mock;
 
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.ProductReader;
@@ -19,12 +20,7 @@ public class FakeProductReader implements ProductReader {
     }
 
     @Override
-    public List<Product> getAllProduct(LocalDate checkIn,
-                                       LocalDate checkOut,
-                                       String category,
-                                       String areaCode,
-                                       int page,
-                                       int pageSize) {
+    public List<Product> getAllProduct(ProductListOptionDto dto) {
         return null;
     }
 

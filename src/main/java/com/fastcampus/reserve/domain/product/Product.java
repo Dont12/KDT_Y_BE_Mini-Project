@@ -97,6 +97,10 @@ public class Product extends BaseTimeEntity {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    public String getImageUrl() {
+        return this.images.get(0).getUrl();
+    }
+
     public enum CategoryType {
         HOTEL, MOTEL, PENSION
     }

@@ -1,6 +1,8 @@
 package com.fastcampus.reserve.application;
 
 
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.dto.response.ProductDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductService;
 import com.fastcampus.reserve.interfaces.product.ProductDtoMapper;
@@ -17,20 +19,9 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ProductFacade {
     private final ProductService productService;
-    private final ProductDtoMapper productDtoMapper;
 
-    public List<ProductResponse> getProducts(
-            LocalDate checkIn,
-            LocalDate checkOut,
-            String category,
-            String areaCode,
-            int page,
-            int pageSize) {
-        List<Product> allProducts = productService.getAllProducts(
-                checkIn, checkOut, category, areaCode, page, pageSize);
-        return allProducts.stream()
-                .map(productDtoMapper::toEntity)
-                .collect(Collectors.toList());
+    public List<ProductDto> getProducts(ProductListOptionDto dto) {
+        return productService.getAllProducts(dto);
     }
 
 }

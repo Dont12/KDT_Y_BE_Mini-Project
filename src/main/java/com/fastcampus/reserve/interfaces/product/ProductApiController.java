@@ -2,6 +2,7 @@ package com.fastcampus.reserve.interfaces.product;
 
 import com.fastcampus.reserve.application.ProductFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
+import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.interfaces.product.dto.response.ProductResponse;
 import java.time.LocalDate;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductApiController {
 
     private final ProductFacade productFacade;
+    private final ProductDtoMapper mapper;
 
     @GetMapping
     public CommonResponse<List<ProductResponse>> getProducts(
@@ -29,7 +31,11 @@ public class ProductApiController {
             @RequestParam(required = false, defaultValue = "1") int page,
             @RequestParam(required = false, defaultValue = "10") int pageSize
     ) {
-        return CommonResponse.ok(
-                productFacade.getProducts(checkIn, checkOut, category, areaCode, page, pageSize));
+        var requestDto = new ProductListOptionDto(
+            checkIn, checkOut, category, areaCode, page, pageSize
+        );
+
+        var responseDto = productFacade.getProducts(requestDto);
+        return CommonResponse.ok(mapper.of(responseDto));
     }
 }
