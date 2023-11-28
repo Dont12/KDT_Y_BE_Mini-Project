@@ -84,7 +84,9 @@ public final class RestAssuredUtils {
             .extract();
     }
 
-    public static ExtractableResponse<Response> postWithCustomLogin(String url, CartItemAddRequest request, String accessToken) {
+    public static ExtractableResponse<Response> postWithCustomLogin(
+        String url, CartItemAddRequest request, String accessToken
+    ) {
         return RestAssured
             .given().log().all()
             .cookie(TOKEN_COOKIE_NAME, accessToken)
