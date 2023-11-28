@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.product.room;
 
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import com.fastcampus.reserve.domain.product.Product;
 import jakarta.persistence.CascadeType;
@@ -92,5 +94,22 @@ public class Room extends BaseTimeEntity {
         return images.stream()
                 .map(RoomImage::getUrl)
                 .findFirst();
+    }
+
+    public String getAddress() {
+        return this.product.getAddress();
+    }
+
+    public Long getProductId() {
+        return this.product.getId();
+    }
+
+    public String getProductName() {
+        return this.product.getName();
+    }
+
+    public String getImageUrl() {
+        return getFirstImage()
+            .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_IMAGE));
     }
 }
