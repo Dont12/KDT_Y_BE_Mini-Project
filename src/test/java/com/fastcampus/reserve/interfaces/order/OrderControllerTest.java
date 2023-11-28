@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
+import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
@@ -43,14 +44,7 @@ class OrderControllerTest extends ApiTest {
     void payment() {
         // given
         String orderToken = getOrderToken();
-
-        PaymentRequest request = new PaymentRequest(
-                orderToken,
-                "userName",
-                "010-0000-0000",
-                99000,
-                CARD
-        );
+        PaymentRequest request = createPaymentRequest(orderToken);
 
         String url = "/v1/orders/payment";
 
@@ -62,7 +56,7 @@ class OrderControllerTest extends ApiTest {
     }
 
     @Test
-    @DisplayName("예약 신청 조회")
+    @DisplayName("예약 신청 조정")
     void getRegisterOrder() {
         // given
         String orderToken = getOrderToken();
@@ -119,6 +113,74 @@ class OrderControllerTest extends ApiTest {
         );
     }
 
+    @Test
+    @DisplayName("주문 내역 상세 조회")
+    void getOrder() {
+        // given
+        Long orderId = getOrderId();
+        String url = "/v1/orders/history/" + orderId;
+
+        // when
+        ExtractableResponse<Response> result = RestAssuredUtils.getWithLogin(url);
+
+        // then
+        JsonPath jsonPath = result.jsonPath();
+        OrderItemInfoDto response = jsonPath.getList(
+                        "data.orderItems",
+                        OrderItemInfoDto.class
+                )
+                .get(0);
+
+        assertAll(
+                () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(jsonPath.getLong("data.orderId"))
+                        .isEqualTo(orderId),
+                () -> assertThat(jsonPath.getString("data.reserveName"))
+                        .isEqualTo("nickname"),
+                () -> assertThat(jsonPath.getString("data.reservePhone"))
+                        .isEqualTo("010-0000-0000"),
+                () -> assertThat(jsonPath.getString("data.userName"))
+                        .isEqualTo("userName"),
+                () -> assertThat(jsonPath.getString("data.userPhone"))
+                        .isEqualTo("010-0000-0000"),
+                () -> assertThat(jsonPath.getInt("data.totalPrice"))
+                        .isEqualTo(99000),
+                () -> assertThat(jsonPath.getString("data.reserveDate"))
+                        .isEqualTo("2023-11-28"),
+                () -> assertThat(jsonPath.getString("data.payment"))
+                        .isEqualTo("CARD"),
+                () -> assertThat(response.orderItemId())
+                        .isEqualTo(1L),
+                () -> assertThat(response.productId())
+                        .isEqualTo(-1L),
+                () -> assertThat(response.productName())
+                        .isEqualTo("name"),
+                () -> assertThat(response.roomName())
+                        .isEqualTo("name"),
+                () -> assertThat(response.imageUrl())
+                        .isEqualTo("https://www.image.co.kr"),
+                () -> assertThat(response.maxGuestCount())
+                        .isEqualTo(4),
+                () -> assertThat(response.baseGuestCount())
+                        .isEqualTo(2),
+                () -> assertThat(response.checkInTime())
+                        .isEqualTo(LocalTime.of(15, 0)),
+                () -> assertThat(response.checkInDate())
+                        .isEqualTo(LocalDate.of(2023, 11, 28)),
+                () -> assertThat(response.checkOutTime())
+                        .isEqualTo(LocalTime.of(12, 0)),
+                () -> assertThat(response.checkOutDate())
+                        .isEqualTo(LocalDate.of(2023, 11, 29))
+        );
+    }
+
+    private String getOrderToken() {
+        return RestAssuredUtils
+                .postWithLogin("/v1/orders", createRequestOrderRequest())
+                .jsonPath()
+                .getString("data.orderToken");
+    }
+
     private RegisterOrderRequest createRequestOrderRequest() {
         return new RegisterOrderRequest(List.of(createRegisterOrderItemRequest()));
     }
@@ -136,10 +198,22 @@ class OrderControllerTest extends ApiTest {
         );
     }
 
-    private String getOrderToken() {
-        return RestAssuredUtils
-                .postWithLogin("/v1/orders", createRequestOrderRequest())
+    private Long getOrderId() {
+        String orderToken = getOrderToken();
+        PaymentRequest request = createPaymentRequest(orderToken);
+
+        return RestAssuredUtils.postWithLogin("/v1/orders/payment", request)
                 .jsonPath()
-                .getString("data.orderToken");
+                .getLong("data.orderId");
+    }
+
+    private PaymentRequest createPaymentRequest(String orderToken) {
+        return new PaymentRequest(
+                orderToken,
+                "userName",
+                "010-0000-0000",
+                99000,
+                CARD
+        );
     }
 }
