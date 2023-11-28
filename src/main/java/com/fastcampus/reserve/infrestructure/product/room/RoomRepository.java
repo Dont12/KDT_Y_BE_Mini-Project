@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface RoomRepository extends CrudRepository<Room, Long> {
 
-    @Query("SELECT r FROM Room r LEFT JOIN FETCH r.images LEFT JOIN FETCH r.product WHERE r.id = :id")
+    @Query(
+        "SELECT r FROM Room r LEFT JOIN FETCH r.images LEFT JOIN FETCH r.product WHERE r.id = :id"
+    )
     Optional<Room> findByIdWithImage(@Param("id") Long id);
 }
