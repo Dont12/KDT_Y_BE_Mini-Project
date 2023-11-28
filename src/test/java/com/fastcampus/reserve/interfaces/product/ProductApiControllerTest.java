@@ -42,9 +42,9 @@ class ProductApiControllerTest {
     @WithMockUser
     void testGetProducts() throws Exception {
         when(productFacade.getProducts(any()))
-                .thenReturn(
-                    List.of(new ProductDto(1L, "name", 0, "imageUrl"))
-                );
+            .thenReturn(
+                List.of(new ProductDto(1L, "name", 0, "imageUrl"))
+            );
 
         mockMvc.perform(get("/products"))
                 .andExpect(status().isBadRequest())
