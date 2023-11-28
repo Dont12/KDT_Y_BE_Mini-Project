@@ -8,7 +8,6 @@ import com.fastcampus.reserve.common.RestAssuredUtils;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
@@ -38,9 +37,10 @@ class OrderControllerTest extends ApiTest {
     @DisplayName("예약 결제")
     void payment() {
         // given
-        JsonPath jsonPath = RestAssuredUtils
-                .postWithLogin("/v1/orders", createRequestOrderRequest()).jsonPath();
-        String orderToken = jsonPath.getString("data.orderToken");
+        String orderToken = RestAssuredUtils
+                .postWithLogin("/v1/orders", createRequestOrderRequest())
+                .jsonPath()
+                .getString("data.orderToken");
 
         PaymentRequest request = new PaymentRequest(
                 orderToken,
