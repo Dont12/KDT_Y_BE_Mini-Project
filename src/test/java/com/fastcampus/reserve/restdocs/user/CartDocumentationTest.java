@@ -127,7 +127,7 @@ public class CartDocumentationTest extends ApiDocumentation {
     @Test
     void getList() throws Exception {
         // given
-        String email = "b@a.com";
+        String email = "c@a.com";
         String password = "password";
         signup(email, password);
 
