@@ -36,6 +36,8 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 .collect(Collectors.toList());
         return RegisterOrder.builder()
                 .userId(user.getId())
+                .name(user.getNickname())
+                .phone(user.getPhone())
                 .orderItems(orderItems)
                 .build();
     }
