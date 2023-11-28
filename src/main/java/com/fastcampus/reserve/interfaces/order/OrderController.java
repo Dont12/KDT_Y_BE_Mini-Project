@@ -6,14 +6,17 @@ import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
 import com.fastcampus.reserve.interfaces.order.dto.response.PaymentResponse;
+import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderInfoResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
@@ -41,5 +44,13 @@ public class OrderController {
     ) {
         var orderId = orderFacade.payment(mapper.of(request));
         return CommonResponse.ok(mapper.of(orderId));
+    }
+
+    @GetMapping
+    public CommonResponse<RegisterOrderInfoResponse> getRegisterOrder(
+            @RequestParam String orderToken
+    ) {
+        var response = orderFacade.findRegisterOrder(orderToken);
+        return CommonResponse.ok(mapper.of(response));
     }
 }
