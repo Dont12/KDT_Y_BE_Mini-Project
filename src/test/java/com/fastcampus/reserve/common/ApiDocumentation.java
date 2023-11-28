@@ -66,7 +66,7 @@ public abstract class ApiDocumentation {
         );
 
         when(jwtProvider.validate(anyString())).thenReturn(true);
-        when(jwtProvider.resolveToken(anyString())).thenReturn("toke");
+        when(jwtProvider.resolveToken(anyString())).thenReturn("token");
         when(jwtProvider.getAuthentication(anyString())).thenReturn(authentication);
     }
 

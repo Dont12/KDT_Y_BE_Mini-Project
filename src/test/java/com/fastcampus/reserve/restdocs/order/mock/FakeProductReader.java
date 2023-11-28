@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.infrestructure;
+package com.fastcampus.reserve.restdocs.order.mock;
 
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @Primary
 @Component
@@ -46,6 +47,8 @@ public class FakeProductReader implements ProductReader {
                 .build();
 
         product.addImage(productImage);
+
+        ReflectionTestUtils.setField(product, "id", -1L);
 
         return product;
     }

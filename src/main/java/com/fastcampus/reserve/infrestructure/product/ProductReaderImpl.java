@@ -17,7 +17,7 @@ public class ProductReaderImpl implements ProductReader {
 
 
     private final ProductRepository productRepository;
-    
+
 
     @Override
     public Product getProduct(Long id) {
@@ -38,6 +38,4 @@ public class ProductReaderImpl implements ProductReader {
     public Product findByIdWithImage(Long id) {
         return null;
     }
-
-
 }

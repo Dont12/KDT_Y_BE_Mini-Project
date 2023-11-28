@@ -1,10 +1,11 @@
-package com.fastcampus.reserve.infrestructure;
+package com.fastcampus.reserve.restdocs.order.mock;
 
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @Primary
 @Component
@@ -27,6 +28,8 @@ public class FakeRoomReader implements RoomReader {
                 .build();
 
         room.addImage(roomImage);
+
+        ReflectionTestUtils.setField(room, "id", -1L);
 
         return room;
     }
