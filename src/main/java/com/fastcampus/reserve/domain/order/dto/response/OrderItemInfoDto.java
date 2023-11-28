@@ -10,10 +10,8 @@ public record OrderItemInfoDto(
         Long orderItemId,
         Long productId,
         String productName,
-        Long roomId,
         String roomName,
         String imageUrl,
-        Integer guestCount,
         Integer maxGuestCount,
         Integer baseGuestCount,
         LocalTime checkInTime,
@@ -27,10 +25,8 @@ public record OrderItemInfoDto(
                 .orderItemId(orderItem.getId())
                 .productId(orderItem.getProductId())
                 .productName(orderItem.getProductName())
-                .roomId(orderItem.getRoomId())
                 .roomName(orderItem.getRoomName())
                 .imageUrl(orderItem.getImageUrl())
-                .guestCount(orderItem.getGuestCount())
                 .maxGuestCount(orderItem.getMaxGuestCount())
                 .baseGuestCount(orderItem.getBaseGuestCount())
                 .checkInTime(orderItem.getCheckInTime())
