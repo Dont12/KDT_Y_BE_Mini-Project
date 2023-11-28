@@ -14,6 +14,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -22,6 +23,8 @@ class UserServiceTest {
     private UserCommand userCommand;
     @Mock
     private UserReader userReader;
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     @InjectMocks
     private UserService userService;
@@ -31,7 +34,7 @@ class UserServiceTest {
     void signup_success() {
         // given
         SignupDto dto = new SignupDto(
-            "a@a.com",
+            "z@a.com",
             "password",
             "nickname",
             "010-0000-0000"

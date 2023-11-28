@@ -3,6 +3,7 @@ package com.fastcampus.reserve.domain.order;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
@@ -26,6 +27,8 @@ class OrderServiceTest {
 
     @Mock
     private RedisService redisService;
+    @Mock
+    private RegisterOrderFactory registerOrderFactory;
 
     @Test
     @DisplayName("숙소 예약 신청 성공")
@@ -42,7 +45,10 @@ class OrderServiceTest {
                 120000
         );
         RegisterOrderDto request = new RegisterOrderDto(-1L, List.of(registerOrderItemDto));
+        RegisterOrder registerOrder = request.toEntity();
 
+        when(registerOrderFactory.create(request))
+                .thenReturn(registerOrder);
         doNothing().when(redisService)
                 .set(any(String.class), any(RegisterOrder.class), any(Long.class));
 

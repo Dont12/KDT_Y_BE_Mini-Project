@@ -31,8 +31,8 @@ public class UserDocumentationTest extends ApiDocumentation {
     @Test
     void signup() throws Exception {
         Map<String, Object> request = new HashMap<>();
-        request.put("email", "a@a.com");
-        request.put("password", "a@a.com");
+        request.put("email", "c@a.com");
+        request.put("password", "password");
         request.put("nickname", "nickname");
         request.put("phone", "010-0000-0000");
 
