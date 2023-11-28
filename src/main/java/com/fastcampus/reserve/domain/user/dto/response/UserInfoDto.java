@@ -11,8 +11,8 @@ public record UserInfoDto(
     public static UserInfoDto from(User user) {
         return new UserInfoDto(
             user.getEmail(),
-            user.getNickname(),
-            user.getPhone()
+            user.getPhone(),
+            user.getNickname()
         );
     }
 }

@@ -6,6 +6,7 @@ import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
+import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class OrderService {
 
-    private static final long INIT_ORDER_EXPIRED_TIME = 3600L;
+    private static final long INIT_ORDER_EXPIRED_TIME = 600;
 
     private final RedisService redisService;
     private final OrderCommand orderCommand;
@@ -33,8 +34,17 @@ public class OrderService {
 
     @Transactional
     public Long payment(PaymentDto dto) {
-        var registerOrder = redisService.get(dto.orderToken(), RegisterOrder.class)
-                .orElseThrow(() -> new CustomException(NOT_EXIST_REGISTER_ORDER));
+        var registerOrder = getRegisterOrder(dto.orderToken());
         return orderCommand.payment(registerOrder, dto);
+    }
+
+    public RegisterOrderInfoDto findRegisterOrder(String orderToken) {
+        var registerOrder = getRegisterOrder(orderToken);
+        return RegisterOrderInfoDto.from(orderToken, registerOrder);
+    }
+
+    private RegisterOrder getRegisterOrder(String orderToken) {
+        return redisService.get(orderToken, RegisterOrder.class)
+                .orElseThrow(() -> new CustomException(NOT_EXIST_REGISTER_ORDER));
     }
 }

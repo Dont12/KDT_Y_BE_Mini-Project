@@ -48,6 +48,12 @@ public class OrderItem extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
+    private Integer baseGuestCount;
+
+    @Column(nullable = false)
+    private Integer maxGuestCount;
+
     private Long cartId;
     private LocalDate checkInDate;
     private LocalTime checkInTime;
@@ -67,6 +73,8 @@ public class OrderItem extends BaseTimeEntity {
             String imageUrl,
             Integer guestCount,
             Integer price,
+            Integer baseGuestCount,
+            Integer maxGuestCount,
             Long cartId,
             LocalDate checkInDate,
             LocalTime checkInTime,
@@ -80,6 +88,8 @@ public class OrderItem extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.guestCount = guestCount;
         this.price = price;
+        this.baseGuestCount = baseGuestCount;
+        this.maxGuestCount = maxGuestCount;
         this.cartId = cartId;
         this.checkInDate = checkInDate;
         this.checkInTime = checkInTime;

@@ -16,6 +16,18 @@ public final class RestAssuredUtils {
     private RestAssuredUtils() {
     }
 
+    public static ExtractableResponse<Response> getWithLogin(String url) {
+        String accessToken = login();
+        return RestAssured
+                .given().log().all()
+                .cookie(TOKEN_COOKIE_NAME, accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(url)
+                .then().log().all()
+                .extract();
+    }
+
     public static ExtractableResponse<Response> postWithLogin(String url, Object param) {
         String accessToken = login();
         return RestAssured
@@ -57,17 +69,5 @@ public final class RestAssuredUtils {
                 .then().log().all()
                 .extract();
         return response.cookie(TOKEN_COOKIE_NAME);
-    }
-
-    public static ExtractableResponse<Response> getWithLogin(String url) {
-        String accessToken = login();
-        return RestAssured
-            .given().log().all()
-            .cookie(TOKEN_COOKIE_NAME, accessToken)
-            .contentType(MediaType.APPLICATION_JSON_VALUE)
-            .when()
-            .get(url)
-            .then().log().all()
-            .extract();
     }
 }

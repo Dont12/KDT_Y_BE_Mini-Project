@@ -117,7 +117,7 @@ bootJar {
 }
 
 // QueryDSL Build Option
-def querydslDir = "src/main/generated"
+def querydslDir = layout.buildDirectory.dir("generated/querydsl")
 
 sourceSets {
     main.java.srcDirs += [ querydslDir ]
