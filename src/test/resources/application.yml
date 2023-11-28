@@ -21,7 +21,7 @@ spring:
 
 redis:
   host: localhost
-  port: 25865
+  port: 6379
 
 security:
   jwt:
