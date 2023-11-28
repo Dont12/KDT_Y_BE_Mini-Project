@@ -8,6 +8,7 @@ import com.fastcampus.reserve.common.RestAssuredUtils;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
