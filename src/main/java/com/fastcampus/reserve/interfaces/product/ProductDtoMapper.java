@@ -21,7 +21,7 @@ public interface ProductDtoMapper {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "minPrice", target = "minPrice")
     @Mapping(source = "images", target = "imageUrl", qualifiedByName = "imageUrl")
-    ProductResponse of(Product product);
+    ProductResponse toEntity(Product product);
 
     // 이미지 URL을 추출하는 매핑 메서드 정의
     @Named("imageUrl")

@@ -29,7 +29,7 @@ public class ProductFacade {
         List<Product> allProducts = productService.getAllProducts(
                 checkIn, checkOut, category, areaCode, page, pageSize);
         return allProducts.stream()
-                .map(productDtoMapper::of)
+                .map(productDtoMapper::toEntity)
                 .collect(Collectors.toList());
     }
 
