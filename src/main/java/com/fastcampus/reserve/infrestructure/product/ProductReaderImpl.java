@@ -4,7 +4,6 @@ package com.fastcampus.reserve.infrestructure.product;
 import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
-import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -23,6 +22,9 @@ public class ProductReaderImpl implements ProductReader {
 
     @Override
     public List<Product> getAllProduct(ProductListOptionDto dto) {
+        if (!dto.areaCode().isEmpty()) {
+            return productRepository.findAllByArea(dto.areaCode());
+        }
         return productRepository.findAll();
     }
 
