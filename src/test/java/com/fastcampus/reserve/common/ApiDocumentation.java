@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.common;
 
+import static com.fastcampus.reserve.common.CreateUtils.createUser;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.modifyUris;
@@ -10,6 +12,7 @@ import static org.springframework.restdocs.snippet.Attributes.key;
 
 import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.common.security.jwt.JwtProvider;
+import com.fastcampus.reserve.domain.user.UserReader;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,9 +41,6 @@ public abstract class ApiDocumentation {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @MockBean
-    private JwtProvider jwtProvider;
-
     @Autowired
     protected MockMvc mockMvc;
 
@@ -54,20 +54,6 @@ public abstract class ApiDocumentation {
 
     protected OperationResponsePreprocessor getDocumentResponse() {
         return preprocessResponse(prettyPrint());
-    }
-
-    protected void mockSecuritySetting() {
-        List<SimpleGrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
-        PrincipalDetails principal = new PrincipalDetails(1L, authorities);
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                principal,
-                "",
-                authorities
-        );
-
-        when(jwtProvider.validate(anyString())).thenReturn(true);
-        when(jwtProvider.resolveToken(anyString())).thenReturn("token");
-        when(jwtProvider.getAuthentication(anyString())).thenReturn(authentication);
     }
 
     protected Attribute getTimeFormat() {
