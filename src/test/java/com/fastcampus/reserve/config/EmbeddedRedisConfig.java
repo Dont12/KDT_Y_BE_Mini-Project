@@ -13,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import redis.embedded.RedisServer;
 
-//@Configuration
+@Configuration
 public class EmbeddedRedisConfig {
 
     @Value("${redis.port}")
