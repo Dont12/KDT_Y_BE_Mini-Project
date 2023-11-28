@@ -77,15 +77,6 @@ public class CartDocumentationTest extends ApiDocumentation {
             ));
     }
 
-    private CartItemAddRequest createCartItemAddRequest() {
-        return new CartItemAddRequest(
-            1L,
-            LocalDate.of(2010, 1, 1),
-            LocalDate.of(2010, 1, 2),
-            4
-        );
-    }
-
     @Test
     void deleteItems() throws Exception {
         // given
@@ -127,6 +118,15 @@ public class CartDocumentationTest extends ApiDocumentation {
                     fieldWithPath("status").ignored()
                 )
             ));
+    }
+
+    private CartItemAddRequest createCartItemAddRequest() {
+        return new CartItemAddRequest(
+            1L,
+            LocalDate.of(2010, 1, 1),
+            LocalDate.of(2010, 1, 2),
+            4
+        );
     }
 
     private void addCartItem(Cookie cookie) throws Exception {
