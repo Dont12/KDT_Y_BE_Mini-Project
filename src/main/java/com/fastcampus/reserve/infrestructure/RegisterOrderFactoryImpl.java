@@ -60,6 +60,8 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 )
                 .guestCount(registerOrderItem.guestCount())
                 .price(registerOrderItem.price())
+                .baseGuestCount(room.getBaseGuestCount())
+                .maxGuestCount(room.getMaxGuestCount())
                 .checkInTime(registerOrderItem.checkInTime())
                 .checkInDate(registerOrderItem.checkInDate())
                 .checkOutTime(registerOrderItem.checkOutTime())
