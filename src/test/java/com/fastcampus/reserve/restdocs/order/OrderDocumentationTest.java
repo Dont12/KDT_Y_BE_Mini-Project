@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.restdocs.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createOrder;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -97,7 +98,7 @@ public class OrderDocumentationTest extends ApiDocumentation {
 
     @Test
     void payment() throws Exception {
-        Order order = Order.builder().build();
+        Order order = createOrder();
         ReflectionTestUtils.setField(order, "id", -1L);
 
         OrderItem orderItem = OrderItem.builder()

@@ -1,7 +1,9 @@
 package com.fastcampus.reserve.common;
 
+import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
+import com.fastcampus.reserve.domain.order.payment.Payment;
 import com.fastcampus.reserve.domain.user.User;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -18,6 +20,14 @@ public final class CreateUtils {
                 .password("password")
                 .nickname("name")
                 .phone("010-0000-0000")
+                .build();
+    }
+
+    public static Order createOrder() {
+        return Order.builder()
+                .payment(Payment.CARD)
+                .userName("userName")
+                .userPhone("010-0000-0000")
                 .build();
     }
 
