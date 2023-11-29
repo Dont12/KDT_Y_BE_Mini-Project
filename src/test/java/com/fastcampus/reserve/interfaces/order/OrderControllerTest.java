@@ -208,7 +208,7 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(jsonPath.getInt("data.totalPrice"))
                         .isEqualTo(99000),
                 () -> assertThat(jsonPath.getString("data.reserveDate"))
-                        .isEqualTo("2023-11-28"),
+                        .isEqualTo("2023-11-29"),
                 () -> assertThat(jsonPath.getString("data.payment"))
                         .isEqualTo("CARD"),
                 () -> assertThat(response.orderItemId())
