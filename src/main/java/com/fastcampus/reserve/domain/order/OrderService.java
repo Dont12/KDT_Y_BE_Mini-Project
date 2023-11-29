@@ -6,11 +6,14 @@ import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
+import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,6 +46,13 @@ public class OrderService {
     public RegisterOrderInfoDto findRegisterOrder(String orderToken) {
         var registerOrder = getRegisterOrder(orderToken);
         return RegisterOrderInfoDto.from(orderToken, registerOrder);
+    }
+
+    public List<OrderHistoriesDto> findOrderHistories(Pageable pageable) {
+        var orders = orderReader.findAll(pageable);
+        return orders.stream()
+                .map(OrderHistoriesDto::from)
+                .toList();
     }
 
     public OrderInfoDto findOrder(Long orderId) {
