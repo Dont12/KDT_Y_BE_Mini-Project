@@ -45,7 +45,7 @@ public class CartService {
         for (Long cartId : cartIds) {
             if (!cartCommand.isValid(user, cartId)) {
                 throw new CustomException(
-                    String.format("id: %d", cartId),
+                    String.format("%s (id: %d)", ErrorCode.INVALID_CART_ITEM.getMessage(), cartId),
                     ErrorCode.INVALID_CART_ITEM
                 );
             }

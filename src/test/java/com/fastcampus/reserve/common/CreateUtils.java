@@ -17,40 +17,46 @@ public final class CreateUtils {
         return User.builder()
                 .email("user@gmail.com")
                 .password("password")
-                .nickname("name")
+                .nickname("nickname")
                 .phone("010-0000-0000")
                 .build();
     }
 
     public static Order createOrder() {
         return Order.builder()
-                .payment(Payment.CARD)
+                .userId(-1L)
+                .reserveName("nickname")
+                .reservePhone("010-0000-0000")
                 .userName("userName")
                 .userPhone("010-0000-0000")
+                .payment(Payment.CARD)
                 .build();
     }
 
     public static RegisterOrder createRegisterOrder() {
         return RegisterOrder.builder()
                 .userId(-1L)
-                .name("name")
+                .name("nickname")
                 .phone("010-0000-0000")
-                .orderItems(createOrderItems())
+                .orderItems(List.of(createOrderItem()))
                 .build();
     }
 
-    public static List<OrderItem> createOrderItems() {
-        return List.of(OrderItem.builder()
+    public static OrderItem createOrderItem() {
+        return OrderItem.builder()
                 .productId(-1L)
+                .productName("숙박 업소 이름")
                 .roomId(-1L)
-                .price(139000)
+                .roomName("방 이름")
+                .imageUrl("이미지 URL")
                 .guestCount(2)
+                .price(99000)
                 .baseGuestCount(2)
                 .maxGuestCount(4)
                 .checkInDate(LocalDate.now())
                 .checkInTime("15:00")
                 .checkOutDate(LocalDate.now().plusDays(1))
                 .checkOutTime("12:00")
-                .build());
+                .build();
     }
 }

@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createOrder;
+import static com.fastcampus.reserve.common.CreateUtils.createOrderItem;
 import static com.fastcampus.reserve.common.CreateUtils.createRegisterOrder;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -11,9 +13,11 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -22,6 +26,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("주문 검증")
 @ExtendWith(MockitoExtension.class)
@@ -37,6 +42,8 @@ class OrderServiceTest {
 
     @Mock
     private OrderCommand orderCommand;
+    @Mock
+    private OrderReader orderReader;
 
     @Test
     @DisplayName("숙소 예약 신청 성공")
@@ -104,6 +111,30 @@ class OrderServiceTest {
 
         // when
         RegisterOrderInfoDto result = orderService.findRegisterOrder(orderToken);
+
+        // then
+        assertThat(result).isNotNull();
+    }
+
+    @Test
+    @DisplayName("주문 내역 상세 조회")
+    void findOrder() {
+        // given
+        Long orderId = -1L;
+
+        Order order = createOrder();
+        ReflectionTestUtils.setField(
+                order,
+                "createdDate",
+                LocalDateTime.of(2023, 11, 25, 15, 30)
+        );
+        order.addOrderItem(createOrderItem());
+
+        when(orderReader.findByIdWithOrderItem(orderId))
+                .thenReturn(order);
+
+        // when
+        OrderInfoDto result = orderService.findOrder(orderId);
 
         // then
         assertThat(result).isNotNull();

@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.restdocs.order;
 
 import static com.fastcampus.reserve.common.CreateUtils.createOrder;
+import static com.fastcampus.reserve.common.CreateUtils.createOrderItem;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -16,7 +17,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fastcampus.reserve.common.ApiDocumentation;
 import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
@@ -27,7 +27,6 @@ import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,16 +126,7 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
         Order order = createOrder();
         ReflectionTestUtils.setField(order, "id", -1L);
 
-        OrderItem orderItem = OrderItem.builder()
-                .productId(-1L)
-                .roomId(-1L)
-                .checkInDate(LocalDate.now())
-                .checkInTime("15:00")
-                .checkOutDate(LocalDate.now().plusDays(2))
-                .checkOutTime("12:00")
-                .guestCount(4)
-                .price(99000)
-                .build();
+        OrderItem orderItem = createOrderItem();
 
         RegisterOrder registerOrder = RegisterOrder.builder()
                 .userId(-1L)
