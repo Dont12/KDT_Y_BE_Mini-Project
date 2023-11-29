@@ -17,5 +17,5 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
             + "FROM Product p "
             + "JOIN FETCH p.images "
             + "WHERE p.id = :id")
-    Optional<Product> findByIdWithImage(@Param("id") Long Id);
+    Optional<Product> findByIdWithImage(@Param("id") Long id);
 }
