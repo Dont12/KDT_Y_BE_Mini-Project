@@ -17,19 +17,21 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fastcampus.reserve.common.ApiDocumentation;
 import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
-import com.fastcampus.reserve.domain.user.UserReader;
+import com.fastcampus.reserve.domain.product.room.Room;
+import com.fastcampus.reserve.domain.product.room.RoomImage;
+import com.fastcampus.reserve.domain.product.room.RoomReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -41,6 +43,31 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
     private OrderRepository orderRepository;
     @MockBean
     private RedisService redisService;
+    @MockBean
+    private RoomReader roomReader;
+
+    @BeforeEach
+    void setUp() {
+        RoomImage roomImage = RoomImage.builder()
+            .url("https://www.image.co.kr")
+            .build();
+
+        Room room = Room.builder()
+            .name("name")
+            .price(99000)
+            .stock(12)
+            .checkInTime("15:00")
+            .checkOutTime("12:00")
+            .baseGuestCount(2)
+            .maxGuestCount(4)
+            .build();
+
+        room.addImage(roomImage);
+
+        ReflectionTestUtils.setField(room, "id", -1L);
+
+        when(roomReader.findByIdWithImage(anyLong())).thenReturn(room);
+    }
 
     @Test
     void registerOrder() throws Exception {

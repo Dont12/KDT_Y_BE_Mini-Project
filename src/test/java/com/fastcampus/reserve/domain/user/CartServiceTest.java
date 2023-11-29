@@ -2,11 +2,16 @@ package com.fastcampus.reserve.domain.user;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemAddDto;
+import com.fastcampus.reserve.domain.user.dto.request.CartItemDeleteDto;
 import java.time.LocalDate;
+import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -56,5 +61,35 @@ class CartServiceTest {
         assertThatThrownBy(() -> cartService.addItem(user, dto))
             .isInstanceOf(CustomException.class)
             .hasMessage(ErrorCode.INVALID_CHECK_IN_OUT_DATE.getMessage());
+    }
+
+    @Test
+    @DisplayName("삭제할 장바구니 아이템이 존재하지 않으면 예외")
+    void deleteItems_not_exist_item() {
+        // given
+        User user = User.builder().build();
+        Long id = 1L;
+        CartItemDeleteDto dto = new CartItemDeleteDto(List.of(id));
+
+        // when, then
+        assertThatThrownBy(() -> cartService.deleteItems(user, dto))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(
+                String.format("%s (id: %d)", ErrorCode.INVALID_CART_ITEM.getMessage(), id)
+            );
+    }
+
+    @Test
+    @DisplayName("장바구니 아이템들 삭제 성공")
+    void deleteItems() {
+        // given
+        User user = User.builder().build();
+        Long id = -1L;
+        CartItemDeleteDto dto = new CartItemDeleteDto(List.of(id));
+        when(cartCommand.isValid(any(User.class), anyLong())).thenReturn(true);
+
+        // when, then
+        assertThatNoException()
+            .isThrownBy(() -> cartService.deleteItems(user, dto));
     }
 }

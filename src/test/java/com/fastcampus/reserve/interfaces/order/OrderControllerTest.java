@@ -3,9 +3,14 @@ package com.fastcampus.reserve.interfaces.order;
 import static com.fastcampus.reserve.domain.order.payment.Payment.CARD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
+import com.fastcampus.reserve.domain.product.room.Room;
+import com.fastcampus.reserve.domain.product.room.RoomImage;
+import com.fastcampus.reserve.domain.product.room.RoomReader;
 import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
@@ -16,15 +21,43 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("주문 통합 테스트")
 class OrderControllerTest extends ApiTest {
+
+    @MockBean
+    private RoomReader roomReader;
+
+    @BeforeEach
+    void setUp() {
+        RoomImage roomImage = RoomImage.builder()
+            .url("https://www.image.co.kr")
+            .build();
+
+        Room room = Room.builder()
+            .name("name")
+            .price(99000)
+            .stock(12)
+            .checkInTime("15:00")
+            .checkOutTime("12:00")
+            .baseGuestCount(2)
+            .maxGuestCount(4)
+            .build();
+
+        room.addImage(roomImage);
+
+        ReflectionTestUtils.setField(room, "id", -1L);
+
+        when(roomReader.findByIdWithImage(anyLong())).thenReturn(room);
+    }
 
     @Test
     @DisplayName("예약 신청")
@@ -105,11 +138,11 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.price())
                         .isEqualTo(99000),
                 () -> assertThat(response.checkInTime())
-                        .isEqualTo(LocalTime.of(15, 0)),
+                        .isEqualTo("15:00"),
                 () -> assertThat(response.checkInDate())
                         .isEqualTo(LocalDate.of(2023, 11, 28)),
                 () -> assertThat(response.checkOutTime())
-                        .isEqualTo(LocalTime.of(12, 0)),
+                        .isEqualTo("12:00"),
                 () -> assertThat(response.checkOutDate())
                         .isEqualTo(LocalDate.of(2023, 11, 29))
         );
@@ -175,7 +208,7 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(jsonPath.getInt("data.totalPrice"))
                         .isEqualTo(99000),
                 () -> assertThat(jsonPath.getString("data.reserveDate"))
-                        .isEqualTo(LocalDate.now().toString()),
+                        .isEqualTo("2023-11-28"),
                 () -> assertThat(jsonPath.getString("data.payment"))
                         .isEqualTo("CARD"),
                 () -> assertThat(response.orderItemId())
@@ -193,11 +226,11 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.baseGuestCount())
                         .isEqualTo(2),
                 () -> assertThat(response.checkInTime())
-                        .isEqualTo(LocalTime.of(15, 0)),
+                        .isEqualTo("15:00"),
                 () -> assertThat(response.checkInDate())
                         .isEqualTo(LocalDate.of(2023, 11, 28)),
                 () -> assertThat(response.checkOutTime())
-                        .isEqualTo(LocalTime.of(12, 0)),
+                        .isEqualTo("12:00"),
                 () -> assertThat(response.checkOutDate())
                         .isEqualTo(LocalDate.of(2023, 11, 29))
         );
@@ -219,9 +252,9 @@ class OrderControllerTest extends ApiTest {
                 -1L,
                 -1L,
                 LocalDate.of(2023, 11, 28),
-                LocalTime.of(15, 0),
+                "15:00",
                 LocalDate.of(2023, 11, 29),
-                LocalTime.of(12, 0),
+                "12:00",
                 4,
                 99000
         );

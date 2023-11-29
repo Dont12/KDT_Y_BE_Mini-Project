@@ -1,7 +1,6 @@
 package com.fastcampus.reserve.interfaces.order.dto.response;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 public record RegisterOrderItemInfoResponse(
         Long productId,
@@ -13,9 +12,9 @@ public record RegisterOrderItemInfoResponse(
         Integer maxGuestCount,
         Integer baseGuestCount,
         Integer price,
-        LocalTime checkInTime,
+        String checkInTime,
         LocalDate checkInDate,
-        LocalTime checkOutTime,
+        String checkOutTime,
         LocalDate checkOutDate
 ) {
 
