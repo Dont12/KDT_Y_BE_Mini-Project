@@ -6,6 +6,7 @@ import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
+import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class OrderService {
 
     private final RedisService redisService;
     private final OrderCommand orderCommand;
+    private final OrderReader orderReader;
     private final RegisterOrderFactory registerOrderFactory;
 
     public String registerOrder(RegisterOrderDto dto) {
@@ -41,6 +43,11 @@ public class OrderService {
     public RegisterOrderInfoDto findRegisterOrder(String orderToken) {
         var registerOrder = getRegisterOrder(orderToken);
         return RegisterOrderInfoDto.from(orderToken, registerOrder);
+    }
+
+    public OrderInfoDto findOrder(Long orderId) {
+        var order = orderReader.findByIdWithOrderItem(orderId);
+        return OrderInfoDto.from(order);
     }
 
     private RegisterOrder getRegisterOrder(String orderToken) {
