@@ -29,6 +29,8 @@ public class OrderCommandImpl implements OrderCommand {
 
         Order order = Order.builder()
                 .userId(registerOrder.userId())
+                .reserveName(registerOrder.name())
+                .reservePhone(registerOrder.phone())
                 .userName(dto.userName())
                 .userPhone(dto.userPhone())
                 .payment(dto.payment())

@@ -5,6 +5,7 @@ import com.fastcampus.reserve.common.response.CommonResponse;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.order.dto.response.OrderInfoResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.PaymentResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderInfoResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderResponse;
@@ -13,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -51,6 +53,14 @@ public class OrderController {
             @RequestParam String orderToken
     ) {
         var response = orderFacade.findRegisterOrder(orderToken);
+        return CommonResponse.ok(mapper.of(response));
+    }
+
+    @GetMapping("/history/{id}")
+    public CommonResponse<OrderInfoResponse> getOrder(
+            @PathVariable Long id
+    ) {
+        var response = orderFacade.findOrder(id);
         return CommonResponse.ok(mapper.of(response));
     }
 }
