@@ -66,6 +66,7 @@ public class RegisterOrderFactoryImpl implements RegisterOrderFactory {
                 .checkInDate(registerOrderItem.checkInDate())
                 .checkOutTime(registerOrderItem.checkOutTime())
                 .checkOutDate(registerOrderItem.checkOutDate())
+                .imageUrl(product.getImageUrl())
                 .build();
     }
 }

@@ -22,7 +22,7 @@ public enum ErrorCode {
     NOT_EXIST_IMAGE(HttpStatus.INTERNAL_SERVER_ERROR, "이미지가 존재하지 않습니다."),
     NOT_MATCH_TOTAL_PRICE(HttpStatus.BAD_REQUEST, "결제 금액이 일치하지 않습니다."),
     INVALID_CART_ITEM(HttpStatus.BAD_REQUEST, "장바구니 정보가 유효하지 않습니다"),
-    NO_SUCH_ORDER(HttpStatus.BAD_REQUEST, "존재하지 않는 주문 내역입니다."),
+    NO_SUCH_ORDER(HttpStatus.BAD_REQUEST, "존재하지 않는 주문 내역입니다.")
     ;
 
     private final HttpStatus httpStatus;
