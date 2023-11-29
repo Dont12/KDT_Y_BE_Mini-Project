@@ -43,12 +43,8 @@ public class CartController {
 
     @GetMapping CommonResponse<CartListResponse> getList(
         @AuthenticationPrincipal PrincipalDetails principal,
-        @RequestParam(required = false, defaultValue = "1") int page,
-        @RequestParam(required = false, defaultValue = "10") int pageSize
+        Pageable pageable
     ) {
-        int idx = page - 1;
-        Pageable pageable = PageRequest.of(idx, pageSize);
-
         Long userId = principal.id();
         var dto = cartFacade.getList(userId, pageable);
 
