@@ -7,6 +7,7 @@ import com.fastcampus.reserve.domain.product.ProductReader;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -20,7 +21,7 @@ public class FakeProductReader implements ProductReader {
     }
 
     @Override
-    public List<Product> getAllProduct(ProductListOptionDto dto) {
+    public Page<Product> getAllProduct(ProductListOptionDto dto) {
         return null;
     }
 

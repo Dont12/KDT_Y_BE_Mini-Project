@@ -5,7 +5,10 @@ import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import java.util.List;
+import java.util.Objects;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -23,9 +26,17 @@ public class ProductReaderImpl implements ProductReader {
     }
 
     @Override
-    public List<Product> getAllProduct(ProductListOptionDto dto) {
+    public Page<Product> getAllProduct(ProductListOptionDto dto) {
         Pageable pageable = PageRequest.of(dto.page(), dto.pageSize());
+        return filterProduct(dto, pageable);
+    }
 
+    @Override
+    public Product findByIdWithImage(Long id) {
+        return null;
+    }
+
+    private Page<Product> filterProduct(ProductListOptionDto dto, Pageable pageable) {
         if (haveAreaAndCategory(dto)) {
             return productRepository.findAllByAreaAndCategory(
                     dto.area(), dto.category(), pageable);
@@ -34,24 +45,18 @@ public class ProductReaderImpl implements ProductReader {
         } else if (hasCategory(dto)) {
             return productRepository.findAllByCategory(dto.category(), pageable);
         }
-        return productRepository.findAll();
-    }
-
-    @Override
-    public Product findByIdWithImage(Long id) {
-        return null;
+        return productRepository.findAll(pageable);
     }
 
     private boolean hasCategory(ProductListOptionDto dto) {
-        return dto.category() != null && !dto.category().isEmpty();
+        return !Objects.isNull(dto.category());
     }
 
     private boolean hasArea(ProductListOptionDto dto) {
-        return dto.area() != null && !dto.area().isEmpty();
+        return !Objects.isNull(dto.area());
     }
 
     private boolean haveAreaAndCategory(ProductListOptionDto dto) {
-        return dto.area() != null && !dto.area().isEmpty()
-                && dto.category() != null && !dto.category().isEmpty();
+        return !Objects.isNull(dto.area()) && !Objects.isNull(dto.category());
     }
 }

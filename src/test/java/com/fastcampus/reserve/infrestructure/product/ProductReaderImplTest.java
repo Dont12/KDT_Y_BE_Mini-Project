@@ -1,6 +1,5 @@
 package com.fastcampus.reserve.infrestructure.product;
 
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.anyString;
@@ -19,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
@@ -36,6 +37,7 @@ class ProductReaderImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
+        pageable = PageRequest.of(page, pageSize);
     }
 
 
@@ -44,23 +46,22 @@ class ProductReaderImplTest {
     public void whenAreaCodeIsEmpty_shouldCallFindAll() {
         // Given
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
-                                                            LocalDate.now().plusDays(2),
-                                                    null,
-                                                    "",
-                                                        1,
-                                                    10);
-        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
-                .build());
+                LocalDate.now().plusDays(2),
+                null,
+                null,
+                page,
+                pageSize);
+        List<Product> productList = Collections.singletonList(Product.builder().id(2531417L).build());
+        Page<Product> expectedProducts = new PageImpl<>(productList, pageable, productList.size());
 
-        given(productRepository.findAll()).willReturn(expectedProducts);
+        given(productRepository.findAll(pageable)).willReturn(expectedProducts);
 
         // When
-        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+        Page<Product> actualProducts = productReaderImpl.getAllProduct(dto);
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAll();
-        verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
+        verify(productRepository).findAll(pageable);
     }
 
 
@@ -69,36 +70,27 @@ class ProductReaderImplTest {
     public void whenAreaCodeProvided_shouldUseAreaCodeFilter() {
         // Given
         String areaCode = "충청남도";
-
+        Pageable pageable = PageRequest.of(page, pageSize);
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
-                                                            LocalDate.now().plusDays(2),
-                                                    null,
-                                                            areaCode,
-                                                            page,
-                                                            pageSize);
-        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
-                .name("전주 한옥숙박체험관[한국관광 품질인증/Korea Quality]")
-                .category("한옥")
-                .description("전주 한옥숙박체험관은 전주한옥마을")
-                .zipCode("55042")
-                .address("전라북도 전주시 완산구 은행로 56-1")
-                .longitude("127.1521863940")
-                .latitude("35.8150142818")
-                .area("전라북도")
-                .sigungu("전주시")
-                .build());
+                LocalDate.now().plusDays(2),
+                null,
+                areaCode,
+                page,
+                pageSize);
+        List<Product> productList = Collections.singletonList(Product.builder().id(2531417L).build());
+        Page<Product> expectedProducts = new PageImpl<>(productList);
 
         given(productRepository.findAllByArea(areaCode, pageable))
                 .willReturn(expectedProducts);
 
         // When
-        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+        Page<Product> actualProducts = productReaderImpl.getAllProduct(dto);
 
         // Then
         assertThat(actualProducts).isEqualTo(expectedProducts);
-        verify(productRepository).findAllByArea(areaCode, pageable);
-        verify(productRepository, never()).findAll();
+        verify(productRepository).findAllByArea(eq(areaCode), eq(pageable));
     }
+
 
     @Test
     @DisplayName("카테고리가 있으면 해당 카테고리에 맞는 상품만 나온다")
@@ -114,19 +106,20 @@ class ProductReaderImplTest {
                 null,
                 page,
                 pageSize);
-        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
+        List<Product> productList = Collections.singletonList(Product.builder().id(2531417L)
                 .name("테스트 호텔")
                 .category("호텔")
                 .build());
+        Page<Product> expect = new PageImpl<>(productList);
 
         given(productRepository.findAllByCategory(category, pageable))
-                .willReturn(expectedProducts);
+                .willReturn(expect);
 
         // When
-        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+        Page<Product> actualProducts = productReaderImpl.getAllProduct(dto);
 
         // Then
-        assertThat(actualProducts).isEqualTo(expectedProducts);
+        assertThat(actualProducts).isEqualTo(expect);
         verify(productRepository).findAllByCategory(category, pageable);
         verify(productRepository, never()).findAll();
         verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
@@ -139,28 +132,27 @@ class ProductReaderImplTest {
         // Given
         String areaCode = "충청남도";
         String category = "호텔";
-        int page = 1;
-        int pageSize = 10;
         ProductListOptionDto dto = new ProductListOptionDto(LocalDate.now(),
                 LocalDate.now().plusDays(2),
                 category,
                 areaCode,
                 page,
                 pageSize);
-        List<Product> expectedProducts = Collections.singletonList(Product.builder().id(2531417L)
+        List<Product> productsList = Collections.singletonList(Product.builder().id(2531417L)
                 .name("테스트 호텔")
                 .category(category)
                 .area(areaCode)
                 .build());
+        Page<Product> expect = new PageImpl<>(productsList);
 
         given(productRepository.findAllByAreaAndCategory(areaCode, category, pageable))
-                .willReturn(expectedProducts);
+                .willReturn(expect);
 
         // When
-        List<Product> actualProducts = productReaderImpl.getAllProduct(dto);
+        Page<Product> actualProducts = productReaderImpl.getAllProduct(dto);
 
         // Then
-        assertThat(actualProducts).isEqualTo(expectedProducts);
+        assertThat(actualProducts).isEqualTo(expect);
         verify(productRepository).findAllByAreaAndCategory(areaCode, category, pageable);
         verify(productRepository, never()).findAllByArea(anyString(), eq(pageable));
         verify(productRepository, never()).findAllByCategory(anyString(), eq(pageable));
