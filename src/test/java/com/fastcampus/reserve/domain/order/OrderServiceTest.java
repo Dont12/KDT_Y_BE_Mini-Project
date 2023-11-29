@@ -137,7 +137,7 @@ class OrderServiceTest {
                 })
                 .toList();
 
-        when(orderReader.findAll(pageable))
+        when(orderReader.findAllWithOrderItem(pageable))
                 .thenReturn(new PageImpl<>(orderHistories));
 
         // when

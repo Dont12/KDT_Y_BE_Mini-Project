@@ -49,7 +49,7 @@ public class OrderService {
     }
 
     public List<OrderHistoriesDto> findOrderHistories(Pageable pageable) {
-        var orders = orderReader.findAll(pageable);
+        var orders = orderReader.findAllWithOrderItem(pageable);
         return orders.stream()
                 .map(OrderHistoriesDto::from)
                 .toList();
