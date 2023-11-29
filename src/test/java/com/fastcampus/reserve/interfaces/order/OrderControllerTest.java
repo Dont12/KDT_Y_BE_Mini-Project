@@ -20,7 +20,6 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -198,11 +197,11 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.baseGuestCount())
                         .isEqualTo(2),
                 () -> assertThat(response.checkInTime())
-                        .isEqualTo(LocalTime.of(15, 0)),
+                        .isEqualTo("15:00"),
                 () -> assertThat(response.checkInDate())
                         .isEqualTo(LocalDate.of(2023, 11, 28)),
                 () -> assertThat(response.checkOutTime())
-                        .isEqualTo(LocalTime.of(12, 0)),
+                        .isEqualTo("12:00"),
                 () -> assertThat(response.checkOutDate())
                         .isEqualTo(LocalDate.of(2023, 11, 29))
         );
