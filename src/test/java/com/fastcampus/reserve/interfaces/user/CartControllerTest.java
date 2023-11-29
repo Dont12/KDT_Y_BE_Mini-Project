@@ -1,14 +1,17 @@
 package com.fastcampus.reserve.interfaces.user;
 
+import static com.fastcampus.reserve.common.CreateUtils.createProductImage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
 import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.user.Cart;
+import com.fastcampus.reserve.infrestructure.product.ProductRepository;
 import com.fastcampus.reserve.infrestructure.product.room.RoomRepository;
 import com.fastcampus.reserve.infrestructure.user.CartRepository;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
@@ -32,6 +35,8 @@ class CartControllerTest extends ApiTest {
 
     @Autowired
     private CartRepository cartRepository;
+    @MockBean
+    private ProductRepository productRepository;
     @MockBean
     private RoomRepository roomRepository;
 
@@ -161,15 +166,18 @@ class CartControllerTest extends ApiTest {
             cartItems.stream().map(Cart::getId).toList()
         );
 
-        Product product = Product.builder().id(10L).description("description")
+        Product product = Product.builder().id(1L).description("description")
             .address("address").area("area").category("category")
             .latitude("0.0").longitude("0.0").sigungu("sigungu")
             .zipCode("00000").name("name").build();
+        ProductImage productImage = createProductImage();
+        productImage.registerProduct(product);
         Room room = Room.builder().id(1L).product(product).stock(3)
             .price(10000).checkInTime("11:11").checkOutTime("12:12")
             .maxGuestCount(4).baseGuestCount(2).roomFacilities("abcabc")
             .name("name").build();
         room.addImage(RoomImage.builder().url("url").build());
+        when(productRepository.findByIdWithImage(1L)).thenReturn(Optional.of(product));
         when(roomRepository.findByIdWithImage(1L)).thenReturn(Optional.of(room));
 
         String url = "/v1/carts/order";

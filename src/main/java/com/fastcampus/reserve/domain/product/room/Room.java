@@ -59,7 +59,7 @@ public class Room extends BaseTimeEntity {
 
     @OneToMany(
         mappedBy = "room",
-        cascade = CascadeType.PERSIST, orphanRemoval = true
+        cascade = CascadeType.ALL, orphanRemoval = true
     )
     private final List<RoomImage> images = new ArrayList<>();
 
