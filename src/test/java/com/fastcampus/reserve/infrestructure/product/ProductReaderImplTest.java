@@ -51,7 +51,9 @@ class ProductReaderImplTest {
                 null,
                 page,
                 pageSize);
-        List<Product> productList = Collections.singletonList(Product.builder().id(2531417L).build());
+        List<Product> productList = Collections.singletonList(Product.builder()
+                .id(2531417L)
+                .build());
         Page<Product> expectedProducts = new PageImpl<>(productList, pageable, productList.size());
 
         given(productRepository.findAll(pageable)).willReturn(expectedProducts);
@@ -77,7 +79,9 @@ class ProductReaderImplTest {
                 areaCode,
                 page,
                 pageSize);
-        List<Product> productList = Collections.singletonList(Product.builder().id(2531417L).build());
+        List<Product> productList = Collections.singletonList(Product.builder()
+                .id(2531417L)
+                .build());
         Page<Product> expectedProducts = new PageImpl<>(productList);
 
         given(productRepository.findAllByArea(areaCode, pageable))
