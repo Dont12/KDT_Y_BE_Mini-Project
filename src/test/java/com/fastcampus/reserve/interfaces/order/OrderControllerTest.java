@@ -1,17 +1,21 @@
 package com.fastcampus.reserve.interfaces.order;
 
+import static com.fastcampus.reserve.common.CreateUtils.createProduct;
+import static com.fastcampus.reserve.common.CreateUtils.createProductImage;
+import static com.fastcampus.reserve.common.CreateUtils.createRoom;
+import static com.fastcampus.reserve.common.CreateUtils.createRoomImage;
 import static com.fastcampus.reserve.domain.order.payment.Payment.CARD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
+import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
+import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
-import com.fastcampus.reserve.domain.product.room.RoomReader;
-import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
+import com.fastcampus.reserve.infrestructure.product.ProductRepository;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
@@ -26,37 +30,35 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("주문 통합 테스트")
 class OrderControllerTest extends ApiTest {
 
-    @MockBean
-    private RoomReader roomReader;
+    private static Long roomId;
+    private static Long productId;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     @BeforeEach
     void setUp() {
-        RoomImage roomImage = RoomImage.builder()
-            .url("https://www.image.co.kr")
-            .build();
+        roomId = -1L;
 
-        Room room = Room.builder()
-            .name("name")
-            .price(99000)
-            .stock(12)
-            .checkInTime("15:00")
-            .checkOutTime("12:00")
-            .baseGuestCount(2)
-            .maxGuestCount(4)
-            .build();
+        Product product = createProduct();
+        ProductImage productImage = createProductImage();
+        productImage.registerProduct(product);
 
-        room.addImage(roomImage);
+        RoomImage roomImage = createRoomImage();
+        Room room = createRoom();
+        ReflectionTestUtils.setField(room, "id", roomId);
+        roomImage.registerRoom(room);
 
-        ReflectionTestUtils.setField(room, "id", -1L);
+        room.registerProduct(product);
 
-        when(roomReader.findByIdWithImage(anyLong())).thenReturn(room);
+        productId = productRepository.save(product).getId();
     }
 
     @Test
@@ -120,15 +122,15 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(jsonPath.getString("data.phone"))
                         .isEqualTo("010-0000-0000"),
                 () -> assertThat(response.productId())
-                        .isEqualTo(-1L),
+                        .isEqualTo(productId),
                 () -> assertThat(response.productName())
-                        .isEqualTo("name"),
+                        .isEqualTo("productName"),
                 () -> assertThat(response.imageUrl())
                         .isEqualTo("https://www.image.co.kr"),
                 () -> assertThat(response.roomId())
-                        .isEqualTo(-1L),
+                        .isEqualTo(roomId),
                 () -> assertThat(response.roomName())
-                        .isEqualTo("name"),
+                        .isEqualTo("roomName"),
                 () -> assertThat(response.guestCount())
                         .isEqualTo(4),
                 () -> assertThat(response.maxGuestCount())
@@ -214,11 +216,11 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.orderItemId())
                         .isEqualTo(1L),
                 () -> assertThat(response.productId())
-                        .isEqualTo(-1L),
+                        .isEqualTo(productId),
                 () -> assertThat(response.productName())
-                        .isEqualTo("name"),
+                        .isEqualTo("productName"),
                 () -> assertThat(response.roomName())
-                        .isEqualTo("name"),
+                        .isEqualTo("roomName"),
                 () -> assertThat(response.imageUrl())
                         .isEqualTo("https://www.image.co.kr"),
                 () -> assertThat(response.maxGuestCount())
@@ -249,8 +251,8 @@ class OrderControllerTest extends ApiTest {
 
     private RegisterOrderItemRequest createRegisterOrderItemRequest() {
         return new RegisterOrderItemRequest(
-                -1L,
-                -1L,
+                productId,
+                roomId,
                 LocalDate.of(2023, 11, 28),
                 "15:00",
                 LocalDate.of(2023, 11, 29),
