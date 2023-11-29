@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.restdocs.order;
 
 import static com.fastcampus.reserve.common.CreateUtils.createOrder;
+import static com.fastcampus.reserve.common.CreateUtils.createOrderItem;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -25,8 +26,6 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.user.UserReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,16 +99,7 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
         Order order = createOrder();
         ReflectionTestUtils.setField(order, "id", -1L);
 
-        OrderItem orderItem = OrderItem.builder()
-                .productId(-1L)
-                .roomId(-1L)
-                .checkInDate(LocalDate.now())
-                .checkInTime(LocalTime.of(15, 0))
-                .checkOutDate(LocalDate.now().plusDays(2))
-                .checkOutTime(LocalTime.of(12, 0))
-                .guestCount(4)
-                .price(99000)
-                .build();
+        OrderItem orderItem = createOrderItem();
 
         RegisterOrder registerOrder = RegisterOrder.builder()
                 .userId(-1L)

@@ -20,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 
 @Getter
@@ -60,7 +59,7 @@ public class User extends BaseTimeEntity {
 
     @Builder
     private User(String email, String password, String nickname, String phone) {
-        this(email, password, phone, nickname, RoleType.USER);
+        this(email, password, nickname, phone, RoleType.USER);
     }
 
     @Builder
