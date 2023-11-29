@@ -1,8 +1,7 @@
 package com.fastcampus.reserve.domain.product;
 
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
-import com.fastcampus.reserve.domain.dto.response.ProductDto;
-import java.time.LocalDate;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.product.dto.response.ProductDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.domain.dto.request;
+package com.fastcampus.reserve.domain.product.dto.request;
 
 import java.time.LocalDate;
 

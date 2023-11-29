@@ -1,7 +1,6 @@
 package com.fastcampus.reserve.domain.product;
 
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
-import java.time.LocalDate;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import java.util.List;
 
 public interface ProductReader {
