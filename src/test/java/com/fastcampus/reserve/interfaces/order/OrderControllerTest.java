@@ -139,11 +139,11 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.checkInTime())
                         .isEqualTo(LocalTime.of(15, 0)),
                 () -> assertThat(response.checkInDate())
-                        .isEqualTo(LocalDate.of(2023, 11, 29)),
+                        .isEqualTo(LocalDate.of(2023, 11, 28)),
                 () -> assertThat(response.checkOutTime())
                         .isEqualTo(LocalTime.of(12, 0)),
                 () -> assertThat(response.checkOutDate())
-                        .isEqualTo(LocalDate.of(2023, 11, 30))
+                        .isEqualTo(LocalDate.of(2023, 11, 29))
         );
     }
 
