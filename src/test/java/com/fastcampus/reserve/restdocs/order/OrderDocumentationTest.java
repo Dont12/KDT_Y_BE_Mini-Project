@@ -1,11 +1,6 @@
 package com.fastcampus.reserve.restdocs.order;
 
-import static com.fastcampus.reserve.common.CreateUtils.createOrder;
-import static com.fastcampus.reserve.common.CreateUtils.createOrderItem;
-import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -17,62 +12,28 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.fastcampus.reserve.application.order.OrderFacade;
 import com.fastcampus.reserve.common.SecurityApiDocumentation;
-import com.fastcampus.reserve.domain.RedisService;
-import com.fastcampus.reserve.domain.order.Order;
-import com.fastcampus.reserve.domain.order.RegisterOrder;
-import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
-import com.fastcampus.reserve.domain.product.room.Room;
-import com.fastcampus.reserve.domain.product.room.RoomImage;
-import com.fastcampus.reserve.domain.product.room.RoomReader;
-import com.fastcampus.reserve.infrestructure.order.OrderRepository;
+import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
+import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 
 public class OrderDocumentationTest extends SecurityApiDocumentation {
 
     @MockBean
-    private OrderRepository orderRepository;
-    @MockBean
-    private RedisService redisService;
-    @MockBean
-    private RoomReader roomReader;
-
-    @BeforeEach
-    void setUp() {
-        RoomImage roomImage = RoomImage.builder()
-            .url("https://www.image.co.kr")
-            .build();
-
-        Room room = Room.builder()
-            .name("name")
-            .price(99000)
-            .stock(12)
-            .checkInTime("15:00")
-            .checkOutTime("12:00")
-            .baseGuestCount(2)
-            .maxGuestCount(4)
-            .build();
-
-        room.addImage(roomImage);
-
-        ReflectionTestUtils.setField(room, "id", -1L);
-
-        when(roomReader.findByIdWithImage(anyLong())).thenReturn(room);
-    }
+    private OrderFacade orderFacade;
 
     @Test
     void registerOrder() throws Exception {
         mockSecuritySetting();
-        when(userReader.findById(anyLong())).thenReturn(createUser());
+        when(orderFacade.registerOrder(any(RegisterOrderDto.class)))
+                .thenReturn("OrderToken");
 
         Map<String, Object> registerOrder = createRegisterOrder();
         byte[] param = objectMapper.writeValueAsBytes(registerOrder);
@@ -123,21 +84,9 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
 
     @Test
     void payment() throws Exception {
-        Order order = createOrder();
-        ReflectionTestUtils.setField(order, "id", -1L);
-
-        OrderItem orderItem = createOrderItem();
-
-        RegisterOrder registerOrder = RegisterOrder.builder()
-                .userId(-1L)
-                .name("userName")
-                .phone("010-0000-0000")
-                .orderItems(List.of(orderItem))
-                .build();
-
         mockSecuritySetting();
-        when(orderRepository.save(any(Order.class))).thenReturn(order);
-        when(redisService.get(anyString(), any())).thenReturn(Optional.of(registerOrder));
+        when(orderFacade.payment(any(PaymentDto.class)))
+                .thenReturn(-1L);
 
         Map<String, Object> payment = createPayment();
         byte[] param = objectMapper.writeValueAsBytes(payment);
