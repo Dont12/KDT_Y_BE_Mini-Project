@@ -180,7 +180,7 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(jsonPath.getInt("data.totalPrice"))
                         .isEqualTo(99000),
                 () -> assertThat(jsonPath.getString("data.reserveDate"))
-                        .isEqualTo("2023-11-28"),
+                        .isEqualTo(LocalDate.now().toString()),
                 () -> assertThat(jsonPath.getString("data.payment"))
                         .isEqualTo("CARD"),
                 () -> assertThat(response.orderItemId())
@@ -223,9 +223,9 @@ class OrderControllerTest extends ApiTest {
         return new RegisterOrderItemRequest(
                 -1L,
                 -1L,
-                LocalDate.now(),
+                LocalDate.of(2023, 11, 28),
                 LocalTime.of(15, 0),
-                LocalDate.now().plusDays(1),
+                LocalDate.of(2023, 11, 29),
                 LocalTime.of(12, 0),
                 4,
                 99000
