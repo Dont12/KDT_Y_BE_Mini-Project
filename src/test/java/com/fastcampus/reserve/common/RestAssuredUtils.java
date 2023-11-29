@@ -1,6 +1,8 @@
 package com.fastcampus.reserve.common;
 
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartItemDeleteRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.SignupRequest;
 import io.restassured.RestAssured;
 import io.restassured.response.ExtractableResponse;
@@ -14,6 +16,18 @@ public final class RestAssuredUtils {
     public static final String PASSWORD = "password";
 
     private RestAssuredUtils() {
+    }
+
+    public static ExtractableResponse<Response> getWithLogin(String url) {
+        String accessToken = login();
+        return RestAssured
+                .given().log().all()
+                .cookie(TOKEN_COOKIE_NAME, accessToken)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .when()
+                .get(url)
+                .then().log().all()
+                .extract();
     }
 
     public static ExtractableResponse<Response> postWithLogin(String url, Object param) {
@@ -57,5 +71,30 @@ public final class RestAssuredUtils {
                 .then().log().all()
                 .extract();
         return response.cookie(TOKEN_COOKIE_NAME);
+    }
+
+    public static ExtractableResponse<Response> post(String url, Object request) {
+        return RestAssured
+            .given().log().all()
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .body(request)
+            .post(url)
+            .then().log().all()
+            .extract();
+    }
+
+    public static ExtractableResponse<Response> postWithCustomLogin(
+        String url, CartItemAddRequest request, String accessToken
+    ) {
+        return RestAssured
+            .given().log().all()
+            .cookie(TOKEN_COOKIE_NAME, accessToken)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .body(request)
+            .when()
+            .post(url)
+            .then().log().all()
+            .extract();
     }
 }

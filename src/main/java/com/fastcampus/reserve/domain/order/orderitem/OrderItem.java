@@ -11,7 +11,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -48,11 +47,17 @@ public class OrderItem extends BaseTimeEntity {
     @Column(nullable = false)
     private Integer price;
 
+    @Column(nullable = false)
+    private Integer baseGuestCount;
+
+    @Column(nullable = false)
+    private Integer maxGuestCount;
+
     private Long cartId;
     private LocalDate checkInDate;
-    private LocalTime checkInTime;
+    private String checkInTime;
     private LocalDate checkOutDate;
-    private LocalTime checkOutTime;
+    private String checkOutTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
@@ -67,11 +72,13 @@ public class OrderItem extends BaseTimeEntity {
             String imageUrl,
             Integer guestCount,
             Integer price,
+            Integer baseGuestCount,
+            Integer maxGuestCount,
             Long cartId,
             LocalDate checkInDate,
-            LocalTime checkInTime,
+            String checkInTime,
             LocalDate checkOutDate,
-            LocalTime checkOutTime
+            String checkOutTime
     ) {
         this.productId = productId;
         this.productName = productName;
@@ -80,6 +87,8 @@ public class OrderItem extends BaseTimeEntity {
         this.imageUrl = imageUrl;
         this.guestCount = guestCount;
         this.price = price;
+        this.baseGuestCount = baseGuestCount;
+        this.maxGuestCount = maxGuestCount;
         this.cartId = cartId;
         this.checkInDate = checkInDate;
         this.checkInTime = checkInTime;

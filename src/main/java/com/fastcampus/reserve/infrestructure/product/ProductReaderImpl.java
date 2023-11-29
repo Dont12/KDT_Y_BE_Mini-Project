@@ -1,7 +1,7 @@
 package com.fastcampus.reserve.infrestructure.product;
 
 
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductReader;
 import java.util.List;

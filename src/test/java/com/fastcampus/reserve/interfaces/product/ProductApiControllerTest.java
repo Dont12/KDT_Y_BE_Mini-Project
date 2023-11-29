@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.application.ProductFacade;
-import com.fastcampus.reserve.domain.dto.response.ProductDto;
+import com.fastcampus.reserve.domain.product.dto.response.ProductDto;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

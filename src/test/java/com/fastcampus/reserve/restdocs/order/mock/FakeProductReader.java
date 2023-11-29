@@ -1,10 +1,9 @@
 package com.fastcampus.reserve.restdocs.order.mock;
 
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.ProductReader;
-import java.time.LocalDate;
 import java.util.List;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;

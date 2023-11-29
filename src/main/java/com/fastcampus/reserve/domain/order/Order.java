@@ -20,7 +20,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +33,12 @@ public class Order extends BaseTimeEntity {
 
     @Column(nullable = false)
     private Long userId;
+
+    @Column(length = 100)
+    private String reserveName;
+
+    @Column(length = 50)
+    private String reservePhone;
 
     @Column(length = 100)
     private String userName;
@@ -53,11 +58,15 @@ public class Order extends BaseTimeEntity {
     @Builder
     private Order(
             Long userId,
+            String reserveName,
+            String reservePhone,
             String userName,
             String userPhone,
             Payment payment
     ) {
         this.userId = userId;
+        this.reserveName = reserveName;
+        this.reservePhone = reservePhone;
         this.userName = userName;
         this.userPhone = userPhone;
         this.payment = payment;
@@ -67,13 +76,9 @@ public class Order extends BaseTimeEntity {
         orderItems.add(orderItem);
     }
 
-    @Getter
-    @RequiredArgsConstructor
-    public enum StatusType {
-        INIT("예약 신청"),
-        COMPLETE("결제 완료"),
-        ;
-
-        private final String description;
+    public int calcTotalPrice() {
+        return orderItems.stream()
+                .mapToInt(OrderItem::getPrice)
+                .sum();
     }
 }

@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.domain.product.room;
 
+import com.fastcampus.reserve.common.exception.CustomException;
+import com.fastcampus.reserve.common.response.ErrorCode;
 import com.fastcampus.reserve.domain.BaseTimeEntity;
 import com.fastcampus.reserve.domain.product.Product;
 import jakarta.persistence.CascadeType;
@@ -62,9 +64,10 @@ public class Room extends BaseTimeEntity {
     private final List<RoomImage> images = new ArrayList<>();
 
     @Builder
-    private Room(Product product, String name, Integer price, Integer stock, String checkInTime,
-                 String checkOutTime, Integer baseGuestCount, Integer maxGuestCount,
-                 String roomFacilities) {
+    private Room(Long id, Product product, String name, Integer price, Integer stock,
+                 String checkInTime, String checkOutTime, Integer baseGuestCount,
+                 Integer maxGuestCount, String roomFacilities) {
+        this.id = id;
         this.product = product;
         this.name = name;
         this.price = price;
@@ -92,5 +95,22 @@ public class Room extends BaseTimeEntity {
         return images.stream()
                 .map(RoomImage::getUrl)
                 .findFirst();
+    }
+
+    public String getAddress() {
+        return this.product.getAddress();
+    }
+
+    public Long getProductId() {
+        return this.product.getId();
+    }
+
+    public String getProductName() {
+        return this.product.getName();
+    }
+
+    public String getImageUrl() {
+        return getFirstImage()
+            .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_IMAGE));
     }
 }
