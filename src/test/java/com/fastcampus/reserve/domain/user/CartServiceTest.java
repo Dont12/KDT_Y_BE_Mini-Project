@@ -75,7 +75,7 @@ class CartServiceTest {
         assertThatThrownBy(() -> cartService.deleteItems(user, dto))
             .isInstanceOf(CustomException.class)
             .hasMessage(
-                String.format("id: %d (%s)", id, ErrorCode.INVALID_CART_ITEM.getMessage())
+                String.format("%s (id: %d)", ErrorCode.INVALID_CART_ITEM.getMessage(), id)
             );
     }
 
