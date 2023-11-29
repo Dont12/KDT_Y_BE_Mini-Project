@@ -120,7 +120,7 @@ class OrderControllerTest extends ApiTest {
     void getOrderHistories() {
         // given
         IntStream.range(0, 3)
-                        .forEach(i -> getOrderId());
+                .forEach(i -> getOrderId());
         String url = "/v1/orders/history";
 
         // when
@@ -132,7 +132,6 @@ class OrderControllerTest extends ApiTest {
                 "data",
                 OrderHistoriesResponse.class
         );
-
 
         assertAll(
                 () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value()),
@@ -219,7 +218,7 @@ class OrderControllerTest extends ApiTest {
         return new RegisterOrderItemRequest(
                 -1L,
                 -1L,
-                LocalDate.of(2023, 11,28),
+                LocalDate.of(2023, 11, 28),
                 LocalTime.of(15, 0),
                 LocalDate.of(2023, 11, 29),
                 LocalTime.of(12, 0),
