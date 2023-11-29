@@ -18,6 +18,7 @@ public class UserService {
     private final UserReader userReader;
     private final PasswordEncoder passwordEncoder;
 
+    @Transactional
     public void signup(SignupDto dto) {
         if (userReader.existsByEmail(dto.email())) {
             throw new CustomException(ErrorCode.DUPLICATED_EMAIL);

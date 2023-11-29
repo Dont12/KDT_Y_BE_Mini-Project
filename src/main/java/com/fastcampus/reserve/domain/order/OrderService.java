@@ -29,6 +29,7 @@ public class OrderService {
     private final OrderReader orderReader;
     private final RegisterOrderFactory registerOrderFactory;
 
+    @Transactional
     public String registerOrder(RegisterOrderDto dto) {
         var registerOrder = registerOrderFactory.create(dto);
         var orderToken = UUID.randomUUID().toString();
