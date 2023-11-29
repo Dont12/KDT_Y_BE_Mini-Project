@@ -23,6 +23,7 @@ import com.fastcampus.reserve.infrestructure.user.CartRepository;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemAddRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartItemDeleteRequest;
+import com.fastcampus.reserve.interfaces.user.dto.request.CartOrderRequest;
 import com.fastcampus.reserve.interfaces.user.dto.request.SignupRequest;
 import jakarta.servlet.http.Cookie;
 import java.time.LocalDate;
@@ -202,6 +203,63 @@ public class CartDocumentationTest extends ApiDocumentation {
                     fieldWithPath("data.items[].guestCount").type(NUMBER)
                         .description("게스트 수")
                 )
+                )
+            );
+    }
+
+    @Test
+    void order() throws Exception {
+        // given
+        String email = "d@a.com";
+        String password = "password";
+        signup(email, password);
+
+        Cookie cookie = login(email, password);
+
+        cartRepository.deleteAll();
+        addCartItem(cookie);
+        addCartItem(cookie);
+
+        Product product = Product.builder().id(10L).description("description")
+            .address("address").area("area").category("category")
+            .latitude("0.0").longitude("0.0").sigungu("sigungu")
+            .zipCode("00000").name("name").build();
+        Room room = Room.builder().id(1L).product(product).stock(3)
+            .price(10000).checkInTime("11:11").checkOutTime("12:12")
+            .maxGuestCount(4).baseGuestCount(2).roomFacilities("abcabc")
+            .name("name").build();
+        room.addImage(RoomImage.builder().url("url").build());
+        when(roomRepository.findByIdWithImage(1L)).thenReturn(Optional.of(room));
+
+        List<Cart> cartItems = cartRepository.findAll();
+        CartOrderRequest request = new CartOrderRequest(
+            cartItems.stream().map(Cart::getId).toList()
+        );
+
+        byte[] param = objectMapper.writeValueAsBytes(request);
+
+        // when, then
+        this.mockMvc.perform(
+                post("/v1/carts/order")
+                    .accept(MediaType.APPLICATION_JSON)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .cookie(cookie)
+                    .content(param)
+            )
+            .andExpect(status().isOk())
+            .andDo(document(
+                    "carts/order/success",
+                    getDocumentRequest(),
+                    getDocumentResponse(),
+                    requestFields(
+                        fieldWithPath("cartIds").type(ARRAY)
+                            .description("주문할 아이템 id 목록")
+                    ),
+                    responseFields(
+                        fieldWithPath("status").ignored(),
+                        fieldWithPath("data.orderToken").type(STRING)
+                            .description("임시 예약 번호")
+                    )
                 )
             );
     }

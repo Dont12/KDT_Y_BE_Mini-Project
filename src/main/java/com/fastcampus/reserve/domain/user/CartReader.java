@@ -7,4 +7,6 @@ import org.springframework.data.domain.Pageable;
 public interface CartReader {
 
     Page<Cart> getCartItems(User user, Pageable pageable);
+
+    Cart getCartItem(Long cartId);
 }

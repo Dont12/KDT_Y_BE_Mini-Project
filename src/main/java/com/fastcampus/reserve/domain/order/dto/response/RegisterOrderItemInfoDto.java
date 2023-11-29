@@ -2,7 +2,6 @@ package com.fastcampus.reserve.domain.order.dto.response;
 
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import lombok.Builder;
 
 @Builder
@@ -16,9 +15,9 @@ public record RegisterOrderItemInfoDto(
         Integer maxGuestCount,
         Integer baseGuestCount,
         Integer price,
-        LocalTime checkInTime,
+        String checkInTime,
         LocalDate checkInDate,
-        LocalTime checkOutTime,
+        String checkOutTime,
         LocalDate checkOutDate
 ) {
 

@@ -2,6 +2,8 @@ package com.fastcampus.reserve.domain.user;
 
 import com.fastcampus.reserve.common.exception.CustomException;
 import com.fastcampus.reserve.common.response.ErrorCode;
+import com.fastcampus.reserve.domain.RedisService;
+import com.fastcampus.reserve.domain.order.RegisterOrderFactory;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemAddDto;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemDeleteDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartItemDto;
@@ -17,8 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class CartService {
 
+    private static final long INIT_ORDER_EXPIRED_TIME = 600;
+
+    private final RegisterOrderFactory registerOrderFactory;
     private final CartCommand cartCommand;
     private final CartReader cartReader;
+    private final RedisService redisService;
 
     @Transactional
     public void addItem(User user, CartItemAddDto dto) {
@@ -45,5 +51,9 @@ public class CartService {
             }
             cartCommand.deleteById(cartId);
         }
+    }
+
+    public CartItemDto getCartItem(Long cartId) {
+        return CartItemDto.from(cartReader.getCartItem(cartId));
     }
 }

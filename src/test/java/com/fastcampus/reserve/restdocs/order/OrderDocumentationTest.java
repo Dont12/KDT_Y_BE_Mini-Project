@@ -17,7 +17,6 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.fastcampus.reserve.common.ApiDocumentation;
 import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.Order;
@@ -26,7 +25,6 @@ import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
-import com.fastcampus.reserve.domain.user.UserReader;
 import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import jakarta.servlet.http.Cookie;
 import java.util.HashMap;
