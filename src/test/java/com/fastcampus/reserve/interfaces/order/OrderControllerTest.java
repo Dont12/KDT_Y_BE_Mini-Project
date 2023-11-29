@@ -15,12 +15,14 @@ import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.order.dto.response.OrderHistoriesResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderItemInfoResponse;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -89,7 +91,7 @@ class OrderControllerTest extends ApiTest {
     }
 
     @Test
-    @DisplayName("예약 신청 조정")
+    @DisplayName("예약 신청 조회")
     void getRegisterOrder() {
         // given
         String orderToken = getOrderToken();
@@ -147,6 +149,33 @@ class OrderControllerTest extends ApiTest {
     }
 
     @Test
+    @DisplayName("주문 내역 조회")
+    void getOrderHistories() {
+        // given
+        IntStream.range(0, 3)
+                .forEach(i -> getOrderId());
+        String url = "/v1/orders/history";
+
+        // when
+        ExtractableResponse<Response> result = RestAssuredUtils.getWithLogin(url);
+
+        // then
+        JsonPath jsonPath = result.jsonPath();
+        OrderHistoriesResponse response = jsonPath.getObject(
+                "data",
+                OrderHistoriesResponse.class
+        );
+
+        assertAll(
+                () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value()),
+                () -> assertThat(response.size()).isEqualTo(10),
+                () -> assertThat(response.pageNumber()).isEqualTo(1),
+                () -> assertThat(response.totalPages()).isEqualTo(1),
+                () -> assertThat(response.totalElements()).isEqualTo(3)
+        );
+    }
+
+    @Test
     @DisplayName("주문 내역 상세 조회")
     void getOrder() {
         // given
@@ -179,7 +208,7 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(jsonPath.getInt("data.totalPrice"))
                         .isEqualTo(99000),
                 () -> assertThat(jsonPath.getString("data.reserveDate"))
-                        .isEqualTo(LocalDate.now().toString()),
+                        .isEqualTo("2023-11-29"),
                 () -> assertThat(jsonPath.getString("data.payment"))
                         .isEqualTo("CARD"),
                 () -> assertThat(response.orderItemId())

@@ -13,19 +13,24 @@ import com.fastcampus.reserve.domain.RedisService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderItemDto;
+import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
+import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.LongStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("주문 검증")
@@ -117,17 +122,37 @@ class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("주문 내역 조회")
+    void findOrderHistories() {
+        // given
+        PageRequest pageable = PageRequest.of(0, 10);
+        List<Order> orderHistories = LongStream.range(0, 10)
+                .mapToObj(i -> {
+                    Order order = getOrder(i);
+                    OrderItem orderItem = createOrderItem();
+                    ReflectionTestUtils.setField(orderItem, "id", i);
+                    orderItem.registerOrder(order);
+                    return order;
+                })
+                .toList();
+
+        when(orderReader.findAllWithOrderItem(pageable))
+                .thenReturn(new PageImpl<>(orderHistories, pageable, 10));
+
+        // when
+        OrderHistoriesDto result = orderService.findOrderHistories(pageable);
+
+        // then
+        assertThat(result.size()).isEqualTo(10);
+    }
+
+    @Test
     @DisplayName("주문 내역 상세 조회")
     void findOrder() {
         // given
         Long orderId = -1L;
 
-        Order order = createOrder();
-        ReflectionTestUtils.setField(
-                order,
-                "createdDate",
-                LocalDateTime.of(2023, 11, 25, 15, 30)
-        );
+        Order order = getOrder(orderId);
         order.addOrderItem(createOrderItem());
 
         when(orderReader.findByIdWithOrderItem(orderId))
@@ -138,5 +163,16 @@ class OrderServiceTest {
 
         // then
         assertThat(result).isNotNull();
+    }
+
+    private Order getOrder(long i) {
+        Order order = createOrder();
+        ReflectionTestUtils.setField(order, "id", i);
+        ReflectionTestUtils.setField(
+                order,
+                "createdDate",
+                LocalDateTime.of(2023, 11, 25, 15, 30)
+        );
+        return order;
     }
 }

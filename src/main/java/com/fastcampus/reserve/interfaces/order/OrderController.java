@@ -5,6 +5,7 @@ import com.fastcampus.reserve.common.response.CommonResponse;
 import com.fastcampus.reserve.common.security.PrincipalDetails;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
+import com.fastcampus.reserve.interfaces.order.dto.response.OrderHistoriesResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.OrderInfoResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.PaymentResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderInfoResponse;
@@ -12,6 +13,7 @@ import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderRespons
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -53,6 +55,12 @@ public class OrderController {
             @RequestParam String orderToken
     ) {
         var response = orderFacade.findRegisterOrder(orderToken);
+        return CommonResponse.ok(mapper.of(response));
+    }
+
+    @GetMapping("/history")
+    public CommonResponse<OrderHistoriesResponse> getOrderHistories(Pageable pageable) {
+        var response = orderFacade.findOrderHistories(pageable);
         return CommonResponse.ok(mapper.of(response));
     }
 

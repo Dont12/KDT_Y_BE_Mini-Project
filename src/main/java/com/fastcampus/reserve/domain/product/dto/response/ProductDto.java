@@ -1,4 +1,4 @@
-package com.fastcampus.reserve.domain.dto.response;
+package com.fastcampus.reserve.domain.product.dto.response;
 
 import com.fastcampus.reserve.domain.product.Product;
 

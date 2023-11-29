@@ -2,7 +2,7 @@ package com.fastcampus.reserve.interfaces.product;
 
 import com.fastcampus.reserve.application.ProductFacade;
 import com.fastcampus.reserve.common.response.CommonResponse;
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.interfaces.product.dto.response.ProductResponse;
 import java.time.LocalDate;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.fastcampus.reserve.domain.product;
 
-import com.fastcampus.reserve.domain.dto.request.ProductListOptionDto;
-import com.fastcampus.reserve.domain.dto.response.ProductDto;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
+import com.fastcampus.reserve.domain.product.dto.response.ProductDto;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
 import com.fastcampus.reserve.domain.user.dto.response.RoomDetailDto;
