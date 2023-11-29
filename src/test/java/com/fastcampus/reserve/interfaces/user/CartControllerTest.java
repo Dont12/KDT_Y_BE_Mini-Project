@@ -1,11 +1,13 @@
 package com.fastcampus.reserve.interfaces.user;
 
+import static com.fastcampus.reserve.common.CreateUtils.createProductImage;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
 import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.user.Cart;
@@ -168,6 +170,8 @@ class CartControllerTest extends ApiTest {
             .address("address").area("area").category("category")
             .latitude("0.0").longitude("0.0").sigungu("sigungu")
             .zipCode("00000").name("name").build();
+        ProductImage productImage = createProductImage();
+        productImage.registerProduct(product);
         Room room = Room.builder().id(1L).product(product).stock(3)
             .price(10000).checkInTime("11:11").checkOutTime("12:12")
             .maxGuestCount(4).baseGuestCount(2).roomFacilities("abcabc")
