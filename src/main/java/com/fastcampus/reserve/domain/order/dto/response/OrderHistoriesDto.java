@@ -20,7 +20,7 @@ public record OrderHistoriesDto(
 
         return OrderHistoriesDto.builder()
                 .size(pageable.getPageSize())
-                .pageNumber(pageable.getPageNumber())
+                .pageNumber(pageable.getPageNumber() + 1)
                 .totalPages(orders.getTotalPages())
                 .totalElements(orders.getTotalElements())
                 .orderHistories(getOrderHistories(orders.getContent()))

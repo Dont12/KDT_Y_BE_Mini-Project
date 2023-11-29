@@ -14,7 +14,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,9 +59,7 @@ public class OrderController {
     }
 
     @GetMapping("/history")
-    public CommonResponse<OrderHistoriesResponse> getOrderHistories(
-            @PageableDefault Pageable pageable
-    ) {
+    public CommonResponse<OrderHistoriesResponse> getOrderHistories(Pageable pageable) {
         var response = orderFacade.findOrderHistories(pageable);
         return CommonResponse.ok(mapper.of(response));
     }

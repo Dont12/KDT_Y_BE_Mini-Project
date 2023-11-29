@@ -169,7 +169,7 @@ class OrderControllerTest extends ApiTest {
         assertAll(
                 () -> assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value()),
                 () -> assertThat(response.size()).isEqualTo(10),
-                () -> assertThat(response.pageNumber()).isEqualTo(0),
+                () -> assertThat(response.pageNumber()).isEqualTo(1),
                 () -> assertThat(response.totalPages()).isEqualTo(1),
                 () -> assertThat(response.totalElements()).isEqualTo(3)
         );
