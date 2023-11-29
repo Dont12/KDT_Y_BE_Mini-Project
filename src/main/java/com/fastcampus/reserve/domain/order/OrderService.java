@@ -9,7 +9,6 @@ import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,11 +47,9 @@ public class OrderService {
         return RegisterOrderInfoDto.from(orderToken, registerOrder);
     }
 
-    public List<OrderHistoriesDto> findOrderHistories(Pageable pageable) {
+    public OrderHistoriesDto findOrderHistories(Pageable pageable) {
         var orders = orderReader.findAllWithOrderItem(pageable);
-        return orders.stream()
-                .map(OrderHistoriesDto::from)
-                .toList();
+        return OrderHistoriesDto.from(orders);
     }
 
     public OrderInfoDto findOrder(Long orderId) {

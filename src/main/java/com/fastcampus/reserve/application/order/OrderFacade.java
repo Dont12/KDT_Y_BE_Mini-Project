@@ -6,7 +6,6 @@ import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +30,7 @@ public class OrderFacade {
         return orderService.findRegisterOrder(orderToken);
     }
 
-    public List<OrderHistoriesDto> findOrderHistories(Pageable pageable) {
+    public OrderHistoriesDto findOrderHistories(Pageable pageable) {
         return orderService.findOrderHistories(pageable);
     }
 
