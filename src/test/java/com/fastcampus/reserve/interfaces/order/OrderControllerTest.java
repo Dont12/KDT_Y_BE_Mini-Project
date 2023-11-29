@@ -56,7 +56,7 @@ class OrderControllerTest extends ApiTest {
     }
 
     @Test
-    @DisplayName("예약 신청 조정")
+    @DisplayName("예약 신청 조회")
     void getRegisterOrder() {
         // given
         String orderToken = getOrderToken();
