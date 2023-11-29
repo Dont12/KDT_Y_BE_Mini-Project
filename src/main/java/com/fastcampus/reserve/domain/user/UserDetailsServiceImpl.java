@@ -27,15 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new PrincipalDetails(
                 user.getId(),
-                convertToAuthorities(user.getAuthorities())
+                List.of(new SimpleGrantedAuthority("USER"))
         );
-    }
-
-    private Collection<? extends GrantedAuthority> convertToAuthorities(
-        List<Authority> authorities
-    ) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getRole().name()))
-                .collect(Collectors.toList());
     }
 }
