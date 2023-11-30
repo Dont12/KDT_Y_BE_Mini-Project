@@ -30,6 +30,7 @@ public enum ErrorCode {
 
     NOT_EXIST_PRODUCT(BAD_REQUEST, "존재하지 않는 숙박 정보입니다."),
     NOT_EXIST_ROOM(BAD_REQUEST, "존재하지 않는 방 정보입니다."),
+    ALREADY_ORDER_ROOM(BAD_REQUEST, "이미 예약된 방입니다."),
 
     REDIS_LOCK_ACQUISITION_FAILED(BAD_REQUEST, "Redisson Lock 획득에 실패하였습니다.")
     ;
