@@ -2,14 +2,14 @@
 
 include::{snippets}/order/registerOrder/success/request-fields.adoc[]
 
-==== HTTP request
+=== HTTP request
 include::{snippets}/order/registerOrder/success/http-request.adoc[]
 
-==== HTTP response fields
+=== HTTP response fields
 
 include::{snippets}/order/registerOrder/success/response-fields.adoc[]
 
-==== HTTP request
+=== HTTP request
 
 include::{snippets}/order/registerOrder/success/http-response.adoc[]
 
@@ -17,13 +17,13 @@ include::{snippets}/order/registerOrder/success/http-response.adoc[]
 
 include::{snippets}/order/payment/success/request-fields.adoc[]
 
-==== HTTP request
+=== HTTP request
 include::{snippets}/order/payment/success/http-request.adoc[]
 
-==== HTTP response fields
+=== HTTP response fields
 
 include::{snippets}/order/payment/success/response-fields.adoc[]
 
-==== HTTP request
+=== HTTP request
 
 include::{snippets}/order/payment/success/http-response.adoc[]

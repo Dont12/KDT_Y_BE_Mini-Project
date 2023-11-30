@@ -4,7 +4,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.prettyPrint;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -26,11 +28,21 @@ import com.fastcampus.reserve.infrestructure.product.RoomImageRepository;
 import com.fastcampus.reserve.infrestructure.product.room.RoomRepository;
 import com.fastcampus.reserve.interfaces.product.ProductDtoMapper;
 import com.fastcampus.reserve.interfaces.product.dto.response.ProductResponse;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 public class ProductDocumentationTest extends SecurityApiDocumentation {
 
@@ -48,6 +60,23 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
 
     @MockBean
     private ProductDtoMapper mapper;
+
+
+    @BeforeEach
+    public void setUp(WebApplicationContext webApplicationContext,
+                      RestDocumentationContextProvider restDocument) {
+
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
+            .apply(documentationConfiguration(restDocument)
+                .operationPreprocessors()
+                .withRequestDefaults(prettyPrint())
+                .withResponseDefaults(prettyPrint()))
+            .build();
+
+
+        MockitoAnnotations.openMocks(this);
+
+    }
 
     @Test
     public void getProductsExample() throws Exception {
@@ -108,6 +137,8 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
                         .param("pageSize", "10"))
                 .andExpect(status().isOk())
                 .andDo(document("get-products",
+                    getDocumentRequest(),
+                    getDocumentResponse(),
                         pathParameters(
                                 parameterWithName("category").description("카테고리").optional(),
                                 parameterWithName("areaCode").description("지역 코드").optional(),

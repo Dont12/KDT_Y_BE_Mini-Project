@@ -75,3 +75,7 @@ This code is used in situations where the user might be able to resolve the conf
 숙박 예약 기능
 
 include::order.adoc[]
+
+include::get-products.adoc[]
+
+include::auth.adoc[]
