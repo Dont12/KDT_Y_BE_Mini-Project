@@ -1,0 +1,39 @@
+== 인증 API 문서화
+
+=== 로그인
+
+==== HTTP 요청
+[source,http]
+----
+POST /v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "f@a.com",
+  "password": "password"
+}
+----
+
+==== 요청 필드
+- email: 이메일 주소
+- password: 비밀번호
+
+==== HTTP 응답 필드
+include::{snippets}/login/success/response-fields.adoc[]
+
+==== HTTP 응답 예시
+include::{snippets}/login/success/http-response.adoc[]
+
+=== 로그아웃
+
+==== HTTP 요청
+[source,http]
+----
+POST /v1/auth/logout
+----
+
+==== HTTP 응답 필드
+include::{snippets}/logout/success/response-fields.adoc[]
+
+==== HTTP 응답 예시
+include::{snippets}/logout/success/http-response.adoc[]
