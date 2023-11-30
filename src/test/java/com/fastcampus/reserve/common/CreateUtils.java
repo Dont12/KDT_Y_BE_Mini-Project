@@ -4,6 +4,10 @@ import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.RegisterOrder;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.order.payment.Payment;
+import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.ProductImage;
+import com.fastcampus.reserve.domain.product.room.Room;
+import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.user.User;
 import java.time.LocalDate;
 import java.util.List;
@@ -57,6 +61,44 @@ public final class CreateUtils {
                 .checkInTime("15:00")
                 .checkOutDate(LocalDate.now().plusDays(1))
                 .checkOutTime("12:00")
+                .build();
+    }
+
+    public static Product createProduct() {
+        return Product.builder()
+                .name("productName")
+                .category("HOTEL")
+                .description("description")
+                .zipCode("zipCode")
+                .address("address")
+                .longitude("longitude")
+                .latitude("latitude")
+                .area("areaCode")
+                .sigungu("sigunguCode")
+                .build();
+    }
+
+    public static ProductImage createProductImage() {
+        return ProductImage.builder()
+                .url("https://www.image.co.kr")
+                .build();
+    }
+
+    public static Room createRoom() {
+        return Room.builder()
+                .name("roomName")
+                .price(99000)
+                .stock(12)
+                .checkInTime("15:00")
+                .checkOutTime("12:00")
+                .baseGuestCount(2)
+                .maxGuestCount(4)
+                .build();
+    }
+
+    public static RoomImage createRoomImage() {
+        return RoomImage.builder()
+                .url("https://www.image.co.kr")
                 .build();
     }
 }

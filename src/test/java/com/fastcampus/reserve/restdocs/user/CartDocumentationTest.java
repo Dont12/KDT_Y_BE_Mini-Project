@@ -1,5 +1,7 @@
 package com.fastcampus.reserve.restdocs.user;
 
+import static com.fastcampus.reserve.common.CreateUtils.createProductImage;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
@@ -15,9 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fastcampus.reserve.common.ApiDocumentation;
 import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
 import com.fastcampus.reserve.domain.user.Cart;
+import com.fastcampus.reserve.infrestructure.product.ProductRepository;
 import com.fastcampus.reserve.infrestructure.product.room.RoomRepository;
 import com.fastcampus.reserve.infrestructure.user.CartRepository;
 import com.fastcampus.reserve.interfaces.auth.dto.request.LoginRequest;
@@ -39,6 +43,8 @@ public class CartDocumentationTest extends ApiDocumentation {
 
     @Autowired
     private CartRepository cartRepository;
+    @MockBean
+    private ProductRepository productRepository;
     @MockBean
     private RoomRepository roomRepository;
 
@@ -220,15 +226,18 @@ public class CartDocumentationTest extends ApiDocumentation {
         addCartItem(cookie);
         addCartItem(cookie);
 
-        Product product = Product.builder().id(10L).description("description")
+        Product product = Product.builder().id(1L).description("description")
             .address("address").area("area").category("category")
             .latitude("0.0").longitude("0.0").sigungu("sigungu")
             .zipCode("00000").name("name").build();
+        ProductImage productImage = createProductImage();
+        productImage.registerProduct(product);
         Room room = Room.builder().id(1L).product(product).stock(3)
             .price(10000).checkInTime("11:11").checkOutTime("12:12")
             .maxGuestCount(4).baseGuestCount(2).roomFacilities("abcabc")
             .name("name").build();
         room.addImage(RoomImage.builder().url("url").build());
+        when(productRepository.findByIdWithImage(anyLong())).thenReturn(Optional.of(product));
         when(roomRepository.findByIdWithImage(1L)).thenReturn(Optional.of(room));
 
         List<Cart> cartItems = cartRepository.findAll();

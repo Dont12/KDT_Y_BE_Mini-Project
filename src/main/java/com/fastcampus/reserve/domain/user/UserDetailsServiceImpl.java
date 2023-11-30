@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-@Transactional(readOnly = true)
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserReader userReader;
@@ -28,15 +27,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new PrincipalDetails(
                 user.getId(),
-                convertToAuthorities(user.getAuthorities())
+                List.of(new SimpleGrantedAuthority("USER"))
         );
-    }
-
-    private Collection<? extends GrantedAuthority> convertToAuthorities(
-        List<Authority> authorities
-    ) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority.getRole().name()))
-                .collect(Collectors.toList());
     }
 }

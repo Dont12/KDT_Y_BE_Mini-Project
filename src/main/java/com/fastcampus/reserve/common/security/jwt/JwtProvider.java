@@ -135,14 +135,8 @@ public class JwtProvider {
         // 원래 getAuthorityClaim(user) 통해 받아와야 하나
         // Authority 저장이 제대로 되지않는 이슈 해결이 어려워 임시로 고정값으로 해둠
         // TODO
-        claims.put(AUTHORITIES_KEY, User.RoleType.USER);
+        claims.put(AUTHORITIES_KEY, "USER");
         return claims;
-    }
-
-    private String getAuthorityClaim(User user) {
-        return user.getAuthorities().stream()
-                .map(authority -> authority.getRole().name())
-                .collect(Collectors.joining(SEPARATE));
     }
 
     private Claims getClaims(String token) {
