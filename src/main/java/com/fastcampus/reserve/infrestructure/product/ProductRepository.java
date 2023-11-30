@@ -11,9 +11,11 @@ import org.springframework.data.repository.query.Param;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     Page<Product> findAll(Pageable pageable);
 
-    Page<Product> findAllByCategory(String category, Pageable pageable);
 
     Page<Product> findAllByArea(String area, Pageable pageable);
+
+
+    Page<Product> findAllByCategory(String category, Pageable pageable);
 
 
     Page<Product> findAllByAreaAndCategory(String area, String category, Pageable pageable);
@@ -23,4 +25,5 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
             + "JOIN FETCH p.images "
             + "WHERE p.id = :id")
     Optional<Product> findByIdWithImage(@Param("id") Long id);
+
 }
