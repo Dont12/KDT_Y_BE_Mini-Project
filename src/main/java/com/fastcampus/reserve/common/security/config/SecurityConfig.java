@@ -78,6 +78,8 @@ public class SecurityConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         corsConfiguration.addAllowedOriginPattern(FRONT_URL_LOCAL);
+        corsConfiguration.addAllowedOriginPattern("https://stayinn.site");
+        corsConfiguration.addAllowedOriginPattern("https://www.stayinn.site");
         corsConfiguration.addAllowedHeader("*");
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.setAllowCredentials(true);
