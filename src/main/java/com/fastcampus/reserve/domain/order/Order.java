@@ -51,7 +51,7 @@ public class Order extends BaseTimeEntity {
 
     @OneToMany(
             fetch = FetchType.LAZY, mappedBy = "order",
-            cascade = CascadeType.PERSIST, orphanRemoval = true
+            cascade = CascadeType.ALL, orphanRemoval = true
     )
     private final List<OrderItem> orderItems = new ArrayList<>();
 
