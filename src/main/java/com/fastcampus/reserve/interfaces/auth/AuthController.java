@@ -59,7 +59,7 @@ public class AuthController {
 
     private String makeCookie(String name, String value, int maxAge) {
         return String.format(
-            "%s=%s; Path=/; Max-Age=%d; SameSite=None; Secure; Domain=localhost:3000",
+            "%s=%s; Path=/; Max-Age=%d; SameSite=None; Secure",
             name, value, maxAge
         );
     }
