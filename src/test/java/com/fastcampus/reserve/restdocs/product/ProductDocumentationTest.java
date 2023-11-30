@@ -12,27 +12,17 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fastcampus.reserve.application.ProductFacade;
+import com.fastcampus.reserve.common.SecurityApiDocumentation;
 import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.dto.response.ProductDto;
-import com.fastcampus.reserve.interfaces.product.ProductApiController;
 import com.fastcampus.reserve.interfaces.product.ProductDtoMapper;
 import com.fastcampus.reserve.interfaces.product.dto.response.ProductResponse;
 import java.util.List;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
-
-@WebMvcTest(ProductApiController.class)
-@AutoConfigureRestDocs(outputDir = "target/snippets")
-public class ProductDocumentation {
-
-    @Autowired
-    private MockMvc mockMvc;
+public class ProductDocumentationTest extends SecurityApiDocumentation {
 
     @MockBean
     private ProductFacade productFacade;
