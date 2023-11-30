@@ -139,6 +139,8 @@ class OrderControllerTest extends ApiTest {
                         .isEqualTo(2),
                 () -> assertThat(response.price())
                         .isEqualTo(99000),
+                () -> assertThat(response.day())
+                        .isEqualTo(1L),
                 () -> assertThat(response.checkInTime())
                         .isEqualTo("15:00"),
                 () -> assertThat(response.checkInDate())
@@ -227,6 +229,8 @@ class OrderControllerTest extends ApiTest {
                         .isEqualTo(4),
                 () -> assertThat(response.baseGuestCount())
                         .isEqualTo(2),
+                () -> assertThat(response.day())
+                        .isEqualTo(1L),
                 () -> assertThat(response.checkInTime())
                         .isEqualTo("15:00"),
                 () -> assertThat(response.checkInDate())

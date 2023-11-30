@@ -2,6 +2,7 @@ package com.fastcampus.reserve.domain.order.dto.response;
 
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import lombok.Builder;
 
 @Builder
@@ -15,6 +16,7 @@ public record RegisterOrderItemInfoDto(
         Integer maxGuestCount,
         Integer baseGuestCount,
         Integer price,
+        Long day,
         String checkInTime,
         LocalDate checkInDate,
         String checkOutTime,
@@ -32,6 +34,10 @@ public record RegisterOrderItemInfoDto(
                 .baseGuestCount(orderItem.getBaseGuestCount())
                 .maxGuestCount(orderItem.getMaxGuestCount())
                 .price(orderItem.getPrice())
+                .day(ChronoUnit.MONTHS.between(
+                        orderItem.getCheckInDate(),
+                        orderItem.getCheckOutDate()
+                ) + 1)
                 .checkInDate(orderItem.getCheckInDate())
                 .checkInTime(orderItem.getCheckInTime())
                 .checkOutDate(orderItem.getCheckOutDate())
