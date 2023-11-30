@@ -18,6 +18,12 @@ public class RoomReaderImpl implements RoomReader {
     private final RoomRepository roomRepository;
 
     @Override
+    public Room findById(Long id) {
+        return roomRepository.findById(id)
+                .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_ROOM));
+    }
+
+    @Override
     public Room findByIdWithImage(Long id) {
         return roomRepository.findByIdWithImage(id)
             .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_IMAGE));
