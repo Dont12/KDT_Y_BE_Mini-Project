@@ -15,6 +15,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
 
     Page<Product> findAllByArea(String area, Pageable pageable);
 
+
     Page<Product> findAllByAreaAndCategory(String area, String category, Pageable pageable);
 
     @Query("SELECT p "
