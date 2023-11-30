@@ -188,6 +188,8 @@ public class CartDocumentationTest extends ApiDocumentation {
                         .description("상품 이미지 URL"),
                     fieldWithPath("data.items[].product.address").type(STRING)
                         .description("숙박지 주소"),
+                    fieldWithPath("data.items[].product.roomName").type(STRING)
+                        .description("방 이름"),
                     fieldWithPath("data.items[].product.baseGuestCount").type(NUMBER)
                         .description("기준 투숙객 수"),
                     fieldWithPath("data.items[].product.maxGuestCount").type(NUMBER)
