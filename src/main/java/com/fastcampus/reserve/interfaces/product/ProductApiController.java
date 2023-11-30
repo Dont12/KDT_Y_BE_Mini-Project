@@ -44,11 +44,11 @@ public class ProductApiController {
 
     @GetMapping("/{id}")
     public CommonResponse<ProductDetailResponse> getProductDetail(
-            @RequestParam LocalDate checkInDate,
-            @RequestParam LocalDate checkOutDate,
+            @RequestParam LocalDate checkIn,
+            @RequestParam LocalDate checkOut,
             @PathVariable Long id
     ) {
-        var dto = productFacade.getProductDetail(id, checkInDate, checkOutDate);
+        var dto = productFacade.getProductDetail(id, checkIn, checkOut);
         return CommonResponse.ok(mapper.of(dto));
     }
 }

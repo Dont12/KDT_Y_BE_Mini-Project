@@ -131,8 +131,8 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
 
         // when, then
         this.mockMvc.perform(get("/v1/products/{id}", 1)
-                .param("checkInDate", "2023-01-01")
-                .param("checkOutDate", "2023-01-03")
+                .param("checkIn", "2023-01-01")
+                .param("checkOut", "2023-01-03")
             )
             .andExpect(status().isOk())
             .andDo(document("get-product",
@@ -140,8 +140,8 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
                     parameterWithName("id").description("The product ID")
                 ),
                 queryParameters(
-                    parameterWithName("checkInDate").description("Check-in date"),
-                    parameterWithName("checkOutDate").description("Check-out date")
+                    parameterWithName("checkIn").description("Check-in date"),
+                    parameterWithName("checkOut").description("Check-out date")
                 ),
                 responseFields(
                     fieldWithPath("status")
