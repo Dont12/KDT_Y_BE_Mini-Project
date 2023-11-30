@@ -12,7 +12,7 @@ public record RegisterOrderItemInfoResponse(
         Integer maxGuestCount,
         Integer baseGuestCount,
         Integer price,
-        Long day,
+        int day,
         String checkInTime,
         LocalDate checkInDate,
         String checkOutTime,
