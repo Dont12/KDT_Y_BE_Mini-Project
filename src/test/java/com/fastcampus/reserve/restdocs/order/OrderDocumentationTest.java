@@ -57,6 +57,8 @@ public class OrderDocumentationTest extends SecurityApiDocumentation {
                                         .description("숙박 업소 ID"),
                                 fieldWithPath("registerOrderItems[].roomId").type(NUMBER)
                                         .description("방 ID"),
+                                fieldWithPath("registerOrderItems[].day").type(NUMBER)
+                                        .description("예약 일 수"),
                                 fieldWithPath("registerOrderItems[].checkInDate").type(STRING)
                                         .attributes(getDateFormat())
                                         .description("체크인 날짜"),
