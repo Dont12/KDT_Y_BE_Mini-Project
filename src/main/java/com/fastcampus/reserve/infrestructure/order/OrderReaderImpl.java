@@ -43,7 +43,7 @@ public class OrderReaderImpl implements OrderReader {
 
     @Override
     public boolean isPayment(List<ReserveDateDto> reserveDates) {
-        Long roomId = -1L;
+        Long roomId = Long.MIN_VALUE;
         int stock = 0;
         for (ReserveDateDto reserveDate : reserveDates) {
             if (!roomId.equals(reserveDate.roomId())) {
