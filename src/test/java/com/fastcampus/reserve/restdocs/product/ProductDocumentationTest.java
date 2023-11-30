@@ -146,70 +146,70 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
                 responseFields(
                     fieldWithPath("status")
                         .description("Response status")
-//                    fieldWithPath("data.id")
-//                        .description("Product ID"),
-//                    fieldWithPath("data.name")
-//                        .description("Name of the accommodation"),
-//                    fieldWithPath("data.zipCode")
-//                        .description("Zip code"),
-//                    fieldWithPath("data.address")
-//                        .description("Address"),
-//                    fieldWithPath("data.description")
-//                        .description("Description of the accommodation"),
-//                    fieldWithPath("data.longitude")
-//                        .description("Longitude"),
-//                    fieldWithPath("data.latitude")
-//                        .description("Latitude"),
-//                    fieldWithPath("data.imageUrl")
-//                        .description("Image URLs"),
-//                    fieldWithPath("data.rooms[].id")
-//                        .description("Room ID"),
-//                    fieldWithPath("data.rooms[].name")
-//                        .description("Room name"),
-//                    fieldWithPath("data.rooms[].basicGuestCount")
-//                        .description("Basic guest count"),
-//                    fieldWithPath("data.rooms[].maxGuestCount")
-//                        .description("Maximum guest count"),
-//                    fieldWithPath("data.rooms[].price")
-//                        .description("Price"),
-//                    fieldWithPath("data.rooms[].checkInTime")
-//                        .description("Check-in time"),
-//                    fieldWithPath("data.rooms[].checkOutTime")
-//                        .description("Check-out time"),
-//                    fieldWithPath("data.rooms[].imageUrl")
-//                        .description("Image URL for the room"),
-//                    fieldWithPath("data.rooms[].reserveDate")
-//                        .description("Reservation date"),
-//                    fieldWithPath("data.rooms[].stock")
-//                        .description("Stock available"),
-//                    fieldWithPath("data.rooms[].roomBathFacility")
-//                        .description("Room bath facility availability"),
-//                    fieldWithPath("data.rooms[].roomBath")
-//                        .description("Room bath availability"),
-//                    fieldWithPath("data.rooms[].roomHomeTheater")
-//                        .description("Room home theater availability"),
-//                    fieldWithPath("data.rooms[].roomAircondition")
-//                        .description("Room air conditioning availability"),
-//                    fieldWithPath("data.rooms[].roomTv")
-//                        .description("Room TV availability"),
-//                    fieldWithPath("data.rooms[].roomPc")
-//                        .description("Room PC availability"),
-//                    fieldWithPath("data.rooms[].roomCable")
-//                        .description("Room cable availability"),
-//                    fieldWithPath("data.rooms[].roomInternet")
-//                        .description("Room internet availability"),
-//                    fieldWithPath("data.rooms[].roomRefrigerator")
-//                        .description("Room refrigerator availability"),
-//                    fieldWithPath("data.rooms[].roomToiletries")
-//                        .description("Room toiletries availability"),
-//                    fieldWithPath("data.rooms[].roomSofa")
-//                        .description("Room sofa availability"),
-//                    fieldWithPath("data.rooms[].roomCook")
-//                        .description("Room cooking facilities"),
-//                    fieldWithPath("data.rooms[].roomTable")
-//                        .description("Room table availability"),
-//                    fieldWithPath("data.rooms[].roomHairdryer")
-//                        .description("Room hairdryer availability")
+                //fieldWithPath("data.id")
+                //    .description("Product ID"),
+                //fieldWithPath("data.name")
+                //    .description("Name of the accommodation"),
+                //fieldWithPath("data.zipCode")
+                //    .description("Zip code"),
+                //fieldWithPath("data.address")
+                //    .description("Address"),
+                //fieldWithPath("data.description")
+                //    .description("Description of the accommodation"),
+                //fieldWithPath("data.longitude")
+                //    .description("Longitude"),
+                //fieldWithPath("data.latitude")
+                //    .description("Latitude"),
+                //fieldWithPath("data.imageUrl")
+                //    .description("Image URLs"),
+                //fieldWithPath("data.rooms[].id")
+                //    .description("Room ID"),
+                //fieldWithPath("data.rooms[].name")
+                //    .description("Room name"),
+                //fieldWithPath("data.rooms[].basicGuestCount")
+                //    .description("Basic guest count"),
+                //fieldWithPath("data.rooms[].maxGuestCount")
+                //    .description("Maximum guest count"),
+                //fieldWithPath("data.rooms[].price")
+                //    .description("Price"),
+                //fieldWithPath("data.rooms[].checkInTime")
+                //    .description("Check-in time"),
+                //fieldWithPath("data.rooms[].checkOutTime")
+                //    .description("Check-out time"),
+                //fieldWithPath("data.rooms[].imageUrl")
+                //    .description("Image URL for the room"),
+                //fieldWithPath("data.rooms[].reserveDate")
+                //    .description("Reservation date"),
+                //fieldWithPath("data.rooms[].stock")
+                //    .description("Stock available"),
+                //fieldWithPath("data.rooms[].roomBathFacility")
+                //    .description("Room bath facility availability"),
+                //fieldWithPath("data.rooms[].roomBath")
+                //    .description("Room bath availability"),
+                //fieldWithPath("data.rooms[].roomHomeTheater")
+                //    .description("Room home theater availability"),
+                //fieldWithPath("data.rooms[].roomAircondition")
+                //    .description("Room air conditioning availability"),
+                //fieldWithPath("data.rooms[].roomTv")
+                //    .description("Room TV availability"),
+                //fieldWithPath("data.rooms[].roomPc")
+                //    .description("Room PC availability"),
+                //fieldWithPath("data.rooms[].roomCable")
+                //    .description("Room cable availability"),
+                //fieldWithPath("data.rooms[].roomInternet")
+                //    .description("Room internet availability"),
+                //fieldWithPath("data.rooms[].roomRefrigerator")
+                //    .description("Room refrigerator availability"),
+                //fieldWithPath("data.rooms[].roomToiletries")
+                //    .description("Room toiletries availability"),
+                //fieldWithPath("data.rooms[].roomSofa")
+                //    .description("Room sofa availability"),
+                //fieldWithPath("data.rooms[].roomCook")
+                //    .description("Room cooking facilities"),
+                //fieldWithPath("data.rooms[].roomTable")
+                //    .description("Room table availability"),
+                //fieldWithPath("data.rooms[].roomHairdryer")
+                //    .description("Room hairdryer availability")
                 )
             ));
     }
