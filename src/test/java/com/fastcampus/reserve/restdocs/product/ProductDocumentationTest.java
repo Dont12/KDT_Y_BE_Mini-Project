@@ -97,8 +97,7 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
                                 parameterWithName("pageSize").description("페이지 크기").optional()
                         ),
                         responseFields(
-                                fieldWithPath("status").description("응답 상태"),
-                                fieldWithPath("errorMessage").description("에러 메시지").optional(),
+                                fieldWithPath("status").ignored(),
                                 fieldWithPath("data[].id").description("상품 ID"),
                                 fieldWithPath("data[].name").description("상품 이름"),
                                 fieldWithPath("data[].imageUrl").description("상품 이미지 URL"),
