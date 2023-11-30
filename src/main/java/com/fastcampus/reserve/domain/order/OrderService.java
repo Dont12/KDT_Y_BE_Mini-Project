@@ -9,6 +9,7 @@ import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
+import java.time.LocalDate;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,5 +62,9 @@ public class OrderService {
     private RegisterOrder getRegisterOrder(String orderToken) {
         return redisService.get(orderToken, RegisterOrder.class)
                 .orElseThrow(() -> new CustomException(NOT_EXIST_REGISTER_ORDER));
+    }
+
+    public int calcOrderedStock(Long roomId, LocalDate checkInDate, LocalDate checkOutDate) {
+        return orderReader.calcOrderedStock(roomId, checkInDate, checkOutDate);
     }
 }

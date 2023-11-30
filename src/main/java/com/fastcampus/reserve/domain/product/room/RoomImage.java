@@ -32,8 +32,9 @@ public class RoomImage extends BaseTimeEntity {
     private Room room;
 
     @Builder
-    private RoomImage(String url) {
+    private RoomImage(String url, Room room) {
         this.url = url;
+        this.room = room;
     }
 
     public void registerRoom(Room room) {

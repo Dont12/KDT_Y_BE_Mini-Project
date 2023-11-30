@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,11 +42,13 @@ public class ProductApiController {
         return CommonResponse.ok(mapper.of(responseDto));
     }
 
-    @GetMapping("{id}")
-    public CommonResponse<List<ProductDetailResponse>> getProductDetails(
-            @RequestParam LocalDate checkIn,
-            @RequestParam LocalDate checkOut
+    @GetMapping("/{id}")
+    public CommonResponse<ProductDetailResponse> getProductDetail(
+            @RequestParam LocalDate checkInDate,
+            @RequestParam LocalDate checkOutDate,
+            @PathVariable Long id
     ) {
-        return null;
+        var dto = productFacade.getProductDetail(id, checkInDate, checkOutDate);
+        return CommonResponse.ok(mapper.of(dto));
     }
 }

@@ -8,10 +8,10 @@ import com.fastcampus.reserve.domain.user.CartService;
 import com.fastcampus.reserve.domain.user.UserService;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemAddDto;
 import com.fastcampus.reserve.domain.user.dto.request.CartItemDeleteDto;
-import com.fastcampus.reserve.domain.user.dto.response.CartDetailDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartDetailItemDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartItemDto;
 import com.fastcampus.reserve.domain.user.dto.response.CartListDto;
+import com.fastcampus.reserve.domain.user.dto.response.RoomDto;
 import com.fastcampus.reserve.interfaces.user.dto.request.CartOrderDto;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,9 +48,9 @@ public class CartFacade {
     }
 
     private CartDetailItemDto toDetail(CartItemDto cartItemDto) {
-        CartDetailDto roomDetailDto =
+        RoomDto roomDto =
             productService.getRoomDetail(cartItemDto.roomId());
-        return CartDetailItemDto.from(cartItemDto, roomDetailDto);
+        return CartDetailItemDto.from(cartItemDto, roomDto);
     }
 
     public void deleteItems(Long userId, CartItemDeleteDto dto) {
@@ -74,18 +74,18 @@ public class CartFacade {
     private RegisterOrderItemDto toRegisterOrderItemDto(Long cartId) {
         CartItemDto cart = cartService.getCartItem(cartId);
 
-        CartDetailDto roomDetailDto =
+        RoomDto roomDto =
             productService.getRoomDetail(cart.roomId());
 
         return new RegisterOrderItemDto(
-            roomDetailDto.productId(),
-            roomDetailDto.roomId(),
+            roomDto.productId(),
+            roomDto.roomId(),
             cart.checkInDate(),
-            roomDetailDto.checkInTime(),
+            roomDto.checkInTime(),
             cart.checkOutDate(),
-            roomDetailDto.checkOutTime(),
+            roomDto.checkOutTime(),
             cart.guestCount(),
-            roomDetailDto.price()
+            roomDto.price()
         );
     }
 }
