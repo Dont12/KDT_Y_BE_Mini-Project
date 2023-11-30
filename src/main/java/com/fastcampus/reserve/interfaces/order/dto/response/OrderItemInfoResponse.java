@@ -10,6 +10,7 @@ public record OrderItemInfoResponse(
         String imageUrl,
         Integer maxGuestCount,
         Integer baseGuestCount,
+        Long day,
         String checkInTime,
         LocalDate checkInDate,
         String checkOutTime,
