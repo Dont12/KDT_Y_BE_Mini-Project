@@ -1,0 +1,17 @@
+.+/products+
+|===
+|Parameter|Description
+
+|`+category+`
+|카테고리
+
+|`+areaCode+`
+|지역 코드
+
+|`+page+`
+|페이지 번호
+
+|`+pageSize+`
+|페이지 크기
+
+|===
