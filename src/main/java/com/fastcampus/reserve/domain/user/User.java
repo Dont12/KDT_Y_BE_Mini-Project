@@ -53,33 +53,15 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private final List<Cart> carts = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_authority", joinColumns = @JoinColumn(name = "user_id"))
-    private final List<Authority> authorities = new ArrayList<>();
-
     @Builder
     private User(String email, String password, String nickname, String phone) {
-        this(email, password, nickname, phone, RoleType.USER);
-    }
-
-    @Builder
-    private User(String email, String password, String nickname, String phone, RoleType roleType) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.phone = phone;
-        this.authorities.add(createAuthority(roleType));
     }
 
     public void addCart(Cart cart) {
         carts.add(cart);
-    }
-
-    public enum RoleType {
-        USER, ADMIN;
-    }
-
-    private Authority createAuthority(RoleType roleType) {
-        return Authority.builder().role(roleType).build();
     }
 }

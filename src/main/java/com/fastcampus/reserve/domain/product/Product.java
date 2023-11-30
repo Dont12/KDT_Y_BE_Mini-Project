@@ -53,7 +53,6 @@ public class Product extends BaseTimeEntity {
     private String sigungu;
 
     @OneToMany(
-
             mappedBy = "product",
             cascade = CascadeType.PERSIST,
             orphanRemoval = true
@@ -61,7 +60,7 @@ public class Product extends BaseTimeEntity {
     private final List<ProductImage> images = new ArrayList<>();
     @OneToMany(
             mappedBy = "product",
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.ALL,
             orphanRemoval = true
     )
     private final List<Room> rooms = new ArrayList<>();
@@ -99,9 +98,5 @@ public class Product extends BaseTimeEntity {
 
     public String getImageUrl() {
         return this.images.get(0).getUrl();
-    }
-
-    public enum CategoryType {
-        HOTEL, MOTEL, PENSION
     }
 }
