@@ -63,7 +63,8 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
 
 
     @BeforeEach
-    public void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocument) {
+    public void setUp(WebApplicationContext webApplicationContext,
+                      RestDocumentationContextProvider restDocument) {
 
         this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
             .apply(documentationConfiguration(restDocument)
