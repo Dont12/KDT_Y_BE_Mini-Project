@@ -1,4 +1,0 @@
-[source,json,options="nowrap"]
-----
-{"status":"SUCCESS","errorMessage":null,"data":[{"id":2804347,"name":"스테이 앤드 스튜디오 여여재[한국관광 품질인증/Korea Quality]","minPrice":170000,"imageUrl":"http://tong.visitkorea.or.kr/cms/resource/41/2803441_image2_1.jpg"},{"id":2706613,"name":"송계헌 [한국관광 품질인증/Korea Quality]","minPrice":450000,"imageUrl":"http://tong.visitkorea.or.kr/cms/resource/22/2629122_image2_1.jpg"},{"id":1972030,"name":"상유재 [한국관광 품질인증/Korea Quality]","minPrice":70000,"imageUrl":"http://tong.visitkorea.or.kr/cms/resource/30/1972030_image2_1.jpg"},{"id":1836470,"name":"베이브리즈가족호텔","minPrice":120000,"imageUrl":"http://tong.visitkorea.or.kr/cms/resource/06/1836506_image2_1.JPG"},{"id":2531417,"name":"전주 한옥숙박체험관[한국관광 품질인증/Korea Quality]","minPrice":60000,"imageUrl":"http://tong.visitkorea.or.kr/cms/resource/90/2531490_image2_1.jpg"}]}
-----

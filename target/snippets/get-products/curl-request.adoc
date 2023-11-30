@@ -1,4 +1,0 @@
-[source,bash]
-----
-$ curl 'http://localhost:8080/products?checkIn=2023-01-01&checkOut=2023-01-03&category=%ED%98%B8%ED%85%94&areaCode=%EC%B6%A9%EC%B2%AD%EB%82%A8%EB%8F%84&page=1&pageSize=10' -i -X GET
-----
