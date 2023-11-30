@@ -2,12 +2,13 @@ package com.fastcampus.reserve.domain.user.dto.response;
 
 import com.fastcampus.reserve.domain.product.room.Room;
 
-public record RoomDetailDto(
+public record CartDetailDto(
     Long productId,
     Long roomId,
     String productName,
     String imageUrl,
     String address,
+    String roomName,
     int baseGuestCount,
     int maxGuestCount,
     int price,
@@ -16,13 +17,14 @@ public record RoomDetailDto(
     int stock
 ) {
 
-    public static RoomDetailDto from(Room room) {
-        return new RoomDetailDto(
+    public static CartDetailDto from(Room room) {
+        return new CartDetailDto(
             room.getProductId(),
             room.getId(),
             room.getProductName(),
             room.getImageUrl(),
             room.getAddress(),
+            room.getName(),
             room.getBaseGuestCount(),
             room.getMaxGuestCount(),
             room.getPrice(),

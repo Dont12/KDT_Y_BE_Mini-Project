@@ -4,7 +4,7 @@ import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import com.fastcampus.reserve.domain.product.dto.response.ProductDto;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
-import com.fastcampus.reserve.domain.user.dto.response.RoomDetailDto;
+import com.fastcampus.reserve.domain.user.dto.response.CartDetailDto;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,8 +35,8 @@ public class ProductService {
         return totalPrice;
     }
 
-    public RoomDetailDto getRoomDetail(Long id) {
+    public CartDetailDto getRoomDetail(Long id) {
         Room room = roomReader.findByIdWithImage(id);
-        return RoomDetailDto.from(room);
+        return CartDetailDto.from(room);
     }
 }
