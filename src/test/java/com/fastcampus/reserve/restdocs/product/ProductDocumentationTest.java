@@ -81,7 +81,7 @@ public class ProductDocumentationTest extends SecurityApiDocumentation {
         given(mapper.of(anyList()))
                 .willReturn(productResponses);
 
-        this.mockMvc.perform(get("/products")
+        this.mockMvc.perform(get("/v1/products")
                         .param("checkIn", "2023-01-01")
                         .param("checkOut", "2023-01-03")
                         .param("category", "호텔")

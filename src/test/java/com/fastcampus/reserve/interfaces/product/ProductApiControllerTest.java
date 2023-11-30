@@ -42,10 +42,10 @@ class ProductApiControllerTest {
     @DisplayName("전체 조회API 테스트")
     void testGetProducts() throws Exception {
         when(productFacade.getProducts(any()))
-                .thenReturn(
-                        List.of(new ProductDto(1L, "name", 0, "imageUrl")));
-        mockMvc.perform(get("/products"))
-                .andExpect(status().isBadRequest())
-                .andDo(print());
+            .thenReturn(
+                List.of(new ProductDto(1L, "name", 0, "imageUrl")));
+        mockMvc.perform(get("/v1/products"))
+            .andExpect(status().isBadRequest())
+            .andDo(print());
     }
 }

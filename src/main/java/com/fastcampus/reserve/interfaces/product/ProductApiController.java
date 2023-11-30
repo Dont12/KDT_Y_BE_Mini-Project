@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/products")
+@RequestMapping("/v1/products")
 public class ProductApiController {
 
     private final ProductFacade productFacade;
