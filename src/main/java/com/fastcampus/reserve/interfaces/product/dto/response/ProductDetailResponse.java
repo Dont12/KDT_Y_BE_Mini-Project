@@ -19,7 +19,14 @@ public class ProductDetailResponse {
     private final List<RoomResponse> rooms;
 
     @Builder
-    public ProductDetailResponse(Long id, String name, String zipCode, String address, String description, String longitude, String latitude, List<RoomResponse> rooms) {
+    public ProductDetailResponse(Long id,
+                                 String name,
+                                 String zipCode,
+                                 String address,
+                                 String description,
+                                 String longitude,
+                                 String latitude,
+                                 List<RoomResponse> rooms) {
         this.id = id;
         this.name = name;
         this.zipCode = zipCode;

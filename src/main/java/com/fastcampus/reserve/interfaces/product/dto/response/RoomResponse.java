@@ -35,7 +35,25 @@ public class RoomResponse {
     private final String roomHairdryer;
 
     @Builder
-    public RoomResponse(Long id, String name, Integer price, Integer stock, String imageUrl, String roomBathFacility, String roomBath, String roomHomeTheater, String roomAircondition, String roomTv, String roomPc, String roomCable, String roomInternet, String roomRefrigerator, String roomToiletries, String roomSofa, String roomCook, String roomTable, String roomHairdryer) {
+    public RoomResponse(Long id,
+                        String name,
+                        Integer price,
+                        Integer stock,
+                        String imageUrl,
+                        String roomBathFacility,
+                        String roomBath,
+                        String roomHomeTheater,
+                        String roomAircondition,
+                        String roomTv,
+                        String roomPc,
+                        String roomCable,
+                        String roomInternet,
+                        String roomRefrigerator,
+                        String roomToiletries,
+                        String roomSofa,
+                        String roomCook,
+                        String roomTable,
+                        String roomHairdryer) {
         this.id = id;
         this.name = name;
         this.price = price;
