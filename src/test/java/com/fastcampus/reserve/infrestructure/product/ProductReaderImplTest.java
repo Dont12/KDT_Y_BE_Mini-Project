@@ -8,11 +8,10 @@ import static org.mockito.BDDMockito.never;
 import static org.mockito.BDDMockito.verify;
 
 import com.fastcampus.reserve.domain.product.Product;
+import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
-
-import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -23,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+
 
 class ProductReaderImplTest {
     @Mock
