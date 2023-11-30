@@ -5,17 +5,17 @@ import java.time.Period;
 
 public record CartDetailItemDto(
     Long id,
-    RoomDetailDto product,
+    RoomDto product,
     LocalDate checkInDate,
     LocalDate checkOutDate,
     int numberOfNights,
     int guestCount
 ) {
 
-    public static CartDetailItemDto from(CartItemDto cartItem, RoomDetailDto roomDetailDto) {
+    public static CartDetailItemDto from(CartItemDto cartItem, RoomDto roomDto) {
         return new CartDetailItemDto(
             cartItem.id(),
-            roomDetailDto,
+            roomDto,
             cartItem.checkInDate(),
             cartItem.checkOutDate(),
             Period.between(cartItem.checkInDate(), cartItem.checkOutDate()).getDays(),

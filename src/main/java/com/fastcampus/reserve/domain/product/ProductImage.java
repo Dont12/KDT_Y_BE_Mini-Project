@@ -31,8 +31,9 @@ public class ProductImage {
     private Product product;
 
     @Builder
-    private ProductImage(String url) {
+    private ProductImage(String url, Product product) {
         this.url = url;
+        this.product = product;
     }
 
     public void registerProduct(Product product) {

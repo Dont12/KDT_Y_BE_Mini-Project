@@ -2,7 +2,7 @@ package com.fastcampus.reserve.domain.user.dto.response;
 
 import com.fastcampus.reserve.domain.product.room.Room;
 
-public record RoomDetailDto(
+public record RoomDto(
     Long productId,
     Long roomId,
     String productName,
@@ -16,8 +16,8 @@ public record RoomDetailDto(
     int stock
 ) {
 
-    public static RoomDetailDto from(Room room) {
-        return new RoomDetailDto(
+    public static RoomDto from(Room room) {
+        return new RoomDto(
             room.getProductId(),
             room.getId(),
             room.getProductName(),

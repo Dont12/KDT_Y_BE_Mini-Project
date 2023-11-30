@@ -20,6 +20,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.json.JSONObject;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -112,5 +113,9 @@ public class Room extends BaseTimeEntity {
     public String getImageUrl() {
         return getFirstImage()
             .orElseThrow(() -> new CustomException(ErrorCode.NOT_EXIST_IMAGE));
+    }
+
+    public List<String> getImageUrls() {
+        return images.stream().map(RoomImage::getUrl).toList();
     }
 }

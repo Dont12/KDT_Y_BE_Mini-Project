@@ -99,4 +99,8 @@ public class Product extends BaseTimeEntity {
     public String getImageUrl() {
         return this.images.get(0).getUrl();
     }
+
+    public List<String> getImageUrls() {
+        return images.stream().map(ProductImage::getUrl).toList();
+    }
 }
