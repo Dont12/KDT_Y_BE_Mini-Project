@@ -31,7 +31,7 @@ public class SecurityConfig {
 
     private static final String[] WHITELIST_URLS = {
         "/v1/users", "/v1/auth/login", "/v1/auth/logout",
-        "/v1/products", "/v1/products/{id}"
+        "/v1/products", "/v1/products/**"
     };
 
     @Bean
