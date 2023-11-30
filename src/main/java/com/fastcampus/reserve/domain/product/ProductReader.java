@@ -1,13 +1,13 @@
 package com.fastcampus.reserve.domain.product;
 
 import com.fastcampus.reserve.domain.product.dto.request.ProductListOptionDto;
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 public interface ProductReader {
 
     Product getProduct(Long id);
 
-    List<Product> getAllProduct(ProductListOptionDto dto);
+    Page<Product> getAllProduct(ProductListOptionDto dto);
 
     Product findByIdWithImage(Long id);
 }
