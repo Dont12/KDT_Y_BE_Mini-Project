@@ -51,7 +51,7 @@ public class OrderReaderImpl implements OrderReader {
             }
 
             int orderCount = orderItemRepository.countReserveStatus(reserveDate);
-            if (stock - orderCount <= 1) {
+            if (stock - orderCount < 1) {
                 return false;
             }
         }

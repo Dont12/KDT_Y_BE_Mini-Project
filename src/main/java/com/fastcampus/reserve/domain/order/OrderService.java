@@ -12,10 +12,10 @@ import com.fastcampus.reserve.domain.order.dto.response.OrderHistoriesDto;
 import com.fastcampus.reserve.domain.order.dto.response.OrderInfoDto;
 import com.fastcampus.reserve.domain.order.dto.response.RegisterOrderInfoDto;
 import java.time.LocalDate;
-import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.IntStream;
+import java.util.stream.LongStream;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -84,10 +84,10 @@ public class OrderService {
         return registerOrder.orderItems().stream()
                 .flatMap(orderItem -> {
                     LocalDate checkInDate = orderItem.getCheckInDate();
-                    int days = Period.between(
+                    long days = ChronoUnit.DAYS.between(
                             checkInDate,
                             orderItem.getCheckOutDate()
-                    ).getDays();
+                    );
                     return getReserveDate(orderItem.getRoomId(), checkInDate, days);
                 })
                 .toList();
@@ -96,9 +96,9 @@ public class OrderService {
     private static Stream<ReserveDateDto> getReserveDate(
             Long roomId,
             LocalDate checkInDate,
-            int days
+            long days
     ) {
-        return IntStream.range(0, days)
+        return LongStream.range(0, days)
                 .mapToObj(i -> ReserveDateDto.builder()
                         .roomId(roomId)
                         .date(checkInDate.plusDays(i))
