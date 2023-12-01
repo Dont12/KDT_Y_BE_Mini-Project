@@ -68,6 +68,10 @@ public class CartFacade {
             userId,
             items
         );
+
+        var user = userService.getUser(userId);
+        cartService.deleteItems(user, new CartItemDeleteDto(dto.cartIds()));
+
         return orderService.registerOrder(orderDto);
     }
 
