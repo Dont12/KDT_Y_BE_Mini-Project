@@ -60,7 +60,7 @@ public final class RestAssuredUtils {
                 .extract();
     }
 
-    private static String login() {
+    public static String login() {
         LoginRequest request = new LoginRequest(EMAIL, PASSWORD);
         ExtractableResponse<Response> response = RestAssured
                 .given().log().all()

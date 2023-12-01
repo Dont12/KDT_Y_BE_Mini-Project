@@ -4,6 +4,7 @@ import static com.fastcampus.reserve.common.CreateUtils.createProduct;
 import static com.fastcampus.reserve.common.CreateUtils.createProductImage;
 import static com.fastcampus.reserve.common.CreateUtils.createRoom;
 import static com.fastcampus.reserve.common.CreateUtils.createRoomImage;
+import static com.fastcampus.reserve.common.RestAssuredUtils.login;
 import static com.fastcampus.reserve.domain.order.payment.Payment.CARD;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -21,17 +22,25 @@ import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequ
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderRequest;
 import com.fastcampus.reserve.interfaces.order.dto.response.OrderHistoriesResponse;
 import com.fastcampus.reserve.interfaces.order.dto.response.RegisterOrderItemInfoResponse;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.ExtractableResponse;
 import io.restassured.response.Response;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 
 @DisplayName("주문 통합 테스트")
@@ -90,6 +99,59 @@ class OrderControllerTest extends ApiTest {
 
         // then
         assertThat(result.statusCode()).isEqualTo(HttpStatus.OK.value());
+    }
+
+    @Test
+    @DisplayName("예약 결제 동시성 테스트")
+    void paymentFail() throws InterruptedException, ExecutionException {
+        // given
+        int numberOfThreads = 3;
+
+        String url = "/v1/orders/payment";
+
+        String accessToken = login();
+        List<String> list = IntStream.range(0, numberOfThreads)
+                .mapToObj(i -> getOrderToken())
+                .toList();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        CountDownLatch latch = new CountDownLatch(numberOfThreads);
+
+        List<Future<ExtractableResponse<Response>>> futures = new ArrayList<>();
+
+        // when
+        IntStream.range(0, numberOfThreads)
+                .forEach(i -> {
+                    Future<ExtractableResponse<Response>> future = executorService.submit(() -> {
+                        try {
+                            PaymentRequest request = createPaymentRequest(list.get(i));
+                            return RestAssured
+                                    .given().log().all()
+                                    .cookie("accessToken", accessToken)
+                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                    .body(request)
+                                    .when()
+                                    .post(url)
+                                    .then().log().all()
+                                    .extract();
+                        } finally {
+                            latch.countDown();
+                        }
+                    });
+                    futures.add(future);
+                });
+        latch.await();
+
+        // then
+        int successCount = 0;
+        for (Future<ExtractableResponse<Response>> future : futures) {
+            ExtractableResponse<Response> result = future.get();
+            if (result.statusCode() == HttpStatus.OK.value()) {
+                successCount++;
+            }
+        }
+
+        assertThat(successCount).isEqualTo(2);
     }
 
     @Test
@@ -156,7 +218,7 @@ class OrderControllerTest extends ApiTest {
     @DisplayName("주문 내역 조회")
     void getOrderHistories() {
         // given
-        IntStream.range(0, 3)
+        IntStream.range(0, 2)
                 .forEach(i -> getOrderId());
         String url = "/v1/orders/history";
 
@@ -175,7 +237,7 @@ class OrderControllerTest extends ApiTest {
                 () -> assertThat(response.size()).isEqualTo(10),
                 () -> assertThat(response.pageNumber()).isEqualTo(1),
                 () -> assertThat(response.totalPages()).isEqualTo(1),
-                () -> assertThat(response.totalElements()).isEqualTo(3)
+                () -> assertThat(response.totalElements()).isEqualTo(2)
         );
     }
 
