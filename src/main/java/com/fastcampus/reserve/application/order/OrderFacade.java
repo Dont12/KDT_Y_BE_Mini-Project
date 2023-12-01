@@ -1,5 +1,6 @@
 package com.fastcampus.reserve.application.order;
 
+import com.fastcampus.reserve.domain.RedissonLockService;
 import com.fastcampus.reserve.domain.order.OrderService;
 import com.fastcampus.reserve.domain.order.dto.request.PaymentDto;
 import com.fastcampus.reserve.domain.order.dto.request.RegisterOrderDto;
@@ -17,13 +18,20 @@ import org.springframework.stereotype.Service;
 public class OrderFacade {
 
     private final OrderService orderService;
+    private final RedissonLockService redissonLockService;
 
     public String registerOrder(RegisterOrderDto dto) {
         return orderService.registerOrder(dto);
     }
 
     public Long payment(PaymentDto dto) {
-        return orderService.payment(dto);
+        var lockNames = orderService.getPaymentLockNames(dto.orderToken());
+        return redissonLockService.multiLockProcess(
+                lockNames,
+                300,
+                60,
+                () -> orderService.payment(dto)
+        );
     }
 
     public RegisterOrderInfoDto findRegisterOrder(String orderToken) {

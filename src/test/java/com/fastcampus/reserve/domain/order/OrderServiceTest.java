@@ -6,6 +6,7 @@ import static com.fastcampus.reserve.common.CreateUtils.createRegisterOrder;
 import static com.fastcampus.reserve.common.CreateUtils.createUser;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -97,6 +98,8 @@ class OrderServiceTest {
                 .thenReturn(Optional.of(registerOrder));
         when(orderCommand.payment(any(RegisterOrder.class), any(PaymentDto.class)))
                 .thenReturn(-1L);
+        when(orderReader.isPayment(anyList()))
+                        .thenReturn(true);
 
         // when
         Long result = orderService.payment(request);

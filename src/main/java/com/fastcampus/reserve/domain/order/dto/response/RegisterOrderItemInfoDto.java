@@ -16,7 +16,7 @@ public record RegisterOrderItemInfoDto(
         Integer maxGuestCount,
         Integer baseGuestCount,
         Integer price,
-        Long day,
+        long day,
         String checkInTime,
         LocalDate checkInDate,
         String checkOutTime,
@@ -34,10 +34,10 @@ public record RegisterOrderItemInfoDto(
                 .baseGuestCount(orderItem.getBaseGuestCount())
                 .maxGuestCount(orderItem.getMaxGuestCount())
                 .price(orderItem.getPrice())
-                .day(ChronoUnit.MONTHS.between(
+                .day(ChronoUnit.DAYS.between(
                         orderItem.getCheckInDate(),
                         orderItem.getCheckOutDate()
-                ) + 1)
+                ))
                 .checkInDate(orderItem.getCheckInDate())
                 .checkInTime(orderItem.getCheckInTime())
                 .checkOutDate(orderItem.getCheckOutDate())

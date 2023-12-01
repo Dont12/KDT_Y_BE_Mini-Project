@@ -88,7 +88,7 @@ public final class CreateUtils {
         return Room.builder()
                 .name("roomName")
                 .price(99000)
-                .stock(12)
+                .stock(2)
                 .checkInTime("15:00")
                 .checkOutTime("12:00")
                 .baseGuestCount(2)

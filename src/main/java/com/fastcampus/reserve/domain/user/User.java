@@ -50,7 +50,7 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false, length = 50)
     private String phone;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Cart> carts = new ArrayList<>();
 
     @Builder

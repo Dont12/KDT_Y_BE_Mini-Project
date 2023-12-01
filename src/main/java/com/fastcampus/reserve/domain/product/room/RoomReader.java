@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface RoomReader {
 
+    Room findById(Long id);
+
     Room findByIdWithImage(Long id);
 
     List<Room> findAllByProduct(Product product);
