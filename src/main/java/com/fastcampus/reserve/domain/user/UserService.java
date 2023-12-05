@@ -42,6 +42,7 @@ public class UserService {
         return UserInfoDto.from(user);
     }
 
+    @Transactional
     public void terminateAccount(Long userId) {
         userCommand.deleteById(userId);
     }
