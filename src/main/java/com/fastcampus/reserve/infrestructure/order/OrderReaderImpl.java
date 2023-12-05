@@ -24,8 +24,8 @@ public class OrderReaderImpl implements OrderReader {
     private final RoomReader roomReader;
 
     @Override
-    public Page<Order> findAllWithOrderItem(Pageable pageable) {
-        return orderRepository.findAllWithOrderItem(pageable);
+    public Page<Order> findAllWithOrderItem(Long userId, Pageable pageable) {
+        return orderRepository.findAllWithOrderItem(userId, pageable);
     }
 
     @Override

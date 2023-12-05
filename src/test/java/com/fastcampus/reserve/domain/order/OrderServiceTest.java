@@ -139,11 +139,11 @@ class OrderServiceTest {
                 })
                 .toList();
 
-        when(orderReader.findAllWithOrderItem(pageable))
+        when(orderReader.findAllWithOrderItem(-1L, pageable))
                 .thenReturn(new PageImpl<>(orderHistories, pageable, 10));
 
         // when
-        OrderHistoriesDto result = orderService.findOrderHistories(pageable);
+        OrderHistoriesDto result = orderService.findOrderHistories(-1L, pageable);
 
         // then
         assertThat(result.size()).isEqualTo(10);

@@ -44,7 +44,7 @@ class OrderRepositoryTest {
         PageRequest pageable = PageRequest.of(0, 10);
 
         // when
-        Page<Order> result = orderRepository.findAllWithOrderItem(pageable);
+        Page<Order> result = orderRepository.findAllWithOrderItem(-1L, pageable);
 
         // then
         assertThat(result.getSize()).isEqualTo(10);

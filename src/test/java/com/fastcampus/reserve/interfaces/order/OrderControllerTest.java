@@ -6,16 +6,20 @@ import static com.fastcampus.reserve.common.CreateUtils.createRoom;
 import static com.fastcampus.reserve.common.CreateUtils.createRoomImage;
 import static com.fastcampus.reserve.common.RestAssuredUtils.login;
 import static com.fastcampus.reserve.domain.order.payment.Payment.CARD;
+import static com.fastcampus.reserve.domain.order.payment.Payment.CASH;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.fastcampus.reserve.common.ApiTest;
 import com.fastcampus.reserve.common.RestAssuredUtils;
+import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.dto.response.OrderItemInfoDto;
+import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import com.fastcampus.reserve.domain.product.Product;
 import com.fastcampus.reserve.domain.product.ProductImage;
 import com.fastcampus.reserve.domain.product.room.Room;
 import com.fastcampus.reserve.domain.product.room.RoomImage;
+import com.fastcampus.reserve.infrestructure.order.OrderRepository;
 import com.fastcampus.reserve.infrestructure.product.ProductRepository;
 import com.fastcampus.reserve.interfaces.order.dto.request.PaymentRequest;
 import com.fastcampus.reserve.interfaces.order.dto.request.RegisterOrderItemRequest;
@@ -51,6 +55,9 @@ class OrderControllerTest extends ApiTest {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @BeforeEach
     void setUp() {
@@ -221,6 +228,32 @@ class OrderControllerTest extends ApiTest {
         IntStream.range(0, 2)
                 .forEach(i -> getOrderId());
         String url = "/v1/orders/history";
+
+        Order order = Order.builder()
+                .userId(-99L)
+                .reserveName("reserveName")
+                .reservePhone("010-0000-0000")
+                .userName("userName")
+                .userPhone("010-7289-2911")
+                .payment(CASH)
+                .build();
+        OrderItem orderItem = OrderItem.builder()
+                .productId(-99L)
+                .productName("productName")
+                .roomId(-99L)
+                .roomName("roomName")
+                .imageUrl("imageUrl")
+                .guestCount(2)
+                .price(129000)
+                .baseGuestCount(2)
+                .maxGuestCount(4)
+                .checkInDate(LocalDate.now())
+                .checkInTime("15:30")
+                .checkOutDate(LocalDate.now().plusDays(1))
+                .checkOutTime("11:00")
+                .build();
+        orderItem.registerOrder(order);
+        orderRepository.save(order);
 
         // when
         ExtractableResponse<Response> result = RestAssuredUtils.getWithLogin(url);
