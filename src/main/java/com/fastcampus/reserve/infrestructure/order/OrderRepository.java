@@ -13,12 +13,13 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
     @Query(
             value = "SELECT o "
                     + "FROM Order o "
-                    + "JOIN FETCH o.orderItems oi",
-            countQuery =
-                    "SELECT COUNT(o) "
-                    + "FROM Order o"
+                    + "JOIN FETCH o.orderItems oi "
+                    + "WHERE o.userId = :userId",
+            countQuery = "SELECT COUNT(o) "
+                    + "FROM Order o "
+                    + "WHERE o.userId = :userId"
     )
-    Page<Order> findAllWithOrderItem(Pageable pageable);
+    Page<Order> findAllWithOrderItem(@Param("userId") Long userId, Pageable pageable);
 
     @Query("SELECT o "
             + "FROM Order o "
