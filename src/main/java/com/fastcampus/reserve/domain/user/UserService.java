@@ -41,4 +41,8 @@ public class UserService {
         var user = userReader.findById(userId);
         return UserInfoDto.from(user);
     }
+
+    public void terminateAccount(Long userId) {
+        userCommand.deleteById(userId);
+    }
 }

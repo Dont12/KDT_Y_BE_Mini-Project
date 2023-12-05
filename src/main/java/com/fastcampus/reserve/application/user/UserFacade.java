@@ -21,4 +21,8 @@ public class UserFacade {
     public UserInfoDto getUserInfo(Long userId) {
         return userService.getUserInfo(userId);
     }
+
+    public void terminateAccount(Long userId) {
+        userService.terminateAccount(userId);
+    }
 }

@@ -17,4 +17,9 @@ public class UserCommandImpl implements UserCommand {
     public void store(User user) {
         userRepository.save(user);
     }
+
+    @Override
+    public void deleteById(Long userId) {
+        userRepository.deleteById(userId);
+    }
 }
