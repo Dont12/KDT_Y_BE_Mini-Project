@@ -66,8 +66,8 @@ public class OrderService {
         return RegisterOrderInfoDto.from(orderToken, registerOrder);
     }
 
-    public OrderHistoriesDto findOrderHistories(Pageable pageable) {
-        var orders = orderReader.findAllWithOrderItem(pageable);
+    public OrderHistoriesDto findOrderHistories(Long userId, Pageable pageable) {
+        var orders = orderReader.findAllWithOrderItem(userId, pageable);
         return OrderHistoriesDto.from(orders);
     }
 

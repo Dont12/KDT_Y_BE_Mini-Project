@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface OrderReader {
 
-    Page<Order> findAllWithOrderItem(Pageable pageable);
+    Page<Order> findAllWithOrderItem(Long userId, Pageable pageable);
 
     Order findByIdWithOrderItem(Long orderId);
 
