@@ -21,4 +21,8 @@ public class UserFacade {
     public UserInfoDto getUserInfo(Long userId) {
         return userService.getUserInfo(userId);
     }
+
+    public void changePassword(Long userId, String passwordToChange) {
+        userService.changePassword(userId, passwordToChange);
+    }
 }

@@ -64,4 +64,8 @@ public class User extends BaseTimeEntity {
     public void addCart(Cart cart) {
         carts.add(cart);
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

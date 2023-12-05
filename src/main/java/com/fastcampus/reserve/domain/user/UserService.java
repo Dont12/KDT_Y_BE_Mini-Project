@@ -41,4 +41,10 @@ public class UserService {
         var user = userReader.findById(userId);
         return UserInfoDto.from(user);
     }
+
+    public void changePassword(Long userId, String passwordToChange) {
+        var user = userReader.findById(userId);
+        user.changePassword(passwordEncoder.encode(passwordToChange));
+        userCommand.store(user);
+    }
 }
