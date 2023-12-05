@@ -59,8 +59,12 @@ public class OrderController {
     }
 
     @GetMapping("/history")
-    public CommonResponse<OrderHistoriesResponse> getOrderHistories(Pageable pageable) {
-        var response = orderFacade.findOrderHistories(pageable);
+    public CommonResponse<OrderHistoriesResponse> getOrderHistories(
+            Pageable pageable,
+            @AuthenticationPrincipal PrincipalDetails principal
+    ) {
+        Long userId = principal.id();
+        var response = orderFacade.findOrderHistories(userId, pageable);
         return CommonResponse.ok(mapper.of(response));
     }
 

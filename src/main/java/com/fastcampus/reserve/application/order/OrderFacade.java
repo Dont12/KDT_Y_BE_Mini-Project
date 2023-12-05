@@ -38,8 +38,8 @@ public class OrderFacade {
         return orderService.findRegisterOrder(orderToken);
     }
 
-    public OrderHistoriesDto findOrderHistories(Pageable pageable) {
-        return orderService.findOrderHistories(pageable);
+    public OrderHistoriesDto findOrderHistories(Long userId, Pageable pageable) {
+        return orderService.findOrderHistories(userId, pageable);
     }
 
     public OrderInfoDto findOrder(Long orderId) {
