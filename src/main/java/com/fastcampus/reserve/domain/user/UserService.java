@@ -43,6 +43,13 @@ public class UserService {
     }
 
     @Transactional
+    public void changePassword(Long userId, String passwordToChange) {
+        var user = userReader.findById(userId);
+        user.changePassword(passwordEncoder.encode(passwordToChange));
+        userCommand.store(user);
+    }
+
+    @Transactional
     public void terminateAccount(Long userId) {
         userCommand.deleteById(userId);
     }
