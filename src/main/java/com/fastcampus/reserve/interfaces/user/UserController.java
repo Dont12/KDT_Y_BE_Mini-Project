@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +41,15 @@ public class UserController {
         var userInfo = userFacade.getUserInfo(userId);
 
         return CommonResponse.ok(mapper.of(userInfo));
+    }
+
+    @DeleteMapping
+    public CommonResponse<Void> terminateAccount(
+        @AuthenticationPrincipal PrincipalDetails principal
+    ) {
+        Long userId = principal.id();
+        userFacade.terminateAccount(userId);
+
+        return CommonResponse.ok();
     }
 }
