@@ -48,4 +48,9 @@ public class UserService {
         user.changePassword(passwordEncoder.encode(passwordToChange));
         userCommand.store(user);
     }
+
+    @Transactional
+    public void terminateAccount(Long userId) {
+        userCommand.deleteById(userId);
+    }
 }

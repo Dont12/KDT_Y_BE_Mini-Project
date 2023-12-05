@@ -25,4 +25,8 @@ public class UserFacade {
     public void changePassword(Long userId, String passwordToChange) {
         userService.changePassword(userId, passwordToChange);
     }
+
+    public void terminateAccount(Long userId) {
+        userService.terminateAccount(userId);
+    }
 }
