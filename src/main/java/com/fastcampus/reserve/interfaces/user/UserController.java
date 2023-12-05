@@ -50,7 +50,7 @@ public class UserController {
         @RequestBody PasswordChangeRequest request
     ) {
         Long userId = principal.id();
-        userFacade.changePassword(userId, request.passwordToChange());
+        userFacade.changePassword(userId, request.password());
 
         return CommonResponse.ok();
     }
