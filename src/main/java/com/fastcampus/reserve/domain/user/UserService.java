@@ -42,6 +42,7 @@ public class UserService {
         return UserInfoDto.from(user);
     }
 
+    @Transactional
     public void changePassword(Long userId, String passwordToChange) {
         var user = userReader.findById(userId);
         user.changePassword(passwordEncoder.encode(passwordToChange));
