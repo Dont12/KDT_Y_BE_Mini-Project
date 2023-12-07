@@ -59,7 +59,7 @@ public class AuthController {
 
     private String makeCookie(String name, String value, int maxAge) {
         return String.format(
-            "%s=%s; Path=/; Max-Age=%d; SameSite=None; Secure",
+            "%s=%s; Domain=stayinn.site; Path=/; Max-Age=%d; SameSite=None; Secure",
             name, value, maxAge
         );
     }
@@ -76,7 +76,7 @@ public class AuthController {
 
     private String makeCookieExpired(String name) {
         return String.format(
-            "%s=; Path=/; Max-Age=0; SameSite=None; Secure",
+            "%s=; Domain=stayinn.site; Path=/; Max-Age=0; SameSite=None; Secure",
             name
         );
     }
