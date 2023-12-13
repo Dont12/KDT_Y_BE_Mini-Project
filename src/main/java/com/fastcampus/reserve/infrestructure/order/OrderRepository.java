@@ -1,6 +1,7 @@
 package com.fastcampus.reserve.infrestructure.order;
 
 import com.fastcampus.reserve.domain.order.Order;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,12 +15,18 @@ public interface OrderRepository extends CrudRepository<Order, Long> {
             value = "SELECT o "
                     + "FROM Order o "
                     + "JOIN FETCH o.orderItems oi "
-                    + "WHERE o.userId = :userId",
+                    + "WHERE o.userId = :userId "
+                    + "AND o.createdDate >= :recentMonthAgo",
             countQuery = "SELECT COUNT(o) "
                     + "FROM Order o "
-                    + "WHERE o.userId = :userId"
+                    + "WHERE o.userId = :userId "
+                    + "AND o.createdDate >= :recentMonthAgo"
     )
-    Page<Order> findAllWithOrderItem(@Param("userId") Long userId, Pageable pageable);
+    Page<Order> findAllWithOrderItem(
+            @Param("userId") Long userId,
+            @Param("recentMonthAgo") LocalDateTime recentMonthsAgo,
+            Pageable pageable
+    );
 
     @Query("SELECT o "
             + "FROM Order o "

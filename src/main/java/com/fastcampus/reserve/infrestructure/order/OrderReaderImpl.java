@@ -7,6 +7,7 @@ import com.fastcampus.reserve.domain.order.OrderReader;
 import com.fastcampus.reserve.domain.order.dto.ReserveDateDto;
 import com.fastcampus.reserve.domain.product.room.RoomReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +20,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class OrderReaderImpl implements OrderReader {
 
+    private static final int RECENT_MONTH = 6;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
     private final RoomReader roomReader;
 
     @Override
     public Page<Order> findAllWithOrderItem(Long userId, Pageable pageable) {
-        return orderRepository.findAllWithOrderItem(userId, pageable);
+        LocalDateTime recentMonthAgo = LocalDateTime.now().minusMonths(RECENT_MONTH);
+        return orderRepository.findAllWithOrderItem(userId, recentMonthAgo, pageable);
     }
 
     @Override
