@@ -7,6 +7,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.fastcampus.reserve.domain.order.Order;
 import com.fastcampus.reserve.domain.order.orderitem.OrderItem;
 import jakarta.persistence.EntityManager;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 @DataJpaTest
 @DisplayName("주문 DB 검증")
@@ -42,13 +45,17 @@ class OrderRepositoryTest {
                 });
 
         PageRequest pageable = PageRequest.of(0, 10);
+        LocalDateTime recentMonthAgo = LocalDateTime.now().minusMonths(6);
 
         // when
-        Page<Order> result = orderRepository.findAllWithOrderItem(-1L, pageable);
+        Page<Order> result = orderRepository.findAllWithOrderItem(
+                -1L,
+                recentMonthAgo,
+                pageable
+        );
 
         // then
         assertThat(result.getSize()).isEqualTo(10);
-
     }
 
     @Test
